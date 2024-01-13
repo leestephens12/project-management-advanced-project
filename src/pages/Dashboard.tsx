@@ -1,5 +1,6 @@
-import {TaskPage} from "./TaskPage"
-import {NavBar} from "./NavBar";
+import {NavBar} from "../components/NavBar";
+import {TaskPage} from "../components/TaskPage";
+
 
 export const Dashboard = () => (
     <div>
