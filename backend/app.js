@@ -10,7 +10,9 @@ var registerRouter = require('./routes/register');
 var indexRouter = require('./routes/index');
 
 var app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5001' // or '*' to allow all origins
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
