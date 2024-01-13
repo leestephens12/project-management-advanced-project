@@ -4,6 +4,7 @@ const {initializeApp} = require('firebase/app');
 const {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} = require('firebase/auth');
 //importing necessary prebuilt files
 const firebase_config = require('./firebase-settings/firebase-configuration.js');
+const Firestore = require("./Firestore.js");
 
 class Authentication {
     //Iintialize the app

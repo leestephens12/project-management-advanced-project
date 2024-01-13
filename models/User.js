@@ -10,59 +10,59 @@ class User {
     }
 
     get firstName() {
-        return this.firstName;
+        return this._firstName;
     }
 
     set firstName(value) {
-        this.firstName = value;
+        this._firstName = value;
     }
 
     get lastName() {
-        return this.lastName;
+        return this._lastName;
     }
 
     set lastName(value) {
-        this.lastName = value;
+        this._lastName = value;
     }
 
     get occupation() {
-        return this.occupation;
+        return this._occupation;
     }
 
     set occupation(value) {
-        this.occupation = value;
+        this._occupation = value;
     }
 
     get company() {
-        return this.company;
+        return this._company;
     }
 
     set company(value) {
-        this.company = value;
+        this._company = value;
     }
 
     get admin() {
-        return this.admin;
+        return this._admin;
     }
 
     set admin(value) {
-        this.admin = value;
+        this._admin = value;
     }
 
     get email() {
-        return this.email;
+        return this._email;
     }
 
     set email(value) {
-        this.email= value;
+        this._email= value;
     }
 
     get teams() {
-        return this.teams;
+        return this._teams;
     }
 
     set teams(value) {
-        this.teams = value;
+        this._teams = value;
     }
 
     

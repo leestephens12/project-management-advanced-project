@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Authentication = require('../utilities/Authentication');
 
 /* GET home page. */
@@ -9,9 +9,11 @@ router.get('/', function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
   try {
+    //try to authenticate user via login in fucntion set in auth class and redirect to index
     await Authentication.login('admin@test.com', 'test123');
-    res.redirect('/register');
+    res.redirect('/index');
   }catch(error) {
+    //catch any errors an return to previous page
     console.log(error);
     res.redirect('/login');
   }
