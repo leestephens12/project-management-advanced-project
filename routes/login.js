@@ -11,7 +11,7 @@ router.post('/', async function(req, res, next) {
   try {
     //try to authenticate user via login in fucntion set in auth class and redirect to index
     await Authentication.login('test2@test.com', 'test123');
-    res.redirect('/index');
+    res.redirect('/taskBoard');
   }catch(error) {
     //catch any errors an return to previous page
     console.log(error);

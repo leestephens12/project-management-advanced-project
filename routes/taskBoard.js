@@ -9,7 +9,7 @@ router.get('/', async function(req, res, next) {
     const tasks = await Firestore.getTasks(email);
     console.log("tasks: " + tasks);
     //passes task list through to the front end
-    res.render('index', {tasks});
+    res.render('taskBoard', {tasks});
 });
 
 module.exports = router;

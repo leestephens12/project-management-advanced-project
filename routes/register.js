@@ -22,7 +22,7 @@ router.post('/', async function(req, res, next) {
     try {
       //attempt to add the user to the firestore db
       await Firestore.addDocCustomID("users", JSON.parse(JSON.stringify(user)), email);
-      res.redirect('login');
+      res.redirect('/login');
     }catch(error) {
       //if there is an error out put it and return to previous page
       console.log("error adding user to db: " + error);
