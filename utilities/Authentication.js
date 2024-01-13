@@ -55,4 +55,17 @@ class Authentication {
                 console.log("There was an error signing out: " + error);
             });
     }
+
+    /**
+     * 
+     * @returns current email of logged in user
+     */
+    static getUserEmail() {
+        if (this.auth.currentUser) {
+            return this.auth.currentUser.email;
+        }
+        else {
+            console.log("There is no user logged in");
+        }
+    }
 } module.exports = Authentication;

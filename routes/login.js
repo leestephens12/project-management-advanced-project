@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.post('/', async function(req, res, next) {
   try {
     //try to authenticate user via login in fucntion set in auth class and redirect to index
-    await Authentication.login('admin@test.com', 'test123');
+    await Authentication.login('test2@test.com', 'test123');
     res.redirect('/index');
   }catch(error) {
     //catch any errors an return to previous page

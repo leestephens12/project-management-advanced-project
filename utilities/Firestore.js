@@ -1,7 +1,7 @@
 //firebase configuration imports
  const {initializeApp, applicationDefault, cert} = require('firebase-admin/app');
  //firestore configuration imports
- const {getFirestore} = require('firebase-admin/firestore');
+ const {getFirestore, QuerySnapshot, docs} = require('firebase-admin/firestore');
 
  const service_account = require('./firebase-settings/firebase-service-accounts.json');
 
@@ -32,6 +32,17 @@
         return this.db.collection(collection).doc(document);
      }
 
+     static async getTasks(id) {
+        try {
+             const documents = await this.db.collection("tasks").where("assignee", "==", id).get();
+             let docs = documents.docs;
+             let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
+             return docData;
+         } catch (error) {
+             console.error("Error getting documents: ", error);
+             throw error; // or handle it as needed
+         }
+    }
      /**
       * 
       * @param {String} collection you want to add data to 
@@ -52,5 +63,6 @@
         const col = this.getCollection(collection);
         col.doc(id).set(data);
      }
+
 
  } module.exports = Firestore; 
