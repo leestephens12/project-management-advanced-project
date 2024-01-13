@@ -69,7 +69,7 @@ export const SignUp = ()  => (
                                     </div>
 
                                     <div className="text-sm text-center leading-6">
-                                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                        <a href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                             Already have an account? Login
                                         </a>
                                     </div>

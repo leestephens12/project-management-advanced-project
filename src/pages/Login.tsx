@@ -89,6 +89,11 @@ export const Login = ()  => {
                                     >
                                         Continue
                                     </button>
+                                    <div className="text-sm leading-6 pt-2">
+                                        <a href="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                            Don't have an account? Create one
+                                        </a>
+                                    </div>
                                 </div>
                             </form>
                         </div>
