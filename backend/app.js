@@ -11,7 +11,7 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 app.use(cors({
-  origin: 'http://localhost:5001' // or '*' to allow all origins
+  origin: '*' // or '*' to allow all origins
 }));
 
 // view engine setup
@@ -43,6 +43,12 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.get('/login', function(req, res, next) {
+  return res.json({
+    "isWorking": "yes"
+  })
 });
 
 module.exports = app;
