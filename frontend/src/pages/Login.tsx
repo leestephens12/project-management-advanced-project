@@ -1,7 +1,7 @@
-import {useState} from "react";
-import {loginUser} from "../services/api";
+import { useState } from "react";
+import { loginUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import {ErrorAlert} from "../components/ErrorAlert";
+import { ErrorAlert } from "../components/ErrorAlert";
 
 export const Login = ()  => {
     const navigate = useNavigate();
