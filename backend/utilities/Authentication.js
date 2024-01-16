@@ -19,13 +19,7 @@ class Authentication {
      * @param {String} password -> User inputed password from front end
      */
     static async login(email, password) {
-        await signInWithEmailAndPassword(this.auth, email, password)
-            .then((user) => {
-                console.log(user.user.email + ' logged in successfully');
-                
-            }).catch((error) => {
-                console.log("There was an error logging in " + error);
-            });
+        await signInWithEmailAndPassword(this.auth, email, password);
     }
 
     /**
@@ -35,25 +29,14 @@ class Authentication {
      * @param {String} password -> User inputed password from front end
      */
     static async register(email, password) {
-        await createUserWithEmailAndPassword(this.auth, email, password)
-            .then((user) => {
-                console.log(user.user.email + 'registered successfully');
-            }).catch((error) => {
-                console.log("There was an error registering the user: " + error);
-            });
+        await createUserWithEmailAndPassword(this.auth, email, password);
     }
 
     /**
      * This is an async function users use to sign out
      */
     static async logout() {
-        await signOut(this.auth)
-            .then(()=> {
-                console.log("User signed out successfully");
-            })
-            .catch((error) => {
-                console.log("There was an error signing out: " + error);
-            });
+        await signOut(this.auth);
     }
 
     /**
