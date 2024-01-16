@@ -1,8 +1,50 @@
-export const SignUp = ()  => (
-        <>
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {registerUser} from "../services/api";
+import {ErrorAlert} from "../components/ErrorAlert";
+
+export const SignUp = ()  => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState({ title: null, message: null });
+    let validation = {
+        matchingPasswords: true,
+        validEmail: true,
+    }
+
+    if((confirmPassword && (password !== confirmPassword))) {
+        validation.matchingPasswords = false;
+    }
+    if(email && !email.match('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')) {
+        validation.validEmail = false;
+    }
+
+    const handleRegister = async (e: any): Promise<void> => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await registerUser(email, password);
+            // Navigate to login page after successful registration
+            navigate("/login");
+        } catch (err: any) {
+            const { message, error } = err.response.data;
+            setError({
+                title: message,
+                message: error
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+        return (<>
             <div className="flex min-h-full flex-1">
                 <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                     <div className="mx-auto w-full max-w-sm lg:w-96">
+                        {(error.title && error.message) && <ErrorAlert title={error.title} message={error.message} />}
                         <div>
                             <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
                                 Create an account
@@ -21,10 +63,16 @@ export const SignUp = ()  => (
                                                 id="email"
                                                 name="email"
                                                 type="email"
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 autoComplete="none"
                                                 required
                                                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             />
+                                            { !validation.validEmail &&
+                                                <span className="pt-1.5 block text-sm text-left font-medium leading-6 text-red-900 italic">
+                                                    Please enter a valid email
+                                                </span>
+                                            }
                                         </div>
                                     </div>
 
@@ -37,6 +85,7 @@ export const SignUp = ()  => (
                                                 id="password"
                                                 name="password"
                                                 type="password"
+                                                onChange={(e) => setPassword(e.target.value)}
                                                 autoComplete="none"
                                                 required
                                                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -53,18 +102,26 @@ export const SignUp = ()  => (
                                                 id="confirm password"
                                                 name="confirm password"
                                                 type="confirm password"
+                                                onChange={(e) => setConfirmPassword(e.target.value)}
                                                 required
                                                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             />
                                         </div>
+                                        { !validation.matchingPasswords &&
+                                            <span className="pt-1.5 block text-sm text-left font-medium leading-6 text-red-900 italic">
+                                                Passwords must match
+                                            </span>
+                                        }
                                     </div>
 
                                     <div>
                                         <button
                                             type="submit"
                                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            disabled={!validation.matchingPasswords || !validation.validEmail}
+                                            onClick={e => handleRegister(e)}
                                         >
-                                            Continue
+                                            {loading ? <span className="loader"></span> : 'Continue'}
                                         </button>
                                     </div>
 
@@ -115,5 +172,6 @@ export const SignUp = ()  => (
                 </div>
             </div>
         </>
-)
+    )
+}
 

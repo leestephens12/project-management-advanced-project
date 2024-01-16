@@ -10,19 +10,21 @@ export const Login = ()  => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ title: null, message: null });
 
-    const handleLogin = (e: any): void => {
+    const handleLogin = async (e: any): Promise<void> => {
         e.preventDefault();
         setLoading(true);
-        loginUser(email, password).then(() => {
-            // navigate to tasks page after successful login
+        try {
+            await loginUser(email, password);
+            // Navigate to tasks page after successful login
             navigate("/dashboard");
-        }).catch((err) => {
+        } catch (err: any) {
+            const { message, error } = err.response.data;
             setError({
-                title: err.response.data.message,
-                message: err.response.data.error
-            })
+                title: message,
+                message: error
+            });
             setLoading(false);
-        });
+        }
     }
 
     return (<>
@@ -90,7 +92,7 @@ export const Login = ()  => {
                                     </div>
 
                                     <div className="text-sm leading-6">
-                                        <a href="#" className="font-semibold text-green-600 hover:text-green-500">
+                                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                             Forgot password?
                                         </a>
                                     </div>
@@ -98,13 +100,13 @@ export const Login = ()  => {
 
                                 <div>
                                     <button
-                                        className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={e => handleLogin(e)}
                                     >
                                         {loading ? <span className="loader"></span> : 'Continue'}
                                     </button>
                                     <div className="text-sm leading-6 pt-2">
-                                        <a href="/" className="font-semibold text-green-600 hover:text-green-500">
+                                        <a href="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                             Don't have an account? Create one
                                         </a>
                                     </div>
@@ -144,7 +146,7 @@ export const Login = ()  => {
             <div className="relative hidden w-0 flex-1 lg:block">
                 <img
                     className="absolute inset-0 h-full w-full object-cover"
-                    src="https://wisportsheroics.com/wp-content/uploads/2023/07/USATSI_18264325_168400517_lowres.jpg"
+                    src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
                     alt=""
                 />
             </div>
