@@ -1,21 +1,29 @@
 const express = require('express');
-const router = express.Router();
+const cors = require('cors');
 const Authentication = require('../utilities/Authentication');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('login');
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+app.get('/login', function(req,res) {
+
 });
 
-router.post('/', async function(req, res, next) {
-  try {
-    //try to authenticate user via login in fucntion set in auth class and redirect to index
-    await Authentication.login('test2@test.com', 'test123');
-    res.redirect('/index');
-  }catch(error) {
-    //catch any errors an return to previous page
-    console.log(error);
-    res.redirect('/login');
-  }
+app.post('/login', function(req, res) {
+  /*try {
+    const { email, password } = req.body;
+    await Authentication.login(email, password);
+
+    // Send a JSON response instead of redirecting
+    res.json({ message: 'Login successful' });
+  } catch(error) {
+    console.error(error);
+    res.status(401).json({ message: 'Login failed' });
+  }*/
 });
-module.exports = router;
+
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});

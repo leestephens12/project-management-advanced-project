@@ -4,9 +4,16 @@
  * Module dependencies.
  */
 
-var app = require('../app');
 var debug = require('debug')('project-management-system:server');
 var http = require('http');
+var cors = require('cors');
+var express = require('express');
+
+var app = express();
+app.use(cors({
+  origin: '*' // or '*' to allow all origins
+}));
+
 
 /**
  * Get port from environment and store in Express.
