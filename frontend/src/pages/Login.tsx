@@ -1,24 +1,38 @@
 import {useState} from "react";
 import {loginUser} from "../services/api";
+import { useNavigate } from "react-router-dom";
+import {ErrorAlert} from "../components/ErrorAlert";
 
 export const Login = ()  => {
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState({ title: null, message: null });
 
-    const handleLogin = (e: any) => {
+    const handleLogin = (e: any): void => {
         e.preventDefault();
-
-        loginUser(email, password);
+        setLoading(true);
+        loginUser(email, password).then(() => {
+            // navigate to tasks page after successful login
+            navigate("/dashboard");
+        }).catch((err) => {
+            setError({
+                title: err.response.data.message,
+                message: err.response.data.error
+            })
+            setLoading(false);
+        });
     }
 
     return (<>
         <div className="flex min-h-full flex-1">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-sm lg:w-96">
+                    {(error.title && error.message) && <ErrorAlert title={error.title} message={error.message} />}
                     <div>
                         <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Login
+                            Login to your account
                         </h2>
                     </div>
 
@@ -38,7 +52,7 @@ export const Login = ()  => {
                                             onChange={(e) => setEmail(e.target.value)}
                                             autoComplete="email"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-1.5 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -56,7 +70,7 @@ export const Login = ()  => {
                                             onChange={(e) => setPassword(e.target.value)}
                                             autoComplete="current-password"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-1.5 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -76,7 +90,7 @@ export const Login = ()  => {
                                     </div>
 
                                     <div className="text-sm leading-6">
-                                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                        <a href="#" className="font-semibold text-green-600 hover:text-green-500">
                                             Forgot password?
                                         </a>
                                     </div>
@@ -84,13 +98,13 @@ export const Login = ()  => {
 
                                 <div>
                                     <button
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={e => handleLogin(e)}
                                     >
-                                        Continue
+                                        {loading ? <span className="loader"></span> : 'Continue'}
                                     </button>
                                     <div className="text-sm leading-6 pt-2">
-                                        <a href="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                        <a href="/" className="font-semibold text-green-600 hover:text-green-500">
                                             Don't have an account? Create one
                                         </a>
                                     </div>
@@ -130,7 +144,7 @@ export const Login = ()  => {
             <div className="relative hidden w-0 flex-1 lg:block">
                 <img
                     className="absolute inset-0 h-full w-full object-cover"
-                    src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+                    src="https://wisportsheroics.com/wp-content/uploads/2023/07/USATSI_18264325_168400517_lowres.jpg"
                     alt=""
                 />
             </div>
