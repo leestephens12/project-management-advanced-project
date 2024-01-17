@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const loginRouter = require('./routes/login'); // Path to your login route file
-const registerRouter = require('./routes/register'); // Path to your login route file
+const loginRouter = require('./routes/login');
+const registerRouter = require('./routes/register');
+const dashboardRouter = require('./routes/dashboard');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors({
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/dashboard', dashboardRouter);
 
 
 

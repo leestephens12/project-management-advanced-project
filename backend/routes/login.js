@@ -12,6 +12,7 @@ router.post('/', async function(req, res) {
   try {
     const { email, password } = req.body;
     await Authentication.login(email, password);
+    console.log(await Authentication.getUser());
     console.log('user logged in successfully');
     res.status(200).json({ message: 'Login successful' });
   } catch(error) {

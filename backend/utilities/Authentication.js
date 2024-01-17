@@ -4,7 +4,7 @@ const {initializeApp} = require('firebase/app');
 const {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} = require('firebase/auth');
 //importing necessary prebuilt files
 const firebase_config = require('./firebase-settings/firebase-configuration.js');
-const Firestore = require("./Firestore.js");
+
 
 class Authentication {
     //Iintialize the app
@@ -37,19 +37,18 @@ class Authentication {
      */
     static async logout() {
         await signOut(this.auth);
-    
     }
 
     /**
      * 
-     * @returns current email of logged in user
+     * @returns current uid of logged in user
      */
-    static getUserEmail() {
+    static async getUserID() {
         if (this.auth.currentUser) {
-            return this.auth.currentUser.email;
+            return this.auth.currentUser.uid;
         }
         else {
-            console.log("There is no user logged in");
+            return "There is no user logged in";
         }
     }
 } module.exports = Authentication;
