@@ -29,10 +29,7 @@ class Authentication {
      * @param {String} password -> User inputed password from front end
      */
     static async register(email, password) {
-        await createUserWithEmailAndPassword(this.auth, email, password)
-            .then((user) => {
-                return user.user.uid;
-            });
+        await createUserWithEmailAndPassword(this.auth, email, password);
     }
 
     /**
