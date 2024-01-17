@@ -1,19 +1,18 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // Use Router instead of express()
 const Authentication = require('../utilities/Authentication');
-const User = require('../models/User');
-const Firestore = require('../utilities/Firestore');
 
+router.use(express.json());
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('register');
+router.get('/', function(req,res) {
+  // Your GET login logic here
 });
 
-router.post('/', async function(req, res, next) {
-  // retrieve email and password passed through the form
+router.post('/', async function(req, res) {
   const email = "test2@test.com";
   const password = "test123";
+  const uid = await Authentication.getUID();
+
   try {
     //try to authenticate the user via the fucntion declared in authenticaion classs
     await Authentication.register(email, password);
@@ -21,7 +20,7 @@ router.post('/', async function(req, res, next) {
     const user = new User("Lee", "Stephens", "Developer", "Jirs", "Samuel", "test@test.com", "Null");
     try {
       //attempt to add the user to the firestore db
-      await Firestore.addDocCustomID("users", JSON.parse(JSON.stringify(user)), email);
+      await Firestore.addDocCustomID("users", JSON.parse(JSON.stringify(user)), uid);
       res.redirect('login');
     }catch(error) {
       //if there is an error out put it and return to previous page
@@ -34,4 +33,5 @@ router.post('/', async function(req, res, next) {
     res.redirect('/register');
   }
 });
-module.exports = router;
+
+module.exports = router; // Export the router

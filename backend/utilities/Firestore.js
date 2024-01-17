@@ -33,15 +33,10 @@
      }
 
      static async getTasks(id) {
-        try {
-             const documents = await this.db.collection("tasks").where("assignee", "==", id).get();
-             let docs = documents.docs;
-             let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
-             return docData;
-         } catch (error) {
-             console.error("Error getting documents: ", error);
-             throw error; // or handle it as needed
-         }
+         const documents = await this.db.collection("tasks").where("assignee", "==", id).get();
+         let docs = documents.docs;
+         let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
+         return docData;
     }
      /**
       * 
