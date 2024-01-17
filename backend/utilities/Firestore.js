@@ -2,6 +2,8 @@
  const {initializeApp, applicationDefault, cert} = require('firebase-admin/app');
  //firestore configuration imports
  const {getFirestore, QuerySnapshot, docs} = require('firebase-admin/firestore');
+ const {createCustomToken, getAuth} = require('firebase-admin/auth');
+ const Authentication = require('../utilities/Authentication');
 
  const service_account = require('./firebase-settings/firebase-service-accounts.json');
 
@@ -12,6 +14,7 @@
      });
 
      static db = getFirestore(this.app);
+     static auth = getAuth(this.app);
 
      /**
       * 
@@ -32,6 +35,18 @@
         return this.db.collection(collection).doc(document);
      }
 
+     static async createToken(uid) {
+         this.auth.createCustomToken(uid)
+            .then(customToken => {
+               return customToken;
+            });
+     }
+
+     /**
+      * 
+      * @param {String} id -> user email 
+      * @returns list of tasks assigned to them
+      */
      static async getTasks(id) {
          const documents = await this.db.collection("tasks").where("assignee", "==", id).get();
          let docs = documents.docs;
