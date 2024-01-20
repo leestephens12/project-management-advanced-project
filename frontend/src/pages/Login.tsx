@@ -7,7 +7,7 @@ export const Login = ()  => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ title: null, message: null });
 
     const handleLogin = async (e: any): Promise<void> => {
