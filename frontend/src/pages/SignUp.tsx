@@ -2,31 +2,37 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {registerUser} from "../services/api";
 import {ErrorAlert} from "../components/ErrorAlert";
+import {User} from "../models/User";
 
 export const SignUp = ()  => {
     const navigate = useNavigate();
+
+    // TODO: Refactor this into a single form state object
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [admin, setAdmin] = useState('');
+    const [occupation, setOccupation] = useState('');
+    const [company, setCompany] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ title: null, message: null });
-    let validation = {
-        matchingPasswords: true,
-        validEmail: true,
-    }
 
-    if((confirmPassword && (password !== confirmPassword))) {
-        validation.matchingPasswords = false;
-    }
-    if(email && !email.match('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')) {
-        validation.validEmail = false;
+    let validation = {
+        matchingPasswords: confirmPassword && (password === confirmPassword),
+        validEmail: email && email.match('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
     }
 
     const handleRegister = async (e: any): Promise<void> => {
         e.preventDefault();
         setLoading(true);
+
+        const user: User = { admin, company, email, firstName, lastName, occupation, password };
+
         try {
-            await registerUser(email, password);
+            await registerUser(user);
             // Navigate to login page after successful registration
             navigate("/login");
         } catch (err: any) {
@@ -40,7 +46,7 @@ export const SignUp = ()  => {
         }
     };
 
-        return (<>
+    return (<>
             <div className="flex min-h-full flex-1">
                 <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                     <div className="mx-auto w-full max-w-sm lg:w-96">
@@ -54,6 +60,96 @@ export const SignUp = ()  => {
                         <div className="mt-10">
                             <div>
                                 <form action="#" method="POST" className="space-y-6">
+                                    <div>
+                                        <label htmlFor="admin" className="block text-sm text-left font-medium leading-6 text-gray-900">
+                                            Admin
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                id="admin"
+                                                name="admin"
+                                                type="admin"
+                                                onChange={(e) => setAdmin(e.target.value)}
+                                                disabled={loading}
+                                                autoComplete="none"
+                                                required
+                                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                            { !validation.validEmail &&
+                                                <span className="pt-1.5 block text-sm text-left font-medium leading-6 text-red-900 italic">
+                                                    Please enter a valid email
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="firstname" className="block text-sm text-left font-medium leading-6 text-gray-900">
+                                            First Name
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                id="firstname"
+                                                name="firstname"
+                                                type="firstname"
+                                                onChange={(e) => setFirstName(e.target.value)}
+                                                disabled={loading}
+                                                autoComplete="none"
+                                                required
+                                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="lastname" className="block text-sm text-left font-medium leading-6 text-gray-900">
+                                            Last Name
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                id="lastname"
+                                                name="lastname"
+                                                type="lastname"
+                                                onChange={(e) => setLastName(e.target.value)}
+                                                disabled={loading}
+                                                autoComplete="none"
+                                                required
+                                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="occupation" className="block text-sm text-left font-medium leading-6 text-gray-900">
+                                            Occupation
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                id="occupation"
+                                                name="occupation"
+                                                type="occupation"
+                                                onChange={(e) => setOccupation(e.target.value)}
+                                                disabled={loading}
+                                                autoComplete="none"
+                                                required
+                                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="company" className="block text-sm text-left font-medium leading-6 text-gray-900">
+                                            Company
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                id="company"
+                                                name="company"
+                                                type="company"
+                                                onChange={(e) => setCompany(e.target.value)}
+                                                disabled={loading}
+                                                autoComplete="none"
+                                                required
+                                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
                                     <div>
                                         <label htmlFor="email" className="block text-sm text-left font-medium leading-6 text-gray-900">
                                             Email address
