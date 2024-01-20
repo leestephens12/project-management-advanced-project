@@ -13,6 +13,7 @@ export const Login = ()  => {
     const handleLogin = async (e: any): Promise<void> => {
         e.preventDefault();
         setLoading(true);
+
         try {
             await loginUser(email, password);
             // Navigate to tasks page after successful login
@@ -23,6 +24,7 @@ export const Login = ()  => {
                 title: message,
                 message: error
             });
+        } finally {
             setLoading(false);
         }
     }
