@@ -11,13 +11,13 @@ router.get('/', function(req,res) {
 });
 
 router.post('/', async function(req, res) {
-  const {email, password} = req.body;
+  const {firstName, lastName, email, password, occupation, company, admin} = req.body;
 
   try {
     //try to authenticate the user via the fucntion declared in authenticaion classs
-    const uid = await Authentication.register(email, password);
+    await Authentication.register(email, password);
     //set user to the data retrived from the front end formm
-    const user = new User("Lee", "Stephens", "Developer", "Jirs", "Samuel", "test@test.com", "Null");
+    const user = new User(firstName, lastName, occupation, company, admin, email, "null");
     try {
       //attempt to add the user to the firestore db
       await Firestore.addDocCustomID("users", JSON.parse(JSON.stringify(user)), email);

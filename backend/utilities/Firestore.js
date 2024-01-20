@@ -35,19 +35,13 @@
         return this.db.collection(collection).doc(document);
      }
 
-     static async createToken(uid) {
-         this.auth.createCustomToken(uid)
-            .then(customToken => {
-               return customToken;
-            });
-     }
-
      /**
       * 
       * @param {String} id -> user email 
       * @returns list of tasks assigned to them
       */
-     static async getTasks(id) {
+     static async getTasks() {
+         const id = await Authentication.getEmail();
          const documents = await this.db.collection("tasks").where("assignee", "==", id).get();
          let docs = documents.docs;
          let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -73,6 +67,5 @@
         const col = this.getCollection(collection);
         col.doc(id).set(data);
      }
-
 
  } module.exports = Firestore; 

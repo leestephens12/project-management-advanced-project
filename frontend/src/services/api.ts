@@ -22,14 +22,13 @@ export async function loginUser(email: string, password: string) {
 export async function registerUser(user: User) {
     const url = `${baseUrl}/register`;
     const data = {
-        _admin: user.admin,
-        _firstName: user.firstName,
-        _lastName: user.lastName,
-        _occupation: user.occupation,
-        _company: user.company,
-        _email: user.email,
-        _password: user.password,
-
+        admin: user.admin,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        occupation: user.occupation,
+        company: user.company,
+        email: user.email,
+        password: user.password,
     };
 
     return axios.post(url, data);

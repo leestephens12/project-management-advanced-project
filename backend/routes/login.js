@@ -13,23 +13,9 @@ router.post('/', async function(req, res) {
   try {
     const { email, password } = req.body;
     await Authentication.login(email, password);
-    /*try {
-      const uid = await Authentication.getUserID();
-      try {
-        const token = await Firestore.createToken(uid);
-        res.send({token});
-      }catch(error) {
-        res.json({message: "Error creating a token", error: error.message});
-      }
-    }
-     catch(error) {
-      res.json({message: "Could not retrieve User ID", error: error.message});
-     }*/
-    console.log('user logged in successfully');
-    res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({ message: 'Login successful' }); //out put to front end a successful login
   } catch(error) {
-    console.error(error);
-    res.status(401).json({ message: 'Login failed', error: error.message });
+    res.status(401).json({ message: 'Login failed', error: error.message }); //output an unseccesful login
   }
 });
 

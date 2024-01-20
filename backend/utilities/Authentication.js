@@ -43,9 +43,9 @@ class Authentication {
      * 
      * @returns current uid of logged in user
      */
-    static async getUserID() {
+    static async getEmail() {
         if (this.auth.currentUser) {
-            return this.auth.currentUser.uid;
+            return this.auth.currentUser.email;
         }
         else {
             return "There is no user logged in";
