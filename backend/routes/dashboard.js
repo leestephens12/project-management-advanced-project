@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router(); // Use Router instead of express()
 const Firestore = require('../utilities/Firestore');
+const Authentication = require('../utilities/Authentication');
 
 router.use(express.json());
 
 router.get('/', async function(req,res) {
     try {
-        //Store the tasks retrieved from the getTasks function
-        const tasks = await Firestore.getTasks();
+        //call the query docs function and returns a list of tasks based off of the logged in user
+        const email = await Authentication.getEmail();
+        const tasks = await Firestore.queryDocs("tasks", "assignee", email);
         console.log(tasks);
         res.status(200).json({tasks: tasks, message: "Tasks retrieved successfully"}); //sends the list of tasks to the front end
     }catch(error) {

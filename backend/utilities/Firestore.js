@@ -37,16 +37,19 @@
 
      /**
       * 
-      * @param {String} id -> user email 
-      * @returns list of tasks assigned to them
+      * @param {String} collection -> collection name you want to query
+      * @param {String} field -> filed used for comparison
+      * @param {String} id -> what you want to compare the field to
+      * @returns a list of the documents meeting the requirements of the query
       */
-     static async getTasks() {
-         const id = await Authentication.getEmail();
-         const documents = await this.db.collection("tasks").where("assignee", "==", id).get();
-         let docs = documents.docs;
-         let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
-         return docData;
-    }
+    static async queryDocs(collection, field, id) {
+      //stores the list of documents
+      const documents = await this.db.collection(collection).where(field, "==", id).get();
+      //map the documents returned
+      let docs = documents.docs;
+      let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return docData;
+ }
      /**
       * 
       * @param {String} collection you want to add data to 
