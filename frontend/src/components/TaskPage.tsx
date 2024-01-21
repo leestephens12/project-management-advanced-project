@@ -4,13 +4,13 @@ import {TaskCard} from "./TaskCard";
 import {Task} from "../models/Task";
 
 export const TaskPage = () => {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
         getDashboard().then((response) => {
             setTasks(response.data.tasks);
         });
-    })
+    });
 
     return (
         <div>
