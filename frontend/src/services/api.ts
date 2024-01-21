@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {User} from "../models/User";
 
-
 const baseUrl = "http://localhost:3000";
 
 export async function getDashboard() {
