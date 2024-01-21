@@ -4,32 +4,62 @@ import {registerUser} from "../services/api";
 import {ErrorAlert} from "../components/ErrorAlert";
 import {User} from "../models/User";
 
+type SignUpForm = {
+    firstName: string;
+    lastName: string;
+    admin: string;
+    occupation: string;
+    company: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
 export const SignUp = ()  => {
     const navigate = useNavigate();
 
+    const [form, setForm] = useState<SignUpForm>({
+        admin: "",
+        company: "",
+        confirmPassword: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        occupation: "",
+        password: ""
+    });
+
     // TODO: Refactor this into a single form state object
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [admin, setAdmin] = useState('');
-    const [occupation, setOccupation] = useState('');
-    const [company, setCompany] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    // const [firstName, setFirstName] = useState('');
+    // const [lastName, setLastName] = useState('');
+    // const [admin, setAdmin] = useState('');
+    // const [occupation, setOccupation] = useState('');
+    // const [company, setCompany] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
+    // const [confirmPassword, setConfirmPassword] = useState('');
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ title: null, message: null });
 
     let validation = {
-        matchingPasswords: confirmPassword && (password === confirmPassword),
-        validEmail: email && email.match('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
+        matchingPasswords: form.confirmPassword && (form.password === form.confirmPassword),
+        validEmail: form.email && form.email.match('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
     }
 
     const handleRegister = async (e: any): Promise<void> => {
         e.preventDefault();
         setLoading(true);
 
-        const user: User = { admin, company, email, firstName, lastName, occupation, password };
+        const user: User = {
+            admin: form.admin,
+            company: form.company,
+            email: form.email,
+            firstName: form.firstName,
+            lastName: form.lastName,
+            occupation: form.occupation,
+            password: form.password
+        };
 
         try {
             await registerUser(user);
@@ -69,7 +99,7 @@ export const SignUp = ()  => {
                                                 id="admin"
                                                 name="admin"
                                                 type="admin"
-                                                onChange={(e) => setAdmin(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, admin: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -91,7 +121,7 @@ export const SignUp = ()  => {
                                                 id="firstname"
                                                 name="firstname"
                                                 type="firstname"
-                                                onChange={(e) => setFirstName(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -108,7 +138,7 @@ export const SignUp = ()  => {
                                                 id="lastname"
                                                 name="lastname"
                                                 type="lastname"
-                                                onChange={(e) => setLastName(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -125,7 +155,7 @@ export const SignUp = ()  => {
                                                 id="occupation"
                                                 name="occupation"
                                                 type="occupation"
-                                                onChange={(e) => setOccupation(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, occupation: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -142,7 +172,7 @@ export const SignUp = ()  => {
                                                 id="company"
                                                 name="company"
                                                 type="company"
-                                                onChange={(e) => setCompany(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, company: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -159,7 +189,7 @@ export const SignUp = ()  => {
                                                 id="email"
                                                 name="email"
                                                 type="email"
-                                                onChange={(e) => setEmail(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, email: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -182,7 +212,7 @@ export const SignUp = ()  => {
                                                 id="password"
                                                 name="password"
                                                 type="password"
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, password: e.target.value })}
                                                 disabled={loading}
                                                 autoComplete="none"
                                                 required
@@ -200,7 +230,7 @@ export const SignUp = ()  => {
                                                 id="confirm password"
                                                 name="confirm password"
                                                 type="confirm password"
-                                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                                onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
                                                 disabled={loading}
                                                 required
                                                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
