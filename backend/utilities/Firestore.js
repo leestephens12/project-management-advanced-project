@@ -49,7 +49,7 @@
       let docs = documents.docs;
       let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
       return docData;
- }
+   }
      /**
       * 
       * @param {String} collection you want to add data to 
