@@ -10,7 +10,7 @@ export const TaskPage = () => {
         getDashboard().then((response) => {
             setTasks(response.data.tasks);
         });
-    });
+    }, []);
 
     return (
         <div>
