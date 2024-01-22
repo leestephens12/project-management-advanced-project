@@ -15,6 +15,7 @@ router.post('/', async function(req,res) {
     const creationDate = new Date(); //this gets the current date and time for the task object
     const {name, assignee, description, status, teamID, dueDate, completionDate} = req.body;
     const task = new Task(name, assignee, description, status, teamID, dueDate, completionDate, creationDate);
+    console.log(JSON.parse(JSON.stringify(task)));
     try {
         //uses the add doc function to add it to firestore
         await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(task)));

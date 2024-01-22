@@ -25,6 +25,7 @@ class Task {
 
     set assignee(value) {
         this._assignee = value;
+
     }
 
     get description() {

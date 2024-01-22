@@ -44,7 +44,7 @@
       */
     static async queryDocs(collection, field, id) {
       //stores the list of documents
-      const documents = await this.db.collection(collection).where(field, "==", id).get();
+      const documents = await this.db.collection(collection).where("_"+field, "==", id).get();
       //map the documents returned
       let docs = documents.docs;
       let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
