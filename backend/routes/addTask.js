@@ -7,8 +7,9 @@ const Firestore = require('../utilities/Firestore');
 router.use(express.json());
 
 router.post('/', async function(req,res) {
+    const creationDate = new Date();
     const {name, assignee, description, status, dueDate, completionDate} = req.body;
-    const task = new Task(name, assignee, description, status, dueDate, completionDate);
+    const task = new Task(name, assignee, description, status, dueDate, completionDate, creationDate);
     try {
         await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(task)));
         res.status(200).json({message: "Task Uploaded to Database"});
