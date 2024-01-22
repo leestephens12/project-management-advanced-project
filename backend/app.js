@@ -15,7 +15,7 @@ app.use(cors({
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/dashboard', dashboardRouter);
-app.use('/addTasks', addTaskRouter);
+app.use('/addTask', addTaskRouter);
 
 
 
