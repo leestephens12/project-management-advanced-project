@@ -101,7 +101,7 @@ class Task {
     }
 
     statusOptions() {
-        return ["In Progress", "Not Started", "Complete", "On Hold"];
+        return ["In Progress", "Not Started", "Complete", "On Hold", "in progress", "not started", "complete", "on hold"];
     }
     
 
