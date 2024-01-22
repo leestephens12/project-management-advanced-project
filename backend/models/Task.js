@@ -1,10 +1,11 @@
 class Task {
 
-    constructor(name, assignee, description, status, dueDate, completionDate, creationDate) {
+    constructor(name, assignee, description, status, teamID, dueDate, completionDate, creationDate) {
         this.name = name;
         this.assignee = assignee;
         this.description = description;
         this.status = status;
+        this.teamID = teamID;
         this.dueDate = dueDate;
         this.completionDate = completionDate;
         this.creationDate = creationDate;
@@ -64,6 +65,14 @@ class Task {
         else {
             throw "This is not a valid value for the Status Option";
         }
+    }
+
+    get teamID() {
+        return this._teamID
+    }
+
+    set teamID(value) {
+        this._teamID = value;
     }
 
 
