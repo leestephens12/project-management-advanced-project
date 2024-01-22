@@ -1,7 +1,13 @@
 import axios from 'axios';
 import {User} from "../models/User";
+import {Task} from "../models/Task";
 
 const baseUrl = "http://localhost:3000";
+
+export async function addTask(task: Task) {
+    const url = `${baseUrl}/addTask`
+    return axios.post(url, task);
+}
 
 export async function getDashboard() {
     const url = `${baseUrl}/dashboard`;
