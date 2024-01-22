@@ -3,7 +3,7 @@ export type Task = {
     description: string;
     name: string;
     status: string;
-    teamId: string;
+    teamID: string;
     dueDate: string | Date;
     completionDate: string | Date;
 }

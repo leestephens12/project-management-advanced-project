@@ -19,7 +19,7 @@ export const TaskPage = () => {
             description: "XX",
             name: "XX",
             status: "XX",
-            teamId: "XX",
+            teamID: "XX",
             dueDate:"XX",
             completionDate: "XX"
         });
