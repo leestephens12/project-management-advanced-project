@@ -29,16 +29,6 @@ export const SignUp = ()  => {
         password: ""
     });
 
-    // TODO: Refactor this into a single form state object
-    // const [firstName, setFirstName] = useState('');
-    // const [lastName, setLastName] = useState('');
-    // const [admin, setAdmin] = useState('');
-    // const [occupation, setOccupation] = useState('');
-    // const [company, setCompany] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [confirmPassword, setConfirmPassword] = useState('');
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ title: null, message: null });
 
