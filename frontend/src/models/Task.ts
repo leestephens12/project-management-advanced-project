@@ -6,5 +6,4 @@ export type Task = {
     teamId: string;
     dueDate: string | Date;
     completionDate: string | Date;
-    creationDate: string | Date;
 }
