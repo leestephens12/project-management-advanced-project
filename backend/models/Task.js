@@ -24,21 +24,7 @@ class Task {
     }
 
     set assignee(value) {
-        /**
-         * Regex for an email address:
-         * / / -> enclosed by these slashes
-         * ^ start of the string has to match either lower case letter, upper case or numbers 0-9
-         * has to be followed by a @ symbol then followed by lower, upper case or nubmers
-         * has to be followed by a period with a trailing 2-4 letters like .com or .ca
-         * $ end of string
-         */
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2-4}$/;
-        if (value.match(emailRegex)) {
-            this._assignee = value;
-        }
-        else {
-            throw "This email does not follow the proper format";
-        }
+        this._assignee = value;
     }
 
     get description() {
