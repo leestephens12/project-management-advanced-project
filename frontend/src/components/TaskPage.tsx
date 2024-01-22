@@ -15,13 +15,13 @@ export const TaskPage = () => {
     const handleAddTask = async (e: any) => {
         e.preventDefault();
         await addTask({
-            assignee: 'XX',
-            description: "XX",
-            name: "XX",
-            status: "XX",
-            teamID: "XX",
-            dueDate:"XX",
-            completionDate: "XX"
+            assignee: 'lee@test.com',
+            description: "Finsih this page",
+            name: "Finish Daahboard",
+            status: "In Progress",
+            teamID: "T#123",
+            dueDate:"2024-02-02",
+            completionDate: "Null"
         });
     }
 
