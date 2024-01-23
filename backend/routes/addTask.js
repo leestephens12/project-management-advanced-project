@@ -16,7 +16,7 @@ router.post('/', async function(req,res) {
     const {name, assignee, description, status, teamID, dueDate, completionDate} = req.body;
     //create a new task ovject with info received from frontend
     const task = new Task(name, assignee, description, status, teamID, dueDate, completionDate, creationDate);
-    const dbTask = task.taskFirebaseConverter(); // Use the converter to ensure there are no underscores
+    const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
     try {
         //uses the add doc function to add it to firestore
         await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(dbTask)));

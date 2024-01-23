@@ -94,7 +94,7 @@ class Task {
      * @returns A task that doesnt not have underscores
      * **Even though underscores are good coding practice for private instance variables
      */
-    taskFirebaseConverter() {
+    firestoreConverter() {
         return {
             name: this._name,
             assignee: this._assignee,

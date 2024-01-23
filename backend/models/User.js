@@ -65,5 +65,22 @@ class User {
         this._teams = value;
     }
 
+    /**
+     * 
+     * @returns A user that doesnt not have underscores
+     * **Even though underscores are good coding practice for private instance variables
+     */
+    firestoreConverter() {
+        return {
+            firstName: this._firstName,
+            lastName: this._lastName,
+            occupation: this._occupation,
+            company: this._company,
+            admin: this._admin,
+            email: this._email,
+            teams: this._teams 
+        };
+    }
+
     
 } module.exports = User;
