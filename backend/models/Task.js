@@ -1,5 +1,7 @@
 class Task {
 
+    
+
     constructor(name, assignee, description, status, teamID, dueDate, completionDate, creationDate) {
         this.name = name;
         this.assignee = assignee;
@@ -85,6 +87,24 @@ class Task {
 
     set creationDate(value) {
         this._creationDate = value;
+    }
+
+    /**
+     * 
+     * @returns A task that doesnt not have underscores
+     * **Even though underscores are good coding practice for private instance variables
+     */
+    taskFirebaseConverter() {
+        return {
+            name: this._name,
+            assignee: this._assignee,
+            description: this._description,
+            status: this._status,
+            teamID: this._teamID,
+            dueDate: this._dueDate,
+            completionDate: this._completionDate,
+            creationDate: this._creationDate
+        };
     }
 
     statusOptions() {
