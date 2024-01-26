@@ -4,7 +4,7 @@ import {Task} from "../models/Task";
 
 const baseUrl = "http://localhost:3000";
 
-export async function addTask(task: Task) {
+export async function createTask(task: Task) {
     const url = `${baseUrl}/addTask`
     return axios.post(url, task);
 }
@@ -17,8 +17,8 @@ export async function getDashboard() {
 export async function loginUser(email: string, password: string) {
     const url = `${baseUrl}/login`;
     const data = {
-        email: email,
-        password: password
+        email,
+        password,
     };
 
     return axios.post(url, data);
