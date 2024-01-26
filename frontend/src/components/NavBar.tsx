@@ -1,6 +1,9 @@
 const navigation = [
-        { name: 'Tasks', href: '#', current: true },
+        { name: 'Tasks', href: '', current: true },
+        { name: 'Team', href: '', current: false },
 ]
+
+type NavItem = { name: string; href: string; current: boolean; }
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -8,7 +11,7 @@ function classNames(...classes: string[]) {
 
 export const NavBar = () => (
     <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-        {navigation.map((item) => (
+        {navigation.map((item: NavItem) => (
             <a
                 key={item.name}
                 href={item.href}
