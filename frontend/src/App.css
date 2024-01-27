@@ -7,7 +7,9 @@
   display: inline-block;
   animation: rotation 0.5s linear infinite;
 }
-
+* {
+  outline: none;
+}
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
