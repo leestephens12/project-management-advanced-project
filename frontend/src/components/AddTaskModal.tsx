@@ -1,30 +1,30 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {Task} from "../models/Task";
+import {DropdownMenu} from "./DropdownMenu";
 
-type AddTaskModalProps = { isOpen: boolean; onTaskAdded: (task: Task) => Promise<void>; };
+type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; };
 
-export function AddTaskModal({ isOpen, onTaskAdded }: AddTaskModalProps) {
+export function AddTaskModal({ isOpen, onSubmit }: AddTaskModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [description, setDescription] = useState('');
 
     useEffect(() => {
         setOpen(isOpen);
-    }, [isOpen])
+    }, [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        await onTaskAdded({
+
+        await onSubmit({
             assignee: "lee@test.com",
             completionDate: "2024-12-23",
             description,
             dueDate: "2024-12-23",
             name: "cc",
             status: "In Progress",
-            teamID: "T#124"
-
+            teamID: "T#124",
         });
-        setOpen(false);
     }
 
     return (
@@ -72,12 +72,13 @@ export function AddTaskModal({ isOpen, onTaskAdded }: AddTaskModalProps) {
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
+                                                    <DropdownMenu title={"Assignee"} />
                                                     <button
                                                         type="submit"
                                                         className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                         onClick={(e) => handleSubmit(e)}
                                                     >
-                                                        Create Task
+                                                        Create
                                                     </button>
                                                 </form>
                                             </section>
