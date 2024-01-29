@@ -20,10 +20,11 @@ export const TaskPage = () => {
     }
 
     const submitTask = async (task: Task) => {
+        setAddTaskModalOpen(false);
         try {
             // write to db
             await createTask(task);
-            setTasks([...tasks, task]);
+            setTasks(tasks => tasks ? [...tasks, task] : [task]);
         } catch (err: any) {
             throw new Error(`Could not create task: ${err.response.data.message}`);
         }
@@ -31,7 +32,7 @@ export const TaskPage = () => {
 
     return (
         <div className="p-10">
-            <AddTaskModal isOpen={addTaskModalOpen} onTaskAdded={submitTask} />
+            <AddTaskModal isOpen={addTaskModalOpen} onSubmit={submitTask} />
             <button
                 type="button"
                 className="rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
