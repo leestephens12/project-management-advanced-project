@@ -1,7 +1,4 @@
 class Task {
-
-    
-
     constructor(name, assignee, description, status, teamID, dueDate, completionDate, creationDate) {
         this.name = name;
         this.assignee = assignee;

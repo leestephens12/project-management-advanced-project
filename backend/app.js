@@ -4,6 +4,7 @@ const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const dashboardRouter = require('./routes/dashboard');
 const addTaskRouter = require('./routes/addTask');
+const editTaskRouter = require('./routes/editTask');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/addTask', addTaskRouter);
+app.use('/editTask', editTaskRouter);
 
 
 

@@ -1,8 +1,8 @@
 //firebase configuration imports
- const {initializeApp, applicationDefault, cert} = require('firebase-admin/app');
+ const {initializeApp, cert} = require('firebase-admin/app');
  //firestore configuration imports
- const {getFirestore, QuerySnapshot, docs} = require('firebase-admin/firestore');
- const {createCustomToken, getAuth} = require('firebase-admin/auth');
+ const {getFirestore, QuerySnapshot, docs, deleteDoc} = require('firebase-admin/firestore');
+ const {getAuth} = require('firebase-admin/auth');
  const Authentication = require('../utilities/Authentication');
 
  const service_account = require('./firebase-settings/firebase-service-accounts.json');
@@ -42,14 +42,15 @@
       * @param {String} id -> what you want to compare the field to
       * @returns a list of the documents meeting the requirements of the query
       */
-    static async queryDocs(collection, field, id) {
+    static async queryDocs(collection, field, operator, id) {
       //stores the list of documents
-      const documents = await this.db.collection(collection).where(field, "==", id).get();
+      const documents = await this.db.collection(collection).where(field, operator, id).get();
       //map the documents returned
       let docs = documents.docs;
       let docData = docs.map(doc => ({ id: doc.id, ...doc.data() }));
       return docData;
    }
+
      /**
       * 
       * @param {String} collection you want to add data to 

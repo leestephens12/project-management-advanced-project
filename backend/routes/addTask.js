@@ -6,6 +6,28 @@ const Task = require("../models/Task");
 
 router.use(express.json());
 
+router.get('/', async function(req,res) {
+    /**
+     * Query the teams collection and return a list of teams that the logged in user is in
+     */
+    try {
+        //first trys to get logged in users email
+        const email = await Authentication.getEmail();
+        try {
+            //then try to query database for teams
+            const userTeams = await Firestore.queryDocs("teams", "users", "array-contains",email);
+            res.status(200).json({userTeams: userTeams});
+        }catch(error) {
+            //return error
+            res.status(401).json({error: error.message});
+        }
+    }
+    catch(error) {
+        //return error
+        res.status(401).json({error: error.message});
+    }
+});
+
 /**
  * Frontend sends post data from a form to the backend that holds all the values for a task object
  * I send back a repsonse 200 if it is uploaded to firestore correctly
