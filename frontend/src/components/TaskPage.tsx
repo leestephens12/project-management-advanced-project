@@ -19,8 +19,12 @@ export const TaskPage = () => {
         setAddTaskModalOpen(true);
     }
 
-    const submitTask = async (task: Task) => {
+    const closeAddTaskModal = () => {
         setAddTaskModalOpen(false);
+    }
+
+    const submitTask = async (task: Task) => {
+        closeAddTaskModal();
         try {
             // write to db
             await createTask(task);
@@ -32,7 +36,7 @@ export const TaskPage = () => {
 
     return (
         <div className="p-10">
-            <AddTaskModal isOpen={addTaskModalOpen} onSubmit={submitTask} />
+            <AddTaskModal isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal} />
             <button
                 type="button"
                 className="rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

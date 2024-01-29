@@ -3,9 +3,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import {Task} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 
-type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; };
+type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; onCancel: () => void };
 
-export function AddTaskModal({ isOpen, onSubmit }: AddTaskModalProps) {
+export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [description, setDescription] = useState('');
 
@@ -29,7 +29,7 @@ export function AddTaskModal({ isOpen, onSubmit }: AddTaskModalProps) {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={setOpen}>
+            <Dialog as="div" className="relative z-10" onClose={onCancel}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
