@@ -9,18 +9,15 @@ router.use(express.json());
 router.get('/', async function(req,res) {
     /**
      * Query the teams collection and return a list of teams that the logged in user is in
+     * 
      */
     try {
-        //first trys to get logged in users email
-        const email = await Authentication.getEmail();
-        try {
-            //then try to query database for teams
-            const userTeams = await Firestore.queryDocs("teams", "users", "array-contains",email);
-            res.status(200).json({userTeams: userTeams});
-        }catch(error) {
-            //return error
-            res.status(401).json({error: error.message});
-        }
+        const email = Authentication.getEmail(); //enable this after
+        //Get a list of the team that current logged in user owns, email is hardcoded for now
+        const adminTeams = await Firestore.queryDocs("teams", "admin", "==","lee@test.com");
+        //Then returns a list of users of all teams that the user owns
+        //Change team1 to be dynamic to all admin teams
+        const users = await Firestore.getField("teams", "team1", "users");
     }
     catch(error) {
         //return error

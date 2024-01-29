@@ -32,7 +32,7 @@
       * @returns specifc document in firestore
       */
      static getDocument(collection, document) {
-        return this.db.collection(collection).doc(document);
+        return this.db.collection(collection).doc(document).get();
      }
 
      /**
@@ -70,6 +70,28 @@
      static async addDocCustomID(collection, data, id) {
         const col = this.getCollection(collection);
         col.doc(id).set(data);
+     }
+
+     /**
+      * Call the get document function created above
+      * @param {String} collection collection you want to query
+      * @param {String} document Specific document string you want
+      * @param {String} field specific field you want yo query
+      * @returns the output of the filed desired
+      */
+     static async getField(collection, document, field) {
+      try {
+         const docSnapshot = await this.getDocument(collection, document);
+         if (!docSnapshot.exists) {
+             console.log('Document does not exist');
+             return null;
+         }
+         const data = docSnapshot.data(); // Note the use of data() as a method
+         return data[field];
+     } catch (error) {
+         console.error('Error getting field:', error);
+         return null;
+     }
      }
 
  } module.exports = Firestore; 
