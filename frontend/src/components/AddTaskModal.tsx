@@ -2,29 +2,30 @@ import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {Task} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
+import {getAssignees} from "../services/api";
 
 type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; onCancel: () => void };
 
 export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) {
     const [open, setOpen] = useState(isOpen);
-    const [description, setDescription] = useState('');
+    const [task, setTask] = useState<Task>({
+        assignee: "lee@test.com",
+        completionDate: "2024-12-12",
+        description: "",
+        dueDate: "2024-12-12",
+        name: "",
+        status: "",
+        teamID: ""
+    });
 
     useEffect(() => {
+        getAssignees().then(console.log);
         setOpen(isOpen);
     }, [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-
-        await onSubmit({
-            assignee: "lee@test.com",
-            completionDate: "2024-12-23",
-            description,
-            dueDate: "2024-12-23",
-            name: "cc",
-            status: "In Progress",
-            teamID: "T#124",
-        });
+        await onSubmit(task);
     }
 
     return (
@@ -62,17 +63,53 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
                                                 <form>
                                                     <div className="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
+                                                            Task title
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            name="name"
+                                                            id="name"
+                                                            onChange={e => setTask({...task, name: e.target.value } )}
+                                                            className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        />
+                                                    </div>
+                                                    <div className="mt-6 rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                                                        <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                                             Description
                                                         </label>
                                                         <input
                                                             type="text"
                                                             name="name"
                                                             id="name"
-                                                            onChange={e => setDescription(e.target.value)}
+                                                            onChange={e => setTask({...task, description: e.target.value } )}
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
-                                                    <DropdownMenu title={"Assignee"} />
+                                                    <DropdownMenu title={"Assignee"} options={
+                                                        [
+                                                            {
+                                                                name: "sam@test.com"
+                                                            },
+                                                            {
+                                                                name: "lee@test.com"
+                                                            }
+                                                        ]
+                                                    }
+                                                    />
+                                                    <DropdownMenu title={"Status"} options={
+                                                        [
+                                                            {
+                                                                name: "Not Started"
+                                                            },
+                                                            {
+                                                                name: "In Progress"
+                                                            },
+                                                            {
+                                                                name: "Completed"
+                                                            }
+                                                        ]
+                                                    }
+                                                    />
                                                     <button
                                                         type="submit"
                                                         className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
