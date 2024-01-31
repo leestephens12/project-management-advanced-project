@@ -44,7 +44,7 @@ export const Login = ()  => {
 
                     <div className="mt-10">
                         <div>
-                            <form action="#" method="POST" className="space-y-6">
+                            <form className="space-y-6">
                                 <div>
                                     <label htmlFor="email"
                                            className="block text-sm text-left font-medium leading-6 text-gray-900">
