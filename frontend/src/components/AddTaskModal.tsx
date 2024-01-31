@@ -2,7 +2,7 @@ import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {Task} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
-import {getAssignees} from "../services/api";
+// import {getAssignees} from "../services/api";
 
 type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; onCancel: () => void };
 
@@ -19,7 +19,7 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
     });
 
     useEffect(() => {
-        getAssignees().then(console.log);
+        //getAssignees().then(console.log);
         setOpen(isOpen);
     }, [isOpen]);
 
