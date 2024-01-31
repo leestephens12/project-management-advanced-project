@@ -4,6 +4,11 @@ import {Task} from "../models/Task";
 
 const baseUrl = "http://localhost:3000";
 
+export async function getAssignees() {
+    const url = `${baseUrl}/addTask`;
+    return axios.get(url);
+}
+
 export async function createTask(task: Task) {
     const url = `${baseUrl}/addTask`
     return axios.post(url, task);
