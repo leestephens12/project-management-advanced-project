@@ -17,10 +17,13 @@ router.get('/', async function(req,res) {
         const adminTeams = await Firestore.queryDocs("teams", "admin", "==","lee@test.com");
         //Then returns a list of users of all teams that the user owns
         //Change team1 to be dynamic to all admin teams
-        //const users = await Firestore.getField("teams", "team1", "users");
+        //Set a an array to hold list of assingess
         let assignees = [];
+        //loop through every team that the logged in user is an admin of
         for(const teams of adminTeams) {
+            //loop thorugh the list of users of each team that he is an admin of
             for(const assignee of teams.users) {
+                //if the name does not already exist in the array add it
                 if (assignees.includes(user) == false) {
                     assignees.push(user);
                 }
