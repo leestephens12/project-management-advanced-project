@@ -18,7 +18,7 @@ router.post('/', async function(req, res) {
     await Authentication.register(email, password);
     //set user to the data retrived from the front end formm
     const user = new User(firstName, lastName, occupation, company, admin, email, "null");
-    const dbUser = User.firestoreConverter(); //use the converter method in the user class to get rid of underscores
+    const dbUser = user.firestoreConverter(); //use the converter method in the user class to get rid of underscores
     try {
       //attempt to add the user to the firestore db
       await Firestore.addDocCustomID("users", JSON.parse(JSON.stringify(dbUser)), email);
