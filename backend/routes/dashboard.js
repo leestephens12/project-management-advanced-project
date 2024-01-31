@@ -14,7 +14,7 @@ router.use(express.json());
 router.get('/', async function(req,res) {
     try {
         //call the query docs function and returns a list of tasks based off of the logged in user
-        const email = await Authentication.getEmail(); /**turn back on when teseting is complete  */
+        //const email = await Authentication.getEmail(); /**turn back on when teseting is complete  */
         const tasks = await Firestore.queryDocs("tasks", "assignee", "==","lee@test.com");
 
         res.status(200).json({tasks: tasks, message: "Tasks retrieved successfully"}); //sends the list of tasks to the front end

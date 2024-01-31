@@ -12,7 +12,7 @@ router.get('/', async function(req,res) {
      * 
      */
     try {
-        const email = Authentication.getEmail(); //enable this after
+        //const email = Authentication.getEmail(); //enable this after
         //Get a list of the team that current logged in user owns, email is hardcoded for now
         const adminTeams = await Firestore.queryDocs("teams", "admin", "==","lee@test.com");
         //Then returns a list of users of all teams that the user owns
