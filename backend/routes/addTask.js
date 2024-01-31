@@ -24,12 +24,12 @@ router.get('/', async function(req,res) {
             //loop thorugh the list of users of each team that he is an admin of
             for(const assignee of teams.users) {
                 //if the name does not already exist in the array add it
-                if (assignees.includes(user) == false) {
-                    assignees.push(user);
+                if (assignees.includes(assignee) == false) {
+                    assignees.push(assignee);
                 }
             }
         }
-        console.log(users);
+        console.log(assignees);
         res.status(200).json({assignees: assignees, message: "Assignees returned successfully"});
     }
     catch(error) {
