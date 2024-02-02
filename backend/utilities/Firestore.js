@@ -92,6 +92,7 @@
          console.error('Error getting field:', error);
          return null;
      }
-     }
+   }
+
 
  } module.exports = Firestore; 
