@@ -45,12 +45,7 @@ class Task {
     }
 
     set status(value) {
-        if (this.statusOptions().includes(value)) {
-            this._status = value;
-        }
-        else {
-            throw "This is not a valid value for the Status Option";
-        }
+        this._status = value;
     }
 
     get teamID() {
@@ -102,10 +97,6 @@ class Task {
             completionDate: this._completionDate,
             creationDate: this._creationDate
         };
-    }
-
-    statusOptions() {
-        return ["In Progress", "Not Started", "Complete", "On Hold", "in progress", "not started", "complete", "on hold"];
     }
     
 

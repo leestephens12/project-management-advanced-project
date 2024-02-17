@@ -5,6 +5,7 @@ const registerRouter = require('./routes/register');
 const dashboardRouter = require('./routes/dashboard');
 const addTaskRouter = require('./routes/addTask');
 const editTaskRouter = require('./routes/editTask');
+const teamDashboardRouter = require('./routes/teamDashboard');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use('/register', registerRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/addTask', addTaskRouter);
 app.use('/editTask', editTaskRouter);
+app.use('/teamDashboard', teamDashboardRouter);
 
 
 
