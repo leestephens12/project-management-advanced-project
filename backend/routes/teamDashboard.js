@@ -14,7 +14,7 @@ router.get('/', async function(req,res) {
         //call the query docs function and returns a list of tasks based off of the logged in user
         //const email = await Authentication.getEmail(); /**turn back on when teseting is complete  */
         const teams = await Firestore.queryDocs("teams", "users", "array-contains", "lee@test.com");
-        res.status(200).json({tasks: teams, message: "Teams retrieved successfully"}); //sends the list of tasks to the front end
+        res.status(200).json({teams: teams, message: "Teams retrieved successfully"}); //sends the list of teams to the front end
     }catch(error) {
         //if there is an error retirieving the data from firestore it will throw an error
         console.log(error + error.message);
