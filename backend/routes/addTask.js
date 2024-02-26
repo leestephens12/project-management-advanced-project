@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router(); // Use Router instead of express()
 const Authentication = require('../utilities/Authentication');
+const Mailer = require('../utilities/Mailer');
 const Firestore = require('../utilities/Firestore');
 const Task = require("../models/Task");
 
@@ -29,6 +30,7 @@ router.get('/', async function(req,res) {
                 }
             }
         }
+
         console.log(assignees);
         res.status(200).json({assignees: assignees, message: "Assignees returned successfully"});
     }
@@ -45,7 +47,8 @@ router.get('/', async function(req,res) {
  */
 router.post('/', async function(req,res) {
     const creationDate = new Date(); //this gets the current date and time for the task object
-    const {name, assignee, description, status, teamID, dueDate, completionDate} = req.body;
+    const {name, description, status, teamID, dueDate, completionDate} = req.body;
+    const assignee = "donotreply.mangement.system@gmail.com";
     //create a new task ovject with info received from frontend
     const task = new Task(name, assignee, description, status, teamID, dueDate, completionDate, creationDate);
     const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
@@ -53,6 +56,16 @@ router.post('/', async function(req,res) {
         //uses the add doc function to add it to firestore
         await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(dbTask)));
         res.status(200).json({message: "Task Uploaded to Database"});
+
+        //Use the Mailer class i set up to send email on completiong
+        Mailer.sendEmail(
+            assignee,
+            'You Have a New Task',
+            assignee + ' you have a new tasks to complete: ' + name,
+            '<b>Hello ' +assignee + ',</b><br><br>You have a new task assigned to you<br><br> Title: ' + name + '<br> Description: ' + description 
+            
+        );
+
     }catch(error) {
         //if there is na error it is sent back to the frontend
         res.status(500).json({message: "Task upload failed", error: error.message});
