@@ -12,7 +12,8 @@ router.post('/', async function(req,res) {
 
     //uncommenting this will get all the fields passed through the form on the front end
     //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
-    const {name, description, admin, users} = req.body;
+    const {name, description, admin} = req.body;
+    const users = ["donotreply.mangement.system@gmail.com"];
 
     const team = new Team("Test", "Test Desc", "lee@test.com", ["sam@test.com", "testuser@test.com"], []);
     //converts the team object to be accepted by firebase
