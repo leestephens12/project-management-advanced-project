@@ -57,14 +57,77 @@ router.post('/', async function(req,res) {
         await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(dbTask)));
         res.status(200).json({message: "Task Uploaded to Database"});
 
+        const assigneeDoc = await Firestore.getDocument('users', assignee);
+        const assigneeName = assigneeDoc.data().firstName;
+
         //Use the Mailer class i set up to send email on completiong
         Mailer.sendEmail(
             assignee,
-            'You Have a New Task',
-            assignee + ' you have a new tasks to complete: ' + name,
-            '<b>Hello ' +assignee + ',</b><br><br>You have a new task assigned to you<br><br> Title: ' + name + '<br> Description: ' + description 
-            
+            'New Task Assignment Notification',
+            `Hello, ${assigneeName}, you have a new task: ${name}. Please check your tasks list.`,
+            `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        color: #4A4A4A;
+                        margin: 0;
+                        padding: 20px;
+                        background-color: #F4F4F4;
+                    }
+                    .container {
+                        background-color: #FFFFFF;
+                        padding: 20px;
+                        margin: 10px auto;
+                        max-width: 600px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    h2 {
+                        color: #333333;
+                    }
+                    p {
+                        font-size: 16px;
+                        line-height: 1.5;
+                    }
+                    a.button {
+                        background-color: #007BFF;
+                        color: #ffffff;
+                        padding: 10px 15px;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-weight: bold;
+                        display: inline-block;
+                        margin-top: 20px;
+                    }
+                    footer {
+                        font-size: 12px;
+                        text-align: center;
+                        margin-top: 20px;
+                        color: #888;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h2>New Task Assigned</h2>
+                    <p>Hello <strong>${assigneeName}</strong>,</p>
+                    <p>You have been assigned a new task. Please find the details below:</p>
+                    <p><strong>Title:</strong> ${name}<br>
+                       <strong>Description:</strong> ${description}</p>
+                    <a href="http://localhost:3001/login" class="button">View Task</a>
+                    <footer>
+                        <p>If you have any questions, please do not hesitate to contact us.</p>
+                        <p>© Management System Team</p>
+                    </footer>
+                </div>
+            </body>
+            </html>
+            `
         );
+        
 
     }catch(error) {
         //if there is na error it is sent back to the frontend
