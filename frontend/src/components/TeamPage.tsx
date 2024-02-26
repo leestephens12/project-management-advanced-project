@@ -53,7 +53,7 @@ export const TeamPage = () => {
                 teams.map((team) => (
                     <div className="border rounded-xl px-3.5 pb-32 pt-3.5">
                         <p className="font-bold py-2">{team.name}</p>
-                        {team.users.map((user: string) => (
+                        {team.users ?? team.users.map((user: string) => (
                             <p>{user}</p>
                         ))}
                     </div>
