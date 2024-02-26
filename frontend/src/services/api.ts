@@ -1,12 +1,18 @@
 import axios from 'axios';
 import {User} from "../models/User";
 import {Task} from "../models/Task";
+import {Team} from "../models/Team";
 
 const baseUrl = "http://localhost:3000";
 
 export async function getAssignees() {
     const url = `${baseUrl}/addTask`;
     return axios.get(url);
+}
+
+export async function createTeam(team: Team) {
+    const url = `${baseUrl}/createTeam`
+    return axios.post(url, team);
 }
 
 export async function getTeams() {

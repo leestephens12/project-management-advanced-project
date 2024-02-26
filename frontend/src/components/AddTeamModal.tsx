@@ -3,19 +3,19 @@ import { Dialog, Transition } from '@headlessui/react'
 import {Task} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
+import {Team} from "../models/Team";
 
-type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; onCancel: () => void };
+type AddTeamModalProps = { isOpen: boolean; onSubmit: (team: Team) => Promise<void>; onCancel: () => void };
 
-export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) {
+export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) {
     const [open, setOpen] = useState(isOpen);
-    const [task, setTask] = useState<Task>({
-        assignee: "lee@test.com",
-        completionDate: "2024-12-12",
+    const [team, setTeam] = useState<Team>({
+        id: "a",
         description: "",
-        dueDate: "2024-12-12",
         name: "",
-        status: "",
-        teamID: ""
+        admin: "sam@test.com",
+        tasks: null,
+        users: null
     });
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        await onSubmit(task);
+        await onSubmit(team);
     }
 
     return (
@@ -57,23 +57,23 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
                                 <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                                     <div className="grid w-full grid-cols-1 items-center gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                                         <div className="sm:col-span-8 lg:col-span-7">
-                                            <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">Create Task</h2>
+                                            <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">Create Team</h2>
 
                                             <section aria-labelledby="options-heading" className="mt-10">
                                                 <form>
                                                     <div className="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                                            Task title
+                                                            Team name
                                                         </label>
                                                         <input
                                                             type="text"
                                                             name="name"
                                                             id="name"
-                                                            onChange={e => setTask({...task, name: e.target.value } )}
+                                                            onChange={e => setTeam({...team, name: e.target.value } )}
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
-                                                    <div className="mt-6 rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                                                    <div className="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                                             Description
                                                         </label>
@@ -81,31 +81,17 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
                                                             type="text"
                                                             name="name"
                                                             id="name"
-                                                            onChange={e => setTask({...task, description: e.target.value } )}
+                                                            onChange={e => setTeam({...team, description: e.target.value } )}
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
-                                                    <DropdownMenu title={"Assignee"} options={
+                                                    <DropdownMenu title={"Add members"} options={
                                                         [
                                                             {
                                                                 name: "sam@test.com"
                                                             },
                                                             {
                                                                 name: "lee@test.com"
-                                                            }
-                                                        ]
-                                                    }
-                                                    />
-                                                    <DropdownMenu title={"Status"} options={
-                                                        [
-                                                            {
-                                                                name: "Not Started"
-                                                            },
-                                                            {
-                                                                name: "In Progress"
-                                                            },
-                                                            {
-                                                                name: "Completed"
                                                             }
                                                         ]
                                                     }
