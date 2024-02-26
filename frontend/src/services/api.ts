@@ -9,6 +9,11 @@ export async function getAssignees() {
     return axios.get(url);
 }
 
+export async function getTeams() {
+    const url = `${baseUrl}/teamDashboard`;
+    return axios.get(url);
+}
+
 export async function createTask(task: Task) {
     const url = `${baseUrl}/addTask`
     return axios.post(url, task);
