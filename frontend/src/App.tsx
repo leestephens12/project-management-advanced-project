@@ -3,7 +3,8 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {SignUp} from "./pages/SignUp";
 import {Login} from "./pages/Login";
-import {Dashboard} from "./pages/Dashboard";
+import {TeamPage} from "./components/TeamPage";
+import {TaskPage} from "./components/TaskPage";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
             <Routes>
                 <Route index element={<SignUp />} />
                 <Route path="login" element={<Login />} />
-                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="tasks" element={<TaskPage />} />
+                <Route path="teams" element={<TeamPage />} />
             </Routes>
         </BrowserRouter>
     </div>

@@ -19,7 +19,7 @@ export const Login = ()  => {
         try {
             await loginUser(email, password);
             // Navigate to tasks page after successful login
-            navigate("/dashboard");
+            navigate("/tasks");
         } catch (err: any) {
             const { message, error } = err.response.data;
             setError({
