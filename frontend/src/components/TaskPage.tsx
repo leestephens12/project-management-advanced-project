@@ -39,14 +39,17 @@ export const TaskPage = () => {
         <>
             <NavBar />
             <div className="p-10">
-                <AddTaskModal isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal} />
-                <button
-                    type="button"
-                    className="rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={e => handleAddTask(e)}
-                >
-                    Create Task
-                </button>
+                <div className="space-x-5">
+                    <h2 className="font-bold text-2xl py-3 inline">My Tasks</h2>
+                    <AddTaskModal isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal}/>
+                    <button
+                        type="button"
+                        className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={e => handleAddTask(e)}
+                    >
+                        Create Task
+                    </button>
+                </div>
                 {
                     tasks.map((task: Task, count) => (
                         <li key={count} className="flex items-center justify-between mb-5">

@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
-import {createTask, createTeam, getTeams} from "../services/api";
+import {createTeam, getTeams} from "../services/api";
 import {NavBar} from "./NavBar";
-import {AddTaskModal} from "./AddTaskModal";
 import {AddTeamModal} from "./AddTeamModal";
 import {Team} from "../models/Team";
 
@@ -22,12 +21,13 @@ export const TeamPage = () => {
     }
 
     const submitTeam = async (team: Team) => {
-        console.log("TEAM: " , team)
         closeAddTeamModal();
         try {
             // write to db
             await createTeam(team);
             setTeams(teams => teams ? [...teams, team] : [team]);
+
+            console.log("new teams: ", teams);
         } catch (err: any) {
             throw new Error(`Could not create team: ${err.response.data.message}`);
         }
@@ -41,20 +41,23 @@ export const TeamPage = () => {
         <>
             <NavBar />
             <div className="p-10">
-                <AddTeamModal isOpen={addTeamModalOpen} onSubmit={submitTeam} onCancel={closeAddTeamModal} />
-                <button
-                type="button"
-                className="rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={e => handleCreateTeam(e)}
-            >
-                Create Team
-            </button>
+                <div className="space-x-5">
+                    <h2 className="font-bold text-2xl py-3 inline">My Teams</h2>
+                    <AddTeamModal isOpen={addTeamModalOpen} onSubmit={submitTeam} onCancel={closeAddTeamModal}/>
+                    <button
+                        type="button"
+                        className="rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={e => handleCreateTeam(e)}
+                    >
+                        Create Team
+                    </button>
+                </div>
             {
                 teams.map((team) => (
-                    <div className="border rounded-xl px-3.5 pb-32 pt-3.5">
+                    <div key={team.id} className="border rounded-xl px-3.5 pb-32 pt-3.5">
                         <p className="font-bold py-2">{team.name}</p>
                         {team.users ?? team.users.map((user: string) => (
-                            <p>{user}</p>
+                            <p className="block" key={user}>{user}</p>
                         ))}
                     </div>
                 ))
