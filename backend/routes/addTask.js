@@ -70,45 +70,47 @@ router.post('/', async function(req,res) {
             <html>
             <head>
                 <style>
-                    body {
-                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                        color: #4A4A4A;
-                        margin: 0;
-                        padding: 20px;
-                        background-color: #F4F4F4;
-                    }
-                    .container {
-                        background-color: #FFFFFF;
-                        padding: 20px;
-                        margin: 10px auto;
-                        max-width: 600px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                    }
-                    h2 {
-                        color: #333333;
-                    }
-                    p {
-                        font-size: 16px;
-                        line-height: 1.5;
-                    }
-                    a.button {
-                        background-color: #007BFF;
-                        color: #ffffff;
-                        padding: 10px 15px;
-                        text-decoration: none;
-                        border-radius: 5px;
-                        font-weight: bold;
-                        display: inline-block;
-                        margin-top: 20px;
-                    }
-                    footer {
-                        font-size: 12px;
-                        text-align: center;
-                        margin-top: 20px;
-                        color: #888;
-                    }
-                </style>
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    color: #4A4A4A;
+                    margin: 0;
+                    padding: 20px;
+                    background-color: #F4F4F4;
+                }
+                .container {
+                    background-color: #FFFFFF;
+                    padding: 20px;
+                    margin: 10px auto;
+                    max-width: 600px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    text-align: center; /* Center text for all child elements */
+                }
+                h2 {
+                    color: #333333;
+                }
+                p {
+                    font-size: 16px;
+                    line-height: 1.5;
+                }
+                a.button {
+                    background-color: #007BFF;
+                    color: #ffffff;
+                    padding: 10px 15px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    font-weight: bold;
+                    display: inline-block; /* Adjust this if necessary */
+                    margin-top: 20px;
+                }
+                footer {
+                    font-size: 12px;
+                    text-align: center; /* Ensure footer text is also centered */
+                    margin-top: 20px;
+                    color: #888;
+                }
+            </style>
+            
             </head>
             <body>
                 <div class="container">
