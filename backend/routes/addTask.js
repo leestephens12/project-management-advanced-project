@@ -47,10 +47,10 @@ router.get('/', async function(req,res) {
  */
 router.post('/', async function(req,res) {
     const creationDate = new Date(); //this gets the current date and time for the task object
-    const {name, description, status, teamID, dueDate, completionDate} = req.body;
+    const {name, description, priority, status, teamID, dueDate, completionDate} = req.body;
     const assignee = "donotreply.mangement.system@gmail.com";
     //create a new task ovject with info received from frontend
-    const task = new Task(name, assignee, description, status, teamID, dueDate, completionDate, creationDate);
+    const task = new Task(name, assignee, description, priority, status, teamID, dueDate, completionDate, creationDate);
     const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
     try {
         //uses the add doc function to add it to firestore

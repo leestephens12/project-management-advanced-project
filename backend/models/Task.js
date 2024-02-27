@@ -1,8 +1,9 @@
 class Task {
-    constructor(name, assignee, description, status, teamID, dueDate, completionDate, creationDate) {
+    constructor(name, assignee, description, priority, status, teamID, dueDate, completionDate, creationDate) {
         this.name = name;
         this.assignee = assignee;
         this.description = description;
+        this.priority = priority;
         this.status = status;
         this.teamID = teamID;
         this.dueDate = dueDate;
@@ -38,6 +39,14 @@ class Task {
         else {
             this._description = value;
         }
+    }
+
+    get priority() {
+        return this._priority;
+    }
+
+    set priority(value) {
+        this._priority = value;
     }
 
     get status() {
@@ -91,6 +100,7 @@ class Task {
             name: this._name,
             assignee: this._assignee,
             description: this._description,
+            priority: this._priority,
             status: this._status,
             teamID: this._teamID,
             dueDate: this._dueDate,
@@ -98,6 +108,4 @@ class Task {
             creationDate: this._creationDate
         };
     }
-    
-
 } module.exports = Task;
