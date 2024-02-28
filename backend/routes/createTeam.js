@@ -14,7 +14,7 @@ router.post('/', async function(req,res) {
     const {name, description, admin} = req.body;
     const users = ["donotreply.mangement.system@gmail.com"];
 
-    const team = new Team("Test", "Test Desc", "lee@test.com", ["sam@test.com", "testuser@test.com"], []);
+    const team = new Team("Test", "Test Desc", "lee@test.com", ["sam@test.com", "donotreply.mangement.system@gmail.com"], []);
     //converts the team object to be accepted by firebase
     const dbTeam = team.firestoreConverter();
     try {
