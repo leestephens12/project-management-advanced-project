@@ -31,7 +31,7 @@ router.get('/', async function(req,res) {
             }
         }
 
-        console.log(assignees);
+        //console.log(assignees);
         res.status(200).json({assignees: assignees, message: "Assignees returned successfully"});
     }
     catch(error) {
