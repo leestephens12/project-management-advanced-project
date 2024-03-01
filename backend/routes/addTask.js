@@ -53,7 +53,6 @@ router.post('/', async function(req,res) {
     const description = "Complete validation";
     const priority = "High";
     const status = "In Progress";
-    const id = "cqyVv9a6doKquclqGwFm"
     const teamID = "Frontend Team";
     const completionDate = "02/29/2024";
     const dueDate = "03/01/2024";
