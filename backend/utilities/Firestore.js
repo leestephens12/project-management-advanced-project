@@ -101,5 +101,10 @@
       docRef.update(data);
    }
 
+   static async deleteDoc(collection, id) {
+      const docRef = this.db.collection(collection).doc(id);
+      await docRef.delete();
+   }
+
 
  } module.exports = Firestore; 

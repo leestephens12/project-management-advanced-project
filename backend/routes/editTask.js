@@ -8,12 +8,12 @@ router.use(express.json());
 
 router.post('/', async function(req, res) {
   const creationDate = "02-03-2024"; //this gets the current date and time for the task object
-  //const {name, description, priority, status, teamID, dueDate, completionDate} = req.body;
-  const assignee = "donotreply.mangement.system@gmail.com";
+  //const {name, description, priority, status, teamID, id, dueDate, completionDate} = req.body;
+  const assignee = "lee@test.com";
   const name = "Complete Login";
   const description = "Complete validation";
-  const priority = "High";
-  const status = "Complete";
+  const priority = 1;
+  const status = 2;
   const teamID = "Frontend Team";
   const id = "cqyVv9a6doKquclqGwFm"
   const completionDate = "02/29/2024";

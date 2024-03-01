@@ -51,8 +51,8 @@ router.post('/', async function(req,res) {
     const assignee = "lee@test.com";
     const name = "Complete Login";
     const description = "Complete validation";
-    const priority = "High";
-    const status = "In Progress";
+    const priority = 1;
+    const status = 1;
     const teamID = "Frontend Team";
     const completionDate = "02/29/2024";
     const dueDate = "03/01/2024";
