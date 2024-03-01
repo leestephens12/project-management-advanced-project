@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
-const dashboardRouter = require('./routes/dashboard');
+const getTasksRouter = require('./routes/getTasks');
 const addTaskRouter = require('./routes/addTask');
 const editTaskRouter = require('./routes/editTask');
 const teamDashboardRouter = require('./routes/teamDashboard');
@@ -17,7 +17,7 @@ app.use(cors({
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
-app.use('/dashboard', dashboardRouter);
+app.use('/getTasks', getTasksRouter);
 app.use('/addTask', addTaskRouter);
 app.use('/editTask', editTaskRouter);
 app.use('/teamDashboard', teamDashboardRouter);
