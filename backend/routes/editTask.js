@@ -5,17 +5,8 @@ const Firestore = require('../utilities/Firestore');
 
 router.use(express.json());
 
-router.get('/', function(req,res) {
-  /*
-        In this section you have to autofil the current task information
-  */
-});
-
 router.post('/', async function(req, res) {
-    /*
-        When the user hits the edit button and has filled out the necessary fields
-        it will send the new object to the database
-    */
+    
    
 });
 

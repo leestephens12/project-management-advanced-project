@@ -15,8 +15,6 @@ router.get('/', async function(req,res) {
         //const email = await Authentication.getEmail(); /**turn back on when teseting is complete  */
         const teams = await Firestore.queryDocs("teams", "users", "array-contains", "lee@test.com");
         const adminTeams = await Firestore.queryDocs("teams", "admin", "==", "lee@test.com");
-        console.log(teams);
-        console.log(adminTeams);
         res.status(200).json({teams: teams, adminTeams: adminTeams, message: "Teams retrieved successfully"}); //sends the list of teams to the front end
     }catch(error) {
         //if there is an error retirieving the data from firestore it will throw an error
