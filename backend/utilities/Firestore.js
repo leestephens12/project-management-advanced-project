@@ -1,7 +1,7 @@
 //firebase configuration imports
  const {initializeApp, cert} = require('firebase-admin/app');
  //firestore configuration imports
- const {getFirestore, QuerySnapshot, docs, deleteDoc} = require('firebase-admin/firestore');
+ const {getFirestore, QuerySnapshot, docs, deleteDoc, update} = require('firebase-admin/firestore');
  const {getAuth} = require('firebase-admin/auth');
  const Authentication = require('../utilities/Authentication');
 
@@ -58,7 +58,9 @@
       */
      static async addDoc(collection, data) {
         const col = this.getCollection(collection);
-        col.add(data);
+        const docRef = col.doc();
+        const dataWithID = { ...data, id: docRef.id };
+        await docRef.set(dataWithID);
      }
 
      /**
@@ -92,6 +94,11 @@
          console.error('Error getting field:', error);
          return null;
      }
+   }
+
+   static async updateDoc(collection, id, data) {
+      const docRef = this.db.collection(collection).doc(id);
+      docRef.update(data);
    }
 
 
