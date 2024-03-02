@@ -14,8 +14,10 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
         description: "",
         dueDate: "2024-12-12",
         name: "",
-        status: "",
-        teamID: ""
+        status: 0,
+        teamID: "",
+        priority: 0,
+
     });
 
     useEffect(() => {
