@@ -1,38 +1,41 @@
-const express = require('express');
-const router = express.Router(); // Use Router instead of express()
-const Mailer = require('../utilities/Mailer');
-const Authentication = require('../utilities/Authentication');
-const Firestore = require('../utilities/Firestore');
-const Team = require('../models/Team');
+const express = require("express");
+const router = express.Router();
+const Mailer = require("../utilities/Mailer");
+const Firestore = require("../utilities/Firestore");
+const Team = require("../models/Team");
 
 router.use(express.json());
 
-router.post('/', async function(req,res) {
+router.post("/", async function (req, res) {
+  //uncommenting this will get all the fields passed through the form on the front end
+  //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
+  //const {name, description, admin, tasks} = req.body;
+  const users = ["lee@test.com"]; //move into req.body section
+  const name = "New Team";
+  const description = "Backend Dev group";
+  const admin = "sam@test.com";
+  const tasks = [];
 
-    //uncommenting this will get all the fields passed through the form on the front end
-    //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
-    //const {name, description, admin, tasks} = req.body;
-    const users = ["lee@test.com"]; //move into req.body section
-    const name = "New Team";
-    const description = "Backend Dev group";
-    const admin = "sam@test.com";
-    const tasks = [];
+  if ((await Firestore.queryDocs("teams", "name", "==", name)).length == 0) {
+    try {
+      //Adds the team to the firestore database
+      const docRef = await Firestore.getDocRef("teams");
+      const team = new Team(name, description, admin, users, tasks, docRef.id);
+      //converts the team object to be accepted by firebase
+      const dbTeam = team.firestoreConverter();
+      await Firestore.addDoc(docRef, JSON.parse(JSON.stringify(dbTeam)));
 
-    if((await Firestore.queryDocs("teams", "name", "==", name)).length == 0) { 
-        try {
-            //Adds the team to the firestore database
-            const docRef = await Firestore.getDocRef("teams");
-            const team = new Team(name, description, admin, users, tasks, docRef.id);
-            //converts the team object to be accepted by firebase
-            const dbTeam = team.firestoreConverter();
-            await Firestore.addDoc(docRef, JSON.parse(JSON.stringify(dbTeam)));
-
-            users.forEach(user => {
-                Mailer.sendEmail(
-                    user,
-                    "You Have Been Added to a New Team",
-                    "Hey " + user + " you have now been added to the team: " + name + " by: " + admin,
-                    `
+      users.forEach((user) => {
+        Mailer.sendEmail(
+          user,
+          "You Have Been Added to a New Team",
+          "Hey " +
+            user +
+            " you have now been added to the team: " +
+            name +
+            " by: " +
+            admin,
+          `
                     <!DOCTYPE html>
                     <html>
                     <head>
@@ -91,17 +94,15 @@ router.post('/', async function(req,res) {
                     </body>
                     </html>
 
-                    `,
-                );
-
-            });
-        res.status(200).json({message: "Team created successfully!"});
-
-        }catch(error) {
-            res.status(400).json({message: error.message});
-        }
+                    `
+        );
+      });
+      res.status(200).json({ message: "Team created successfully!" });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
-    else {
-        res.status(400).json({message: "There is already a team with that name"});
-    }
-}); module.exports = router;
+  } else {
+    res.status(400).json({ message: "There is already a team with that name" });
+  }
+});
+module.exports = router;

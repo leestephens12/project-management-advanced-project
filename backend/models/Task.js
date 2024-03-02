@@ -1,121 +1,130 @@
 class Task {
-    constructor(name, assignee, description, priority, status, taskId, teamID, dueDate, completionDate, creationDate) {
-        this.name = name;
-        this.assignee = assignee;
-        this.description = description;
-        this.priority = priority;
-        this.status = status;
-        this.taskId = taskId;
-        this.teamID = teamID;
-        this.dueDate = dueDate;
-        this.completionDate = completionDate;
-        this.creationDate = creationDate;
+  constructor(
+    name,
+    assignee,
+    description,
+    priority,
+    status,
+    taskId,
+    teamID,
+    dueDate,
+    completionDate,
+    creationDate
+  ) {
+    this.name = name;
+    this.assignee = assignee;
+    this.description = description;
+    this.priority = priority;
+    this.status = status;
+    this.taskId = taskId;
+    this.teamID = teamID;
+    this.dueDate = dueDate;
+    this.completionDate = completionDate;
+    this.creationDate = creationDate;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+
+  get assignee() {
+    return this._assignee;
+  }
+
+  set assignee(value) {
+    this._assignee = value;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  set description(value) {
+    if (this.description == "") {
+      throw "The description cannot be empty";
+    } else {
+      this._description = value;
     }
+  }
 
-    get name() {
-        return this._name;
-    }
+  get priority() {
+    return this._priority;
+  }
 
-    set name(value) {
-        this._name = value;
-    }
+  set priority(value) {
+    this._priority = value;
+  }
 
-    get assignee() {
-        return this._assignee;
-    }
+  get status() {
+    return this._status;
+  }
 
-    set assignee(value) {
-        this._assignee = value;
+  set status(value) {
+    this._status = value;
+  }
 
-    }
+  get taskId() {
+    return this._taskId;
+  }
 
-    get description() {
-        return this._description;
-    }
+  set taskId(value) {
+    this._taskId = value;
+  }
 
-    set description(value) {
-        if (this.description == "") {
-            throw "The description cannot be empty";
-        }
-        else {
-            this._description = value;
-        }
-    }
+  get teamID() {
+    return this._teamID;
+  }
 
-    get priority() {
-        return this._priority;
-    }
+  set teamID(value) {
+    this._teamID = value;
+  }
 
-    set priority(value) {
-        this._priority = value;
-    }
+  get dueDate() {
+    return this._dueDate;
+  }
 
-    get status() {
-        return this._status;
-    }
+  set dueDate(value) {
+    this._dueDate = value;
+  }
 
-    set status(value) {
-        this._status = value;
-    }
+  get completionDate() {
+    return this._completionDate;
+  }
 
-    get taskId() {
-        return this._taskId;
-    }
+  set completionDate(value) {
+    this._completionDate = value;
+  }
 
-    set taskId(value) {
-        this._taskId = value;
-    }
+  get creationDate() {
+    return this._creationDate;
+  }
 
-    get teamID() {
-        return this._teamID
-    }
+  set creationDate(value) {
+    this._creationDate = value;
+  }
 
-    set teamID(value) {
-        this._teamID = value;
-    }
-
-
-    get dueDate() {
-        return this._dueDate;
-    }
-
-    set dueDate(value) {
-        this._dueDate = value;
-    }
-
-    get completionDate() {
-        return this._completionDate;
-    }
-
-    set completionDate(value) {
-        this._completionDate = value;
-    }
-
-    get creationDate() {
-        return this._creationDate;
-    }
-
-    set creationDate(value) {
-        this._creationDate = value;
-    }
-
-    /**
-     * 
-     * @returns A task that doesnt not have underscores
-     * **Even though underscores are good coding practice for private instance variables
-     */
-    firestoreConverter() {
-        return {
-            name: this._name,
-            assignee: this._assignee,
-            description: this._description,
-            priority: this._priority,
-            status: this._status,
-            taskId: this._taskId,
-            teamID: this._teamID,
-            dueDate: this._dueDate,
-            completionDate: this._completionDate,
-            creationDate: this._creationDate
-        };
-    }
-} module.exports = Task;
+  /**
+   *
+   * @returns A task that doesnt not have underscores
+   * **Even though underscores are good coding practice for private instance variables
+   */
+  firestoreConverter() {
+    return {
+      name: this._name,
+      assignee: this._assignee,
+      description: this._description,
+      priority: this._priority,
+      status: this._status,
+      taskId: this._taskId,
+      teamID: this._teamID,
+      dueDate: this._dueDate,
+      completionDate: this._completionDate,
+      creationDate: this._creationDate,
+    };
+  }
+}
+module.exports = Task;
