@@ -1,10 +1,11 @@
 class Task {
-    constructor(name, assignee, description, priority, status, teamID, dueDate, completionDate, creationDate) {
+    constructor(name, assignee, description, priority, status, taskId, teamID, dueDate, completionDate, creationDate) {
         this.name = name;
         this.assignee = assignee;
         this.description = description;
         this.priority = priority;
         this.status = status;
+        this.taskId = taskId;
         this.teamID = teamID;
         this.dueDate = dueDate;
         this.completionDate = completionDate;
@@ -57,6 +58,14 @@ class Task {
         this._status = value;
     }
 
+    get taskId() {
+        return this._taskId;
+    }
+
+    set taskId(value) {
+        this._taskId = value;
+    }
+
     get teamID() {
         return this._teamID
     }
@@ -102,6 +111,7 @@ class Task {
             description: this._description,
             priority: this._priority,
             status: this._status,
+            taskId: this._taskId,
             teamID: this._teamID,
             dueDate: this._dueDate,
             completionDate: this._completionDate,

@@ -1,10 +1,11 @@
 class Team {
-    constructor(name, description, admin, users, tasks) {
+    constructor(name, description, admin, users, tasks, teamID) {
         this.name = name;
         this.description = description;
         this.admin = admin;
         this.users = users;
         this.tasks = tasks;
+        this.teamID = teamID;
     }
 
     get name() {
@@ -47,6 +48,14 @@ class Team {
         this._tasks = value;
     }
 
+    get teamID() {
+        return this._teamID;
+    }
+
+    set teamID(value) {
+        this._teamID = value;
+    }
+
     firestoreConverter() {
         return {
             name: this._name,
@@ -54,6 +63,7 @@ class Team {
             admin: this._admin,
             users: this._users,
             tasks: this._tasks,
+            teamID: this._teamID
         };
     }
 } module.exports = Team;

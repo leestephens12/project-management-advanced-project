@@ -2,7 +2,7 @@
 //firebase configuration imports
  const {initializeApp, cert} = require('firebase-admin/app');
  //firestore configuration imports
- const {getFirestore, QuerySnapshot, docs, deleteDoc, update, arrayUnion} = require('firebase-admin/firestore');
+ const {getFirestore, QuerySnapshot, docs, deleteDoc, update, arrayUnion, DocumentReference} = require('firebase-admin/firestore');
  const {getAuth} = require('firebase-admin/auth');
  const Authentication = require('../utilities/Authentication');
 
@@ -54,14 +54,22 @@
 
      /**
       * 
-      * @param {String} collection you want to add data to 
-      * @param {Object} data 
+      * @param {DocumentReference} docRef you want to add data to 
+      * @param {Object} data you want to add
       */
-     static async addDoc(collection, data) {
-        const col = this.getCollection(collection);
-        const docRef = col.doc();
-        const dataWithID = { ...data, id: docRef.id };
-        await docRef.set(dataWithID);
+     static async addDoc(docRef, data) {
+        await docRef.set(data);
+     }
+
+     /**
+      * 
+      * @param {String} collection you want to add a document to 
+      * @returns a document reference to use with the add doc function
+      */
+     static async getDocRef(collection) {
+      const col = this.getCollection(collection);
+      const docRef = col.doc();
+      return docRef;
      }
 
      /**

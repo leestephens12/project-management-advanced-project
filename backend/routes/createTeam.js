@@ -13,18 +13,19 @@ router.post('/', async function(req,res) {
     //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
     //const {name, description, admin, tasks} = req.body;
     const users = ["lee@test.com"]; //move into req.body section
-    const name = "Team";
+    const name = "New Team";
     const description = "Backend Dev group";
     const admin = "sam@test.com";
     const tasks = [];
 
     if((await Firestore.queryDocs("teams", "name", "==", name)).length == 0) { 
-        const team = new Team(name, description, admin, users, tasks);
-        //converts the team object to be accepted by firebase
-        const dbTeam = team.firestoreConverter();
         try {
             //Adds the team to the firestore database
-            await Firestore.addDoc("teams", JSON.parse(JSON.stringify(dbTeam)), name);
+            const docRef = await Firestore.getDocRef("teams");
+            const team = new Team(name, description, admin, users, tasks, docRef.id);
+            //converts the team object to be accepted by firebase
+            const dbTeam = team.firestoreConverter();
+            await Firestore.addDoc(docRef, JSON.parse(JSON.stringify(dbTeam)));
 
             users.forEach(user => {
                 Mailer.sendEmail(

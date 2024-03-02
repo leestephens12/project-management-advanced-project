@@ -62,11 +62,14 @@ router.post('/', async function(req,res) {
     teamID = teamObj[0].id;
     console.log(teamID);
     //create a new task ovject with info received from frontend
-    const task = new Task(name, assignee, description, priority, status, teamID, dueDate, completionDate, creationDate);
-    const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
     try {
+        //Get the reference of the document you want to add the data to
+        const docRef = await Firestore.getDocRef("tasks");
+        const taskID = docRef.id; //get the document id
+        const task = new Task(name, assignee, description, priority, status, taskID, teamID, dueDate, completionDate, creationDate);
+        const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
         //uses the add doc function to add it to firestore
-        await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(dbTask)));
+        await Firestore.addDoc(docRef, JSON.parse(JSON.stringify(dbTask)));
         await Firestore.addToArray("teams", teamID, "tasks", JSON.parse(JSON.stringify(dbTask)));
         res.status(200).json({message: "Task Uploaded to Database"});
 
