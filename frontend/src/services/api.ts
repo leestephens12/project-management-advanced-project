@@ -16,7 +16,7 @@ export async function createTeam(team: Team) {
 }
 
 export async function getTeams() {
-    const url = `${baseUrl}/teamDashboard`;
+    const url = `${baseUrl}/getTeams`;
     return axios.get(url);
 }
 
@@ -26,7 +26,7 @@ export async function createTask(task: Task) {
 }
 
 export async function getDashboard() {
-    const url = `${baseUrl}/dashboard`;
+    const url = `${baseUrl}/getTasks`;
     return axios.get(url);
 }
 

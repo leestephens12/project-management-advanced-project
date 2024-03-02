@@ -31,6 +31,8 @@ export const TeamPage = () => {
         } catch (err: any) {
             throw new Error(`Could not create team: ${err.response.data.message}`);
         }
+
+        console.log("Teams, ", teams);
     }
 
     const closeAddTeamModal = () => {
@@ -53,12 +55,12 @@ export const TeamPage = () => {
                     </button>
                 </div>
             {
-                teams.map((team) => (
+                teams && teams.map((team) => (
                     <div key={team.id} className="border rounded-xl px-3.5 pb-32 pt-3.5">
                         <p className="font-bold py-2">{team.name}</p>
-                        {team.users ?? team.users.map((user: string) => (
+                        {team.users ? team.users.map((user: string) => (
                             <p className="block" key={user}>{user}</p>
-                        ))}
+                        )) : <p className="text-slate-800 italic">This team is empty</p>}
                     </div>
                 ))
             }

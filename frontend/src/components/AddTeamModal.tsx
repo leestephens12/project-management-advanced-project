@@ -1,6 +1,5 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {Task} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 import {Team} from "../models/Team";
