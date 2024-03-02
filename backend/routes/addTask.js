@@ -49,11 +49,11 @@ router.post('/', async function(req,res) {
     const creationDate = new Date(); //this gets the current date and time for the task object
     //const {name, description, priority, status, teamID, dueDate, completionDate} = req.body;
     const assignee = "lee@test.com";
-    const name = "Complete Login";
-    const description = "Complete validation";
-    const priority = 1;
-    const status = 1;
-    var teamID = "Backend Team";
+    const name = "HTML Service";
+    const description = "Finish HTML";
+    const priority = 2;
+    const status = 0;
+    var teamID = "New Team";
     const completionDate = "02/29/2024";
     const dueDate = "03/01/2024";
 

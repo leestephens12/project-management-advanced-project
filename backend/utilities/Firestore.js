@@ -1,25 +1,23 @@
  const admin = require('firebase-admin')
-//firebase configuration imports
  const {initializeApp, cert} = require('firebase-admin/app');
- //firestore configuration imports
  const {getFirestore, QuerySnapshot, docs, deleteDoc, update, arrayUnion, DocumentReference} = require('firebase-admin/firestore');
  const {getAuth} = require('firebase-admin/auth');
- const Authentication = require('../utilities/Authentication');
 
  const service_account = require('./firebase-settings/firebase-service-accounts.json');
 
  class Firestore {
 
-     static app = initializeApp({
-         credential : cert(service_account)
-     });
+   // Initialize the App
+   static app = initializeApp({
+      credential : cert(service_account)
+   });
 
-     static db = getFirestore(this.app);
-     static auth = getAuth(this.app);
+   //Initiliaze the firestore db and authentication
+   static db = getFirestore(this.app);
+   static auth = getAuth(this.app);
 
      /**
-      * 
-      * @param {String} collection
+      * @param {String} collection you want to retrieve
       * @returns the full collection object
       */
      static getCollection(collection) {
@@ -27,7 +25,6 @@
      }
 
      /**
-      * 
       * @param {String} collection 
       * @param {String} document 
       * @returns specifc document in firestore
@@ -43,7 +40,7 @@
       * @param {String} id -> what you want to compare the field to
       * @returns a list of the documents meeting the requirements of the query
       */
-    static async queryDocs(collection, field, operator, id) {
+   static async queryDocs(collection, field, operator, id) {
       //stores the list of documents
       const documents = await this.db.collection(collection).where(field, operator, id).get();
       //map the documents returned
@@ -53,7 +50,6 @@
    }
 
      /**
-      * 
       * @param {DocumentReference} docRef you want to add data to 
       * @param {Object} data you want to add
       */
@@ -62,7 +58,6 @@
      }
 
      /**
-      * 
       * @param {String} collection you want to add a document to 
       * @returns a document reference to use with the add doc function
       */
