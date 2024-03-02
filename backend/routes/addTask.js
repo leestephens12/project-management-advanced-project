@@ -53,9 +53,13 @@ router.post('/', async function(req,res) {
     const description = "Complete validation";
     const priority = 1;
     const status = 1;
-    const teamID = "Frontend Team";
+    var teamID = "Frontend Team";
     const completionDate = "02/29/2024";
     const dueDate = "03/01/2024";
+
+    //changes the team id from the name of the team to the ID
+    const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
+    teamID = teamObj[0].id;
     //create a new task ovject with info received from frontend
     const task = new Task(name, assignee, description, priority, status, teamID, dueDate, completionDate, creationDate);
     const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
