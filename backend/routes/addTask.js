@@ -51,18 +51,23 @@ router.post('/', async function(req,res) {
     const assignee = "lee@test.com";
     const name = "Complete Login";
     const description = "Complete validation";
-    const priority = "High";
-    const status = "In Progress";
-    const id = "cqyVv9a6doKquclqGwFm"
-    const teamID = "Frontend Team";
+    const priority = 1;
+    const status = 1;
+    var teamID = "Backend Team";
     const completionDate = "02/29/2024";
     const dueDate = "03/01/2024";
+
+    //changes the team id from the name of the team to the ID
+    const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
+    teamID = teamObj[0].id;
+    console.log(teamID);
     //create a new task ovject with info received from frontend
     const task = new Task(name, assignee, description, priority, status, teamID, dueDate, completionDate, creationDate);
     const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
     try {
         //uses the add doc function to add it to firestore
         await Firestore.addDoc("tasks", JSON.parse(JSON.stringify(dbTask)));
+        await Firestore.addToArray("teams", teamID, "tasks", JSON.parse(JSON.stringify(dbTask)));
         res.status(200).json({message: "Task Uploaded to Database"});
 
         const assigneeDoc = await Firestore.getDocument('users', assignee);
@@ -141,6 +146,6 @@ router.post('/', async function(req,res) {
 
     }catch(error) {
         //if there is na error it is sent back to the frontend
-        res.status(500).json({message: "Task upload failed", error: error.message});
+        res.status(400).json({message: "Task upload failed", error: error.message});
     }
 }); module.exports = router;

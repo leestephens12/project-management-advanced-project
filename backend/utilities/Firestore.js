@@ -1,7 +1,8 @@
+ const admin = require('firebase-admin')
 //firebase configuration imports
  const {initializeApp, cert} = require('firebase-admin/app');
  //firestore configuration imports
- const {getFirestore, QuerySnapshot, docs, deleteDoc, update} = require('firebase-admin/firestore');
+ const {getFirestore, QuerySnapshot, docs, deleteDoc, update, arrayUnion} = require('firebase-admin/firestore');
  const {getAuth} = require('firebase-admin/auth');
  const Authentication = require('../utilities/Authentication');
 
@@ -100,6 +101,18 @@
       const docRef = this.db.collection(collection).doc(id);
       docRef.update(data);
    }
+
+   static async deleteDoc(collection, id) {
+      const docRef = this.db.collection(collection).doc(id);
+      await docRef.delete();
+   }
+
+   static async addToArray(collection, id, field, items) {
+      const docRef = this.db.collection(collection).doc(id);
+      await docRef.update({
+         [field]: admin.firestore.FieldValue.arrayUnion(items)
+      });
+  }
 
 
  } module.exports = Firestore; 

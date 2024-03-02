@@ -7,6 +7,7 @@ const addTaskRouter = require('./routes/addTask');
 const editTaskRouter = require('./routes/editTask');
 const getTeamsRouter = require('./routes/getTeams');
 const createTeamRouter = require('./routes/createTeam');
+const deleteTaskRouter = require('./routes/deleteTask');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/addTask', addTaskRouter);
 app.use('/editTask', editTaskRouter);
 app.use('/getTeams', getTeamsRouter);
 app.use('/createTeam', createTeamRouter);
+app.use('/deleteTask', deleteTaskRouter);
 
 
 

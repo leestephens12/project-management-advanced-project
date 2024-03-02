@@ -12,20 +12,20 @@ router.post('/', async function(req,res) {
     //uncommenting this will get all the fields passed through the form on the front end
     //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
     //const {name, description, admin, tasks} = req.body;
-    const users = ["donotreply.mangement.system@gmail.com"]; //move into req.body section
-    const name = "Frontend Team";
-    const description = "Frontend Dev group";
-    const admin = "lee@test.com";
+    const users = ["lee@test.com"]; //move into req.body section
+    const name = "Team";
+    const description = "Backend Dev group";
+    const admin = "sam@test.com";
     const tasks = [];
 
-    if((await Firestore.getDocument("teams", name)).data() == null) {
+    if((await Firestore.queryDocs("teams", "name", "==", name)).length == 0) { 
         const team = new Team(name, description, admin, users, tasks);
         //converts the team object to be accepted by firebase
         const dbTeam = team.firestoreConverter();
         try {
             //Adds the team to the firestore database
-            await Firestore.addDocCustomID("teams", JSON.parse(JSON.stringify(dbTeam)), name);
-    
+            await Firestore.addDoc("teams", JSON.parse(JSON.stringify(dbTeam)), name);
+
             users.forEach(user => {
                 Mailer.sendEmail(
                     user,
@@ -89,19 +89,18 @@ router.post('/', async function(req,res) {
                         </div>
                     </body>
                     </html>
-    
+
                     `,
                 );
-    
+
             });
-            res.status(200).json({message: "Team created successfully!"});
-    
+        res.status(200).json({message: "Team created successfully!"});
+
         }catch(error) {
             res.status(400).json({message: error.message});
         }
     }
     else {
-        res.status(400).json({message: "A team already has that name"});
+        res.status(400).json({message: "There is already a team with that name"});
     }
-
 }); module.exports = router;
