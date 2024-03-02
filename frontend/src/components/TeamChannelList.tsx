@@ -1,6 +1,15 @@
-type TeamChannelListProps = { teams: any[] };
+import {useState} from "react";
 
-export default function TeamChannelList({ teams }: TeamChannelListProps) {
+type TeamChannelListProps = { teams: any[]; onTeamSelected: any };
+
+export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelListProps) {
+    const [activeTeam, setActiveTeam] = useState(teams[0]);
+
+    const handleActiveTeamChange = (team: any) => {
+        setActiveTeam(team);
+        onTeamSelected(team);
+    }
+
     return (
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <div className="flex h-16 shrink-0 items-center">
@@ -15,12 +24,12 @@ export default function TeamChannelList({ teams }: TeamChannelListProps) {
                     <li>
                         <ul role="list" className="-mx-2 space-y-1">
                             <li className="py-2.5 flex hover:bg-gray-50 rounded hover:cursor-pointer">
-                                <p className="px-1 font-bold">Overview
+                                <p className="px-1">Overview
                                 </p>
                             </li>
                             {teams.map((team) => (
-                                <li className="py-2.5 px-3 flex hover:bg-gray-50 hover:cursor-pointer" key={team.name}>
-                                    <p className='pl-4'>{team.name}</p>
+                                <li onClick={e => handleActiveTeamChange(team)} className="py-2.5 px-3 flex hover:bg-gray-50 hover:cursor-pointer" key={team.name}>
+                                    <p className={team === activeTeam ? 'pl-4 font-bold' : 'pl-4'}>{team.name}</p>
                                 </li>
                             ))}
                         </ul>
