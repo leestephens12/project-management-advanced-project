@@ -1,12 +1,12 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {Task} from "../models/Task";
+import {Task, TaskModalMode} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 
-type AddTaskModalProps = { isOpen: boolean; onSubmit: (task: Task) => Promise<void>; onCancel: () => void };
+type AddTaskModalProps = { mode: TaskModalMode; isOpen: boolean; onSubmit: (mode: TaskModalMode, task: Task) => Promise<void>; onCancel: () => void };
 
-export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) {
+export function AddTaskModal({ mode, isOpen, onSubmit, onCancel }: AddTaskModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [task, setTask] = useState<Task>({
         assignee: "lee@test.com",
@@ -27,7 +27,7 @@ export function AddTaskModal({ isOpen, onSubmit, onCancel }: AddTaskModalProps) 
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        await onSubmit(task);
+        await onSubmit(mode, task);
     }
 
     return (
