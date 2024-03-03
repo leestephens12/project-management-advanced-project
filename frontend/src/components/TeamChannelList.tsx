@@ -1,9 +1,16 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 type TeamChannelListProps = { teams: any[]; onTeamSelected: any };
 
 export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelListProps) {
-    const [activeTeam, setActiveTeam] = useState(teams[0]);
+    const [activeTeam, setActiveTeam] = useState();
+
+    useEffect(() => {
+        if (teams.length > 0) {
+            setActiveTeam(teams[0]);
+            onTeamSelected(teams[0]);
+        }
+    }, [teams]);
 
     const handleActiveTeamChange = (team: any) => {
         setActiveTeam(team);

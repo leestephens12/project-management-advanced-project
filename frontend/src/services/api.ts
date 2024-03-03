@@ -5,6 +5,11 @@ import {Team} from "../models/Team";
 
 const baseUrl = "http://localhost:3000";
 
+export async function editTask(task: Task) {
+    const url = `${baseUrl}/editTask`;
+    return axios.post(url);
+}
+
 export async function getAssignees() {
     const url = `${baseUrl}/addTask`;
     return axios.get(url);

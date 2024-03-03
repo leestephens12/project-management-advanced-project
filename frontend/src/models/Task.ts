@@ -21,3 +21,8 @@ export enum Priority {
     MEDIUM,
     LOW
 }
+
+export enum TaskModalMode {
+    CREATE,
+    EDIT
+}
