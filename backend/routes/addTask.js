@@ -11,13 +11,13 @@ router.get("/", async function (req, res) {
    * Query the teams collection and return a list of teams that the logged in user is in
    */
   try {
-    //const email = Authentication.getEmail(); //enable this after
+    const email = req.email; 
     //Get a list of the team that current logged in user owns, email is hardcoded for now
     const adminTeams = await Firestore.queryDocs(
       "teams",
       "admin",
       "==",
-      "lee@test.com"
+      email
     );
     //Then returns a list of users of all teams that the user owns
     //Change team1 to be dynamic to all admin teams
@@ -54,19 +54,11 @@ router.get("/", async function (req, res) {
  */
 router.post("/", async function (req, res) {
   const creationDate = new Date(); //this gets the current date and time for the task object
-  //const {name, description, priority, status, teamID, dueDate, completionDate} = req.body;
-  const assignee = "lee@test.com";
-  const name = "HTML Service";
-  const description = "Finish HTML";
-  const priority = 2;
-  const status = 0;
-  var teamID = "New Team";
-  const completionDate = "02/29/2024";
-  const dueDate = "03/01/2024";
+  const {name, assignee, description, priority, status, teamID, dueDate, completionDate} = req.body;
 
   //changes the team id from the name of the team to the ID
-  const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
-  teamID = teamObj[0].id;
+  /*const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
+  teamID = teamObj[0].id;*/
   console.log(teamID);
   //create a new task ovject with info received from frontend
   try {
