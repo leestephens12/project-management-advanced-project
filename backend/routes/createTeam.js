@@ -9,7 +9,7 @@ router.use(express.json());
 router.post("/", async function (req, res) {
   //uncommenting this will get all the fields passed through the form on the front end
   //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
-  const {name, description, admin} = req.body;
+  const {name, description, admin, users} = req.body;
   const tasks = [];
   /*const users = ["lee@test.com"]; //move into req.body section
   const name = "New Team";

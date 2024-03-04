@@ -17,7 +17,6 @@ async function authenticateRequest(req, res, next) {
     // For demonstration, attaching the entire decoded token and email to the request object
     req.user = decodedToken;
     req.email = userEmail; // Now you have the user's email attached to every request
-    console.log("Token Decoded");
     next(); // Proceed to the next route handler
   } catch (error) {
     console.error("Error verifying ID token:", error);
