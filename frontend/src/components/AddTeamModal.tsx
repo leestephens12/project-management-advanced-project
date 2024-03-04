@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {getAssignees} from "../services/api";
+import {getAllUsers, getAssignees} from "../services/api";
 import {Team} from "../models/Team";
 import {DropdownMenu} from "./DropdownMenu";
 
@@ -19,8 +19,8 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
     const [assignees, setAssignees] = useState<{name: string; value: any;}[]>([]);
 
     useEffect(() => {
-        getAssignees().then((response) => {
-            const newAssignees = response.data.assignees.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
+        getAllUsers().then((response: any) => {
+            const newAssignees = response.data.members.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
             setAssignees(newAssignees);
         });
         setOpen(isOpen);

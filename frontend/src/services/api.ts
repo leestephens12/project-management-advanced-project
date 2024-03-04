@@ -15,6 +15,11 @@ export async function getAssignees() {
     return axios.get(url);
 }
 
+export async function getAllUsers() {
+    const url = `${baseUrl}/getUser`;
+    return axios.get(url);
+}
+
 export async function createTeam(team: Team) {
     const url = `${baseUrl}/createTeam`
     return axios.post(url, team);

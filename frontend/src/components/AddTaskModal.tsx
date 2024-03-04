@@ -24,7 +24,6 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
 
     useEffect(() => {
         getAssignees().then((response) => {
-            console.log("ASSIGNEES ", response)
             const newAssignees = response.data.assignees.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
             setAssignees(newAssignees);
             console.log("ASSIGNEES ", assignees)
