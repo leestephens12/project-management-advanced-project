@@ -54,19 +54,11 @@ router.get("/", async function (req, res) {
  */
 router.post("/", async function (req, res) {
   const creationDate = new Date(); //this gets the current date and time for the task object
-  //const {name, description, priority, status, teamID, dueDate, completionDate} = req.body;
-  const assignee = "gabih@telus.net";
-  const name = "HTML Service";
-  const description = "Finish HTML";
-  const priority = 2;
-  const status = 0;
-  var teamID = "New Team";
-  const completionDate = "02/29/2024";
-  const dueDate = "03/01/2024";
+  const {name, assignee, description, priority, status, teamID, dueDate, completionDate} = req.body;
 
   //changes the team id from the name of the team to the ID
-  const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
-  teamID = teamObj[0].id;
+  /*const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
+  teamID = teamObj[0].id;*/
   console.log(teamID);
   //create a new task ovject with info received from frontend
   try {

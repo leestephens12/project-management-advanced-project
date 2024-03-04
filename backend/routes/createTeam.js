@@ -9,12 +9,13 @@ router.use(express.json());
 router.post("/", async function (req, res) {
   //uncommenting this will get all the fields passed through the form on the front end
   //Doesn't get the tasks variabel as it will start out empty and tasks can be added after
-  //const {name, description, admin, tasks} = req.body;
-  const users = ["lee@test.com"]; //move into req.body section
+  const {name, description, admin} = req.body;
+  const tasks = [];
+  /*const users = ["lee@test.com"]; //move into req.body section
   const name = "New Team";
   const description = "Backend Dev group";
   const admin = "sam@test.com";
-  const tasks = [];
+  */
 
   if ((await Firestore.queryDocs("teams", "name", "==", name)).length == 0) {
     try {
