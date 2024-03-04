@@ -67,6 +67,12 @@ class Firestore {
     await docRef.set(data);
   }
 
+  static async getCollection(collection) {
+    const cols = await this.db.collection(collection).get();
+    return cols.docs.map(doc => doc.data())
+
+  }
+
   /**
    * @param {String} collection you want to add a document to
    * @returns a document reference to use with the add doc function

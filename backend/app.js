@@ -9,6 +9,7 @@ const getTeamsRouter = require('./routes/getTeams');
 const createTeamRouter = require('./routes/createTeam');
 const deleteTaskRouter = require('./routes/deleteTask');
 const authenticateRequest = require('./middleware/tokenAuth');
+const getUserRouter = require('./routes/getUser');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/editTask', editTaskRouter);
 app.use('/getTeams', authenticateRequest, getTeamsRouter);
 app.use('/createTeam', createTeamRouter);
 app.use('/deleteTask', deleteTaskRouter);
+app.use('/getUser', getUserRouter);
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");

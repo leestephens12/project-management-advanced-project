@@ -10,6 +10,7 @@ router.use(express.json());
  */
 router.get("/", async function (req, res) {
   try {
+
     //call the query docs function and returns a list of tasks based off of the logged in user
     const email = req.email;
     const teams = await Firestore.queryDocs(
