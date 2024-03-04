@@ -1,6 +1,5 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 import {Team} from "../models/Team";
 
@@ -84,17 +83,18 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
-                                                    <DropdownMenu title={"Add members"} options={
-                                                        [
-                                                            {
-                                                                name: "sam@test.com"
-                                                            },
-                                                            {
-                                                                name: "lee@test.com"
-                                                            }
-                                                        ]
-                                                    }
-                                                    />
+                                                    {/*<DropdownMenu title={"Add members"} options={*/}
+                                                    {/*    [*/}
+                                                    {/*        {*/}
+                                                    {/*            name: "sam@test.com"*/}
+                                                    {/*        },*/}
+                                                    {/*        {*/}
+                                                    {/*            name: "lee@test.com"*/}
+                                                    {/*        }*/}
+                                                    {/*    ]*/}
+                                                    {/*    onSelect={handleTeamMemberChange}*/}
+                                                    {/*}*/}
+                                                    {/*/>*/}
                                                     <button
                                                         type="submit"
                                                         className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
