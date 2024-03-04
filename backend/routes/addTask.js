@@ -11,14 +11,9 @@ router.get("/", async function (req, res) {
    * Query the teams collection and return a list of teams that the logged in user is in
    */
   try {
-    const email = req.email; 
+    const email = req.email;
     //Get a list of the team that current logged in user owns, email is hardcoded for now
-    const adminTeams = await Firestore.queryDocs(
-      "teams",
-      "admin",
-      "==",
-      email
-    );
+    const adminTeams = await Firestore.queryDocs("teams", "admin", "==", email);
     //Then returns a list of users of all teams that the user owns
     //Change team1 to be dynamic to all admin teams
     //Set a an array to hold list of assingess
@@ -35,12 +30,10 @@ router.get("/", async function (req, res) {
     }
 
     //console.log(assignees);
-    res
-      .status(200)
-      .json({
-        assignees: assignees,
-        message: "Assignees returned successfully",
-      });
+    res.status(200).json({
+      assignees: assignees,
+      message: "Assignees returned successfully",
+    });
   } catch (error) {
     //return error
     res.status(401).json({ error: error.message });
@@ -54,7 +47,16 @@ router.get("/", async function (req, res) {
  */
 router.post("/", async function (req, res) {
   const creationDate = new Date(); //this gets the current date and time for the task object
-  const {name, assignee, description, priority, status, teamID, dueDate, completionDate} = req.body;
+  const {
+    name,
+    assignee,
+    description,
+    priority,
+    status,
+    teamID,
+    dueDate,
+    completionDate,
+  } = req.body;
 
   //changes the team id from the name of the team to the ID
   /*const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);

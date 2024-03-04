@@ -4,7 +4,6 @@ const Firestore = require("../utilities/Firestore");
 
 router.use(express.json());
 
-
 /**
  * Get Request from frontend when the dashboard page is loaded
  * In the get request i use the logged in users email to query firestore to return a list of tasks
@@ -15,13 +14,7 @@ router.get("/", async function (req, res) {
   try {
     //call the query docs function and returns a list of tasks based off of the logged in user
     const email = req.email;
-    console.log(email);
-    const tasks = await Firestore.queryDocs(
-      "tasks",
-      "assignee",
-      "==",
-      email
-    );
+    const tasks = await Firestore.queryDocs("tasks", "assignee", "==", email);
     res
       .status(200)
       .json({ tasks: tasks, message: "Tasks retrieved successfully" }); //sends the list of tasks to the front end

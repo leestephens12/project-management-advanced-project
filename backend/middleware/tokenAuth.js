@@ -1,11 +1,11 @@
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
 const Authentication = require("../utilities/Authentication");
 
 async function authenticateRequest(req, res, next) {
-  //get token and decode it 
+  //get token and decode it
   const token = await Authentication.getToken();
   if (!token) {
-    return res.status(500).send('Unauthorized');
+    return res.status(500).send("Unauthorized");
   }
 
   try {
@@ -17,10 +17,10 @@ async function authenticateRequest(req, res, next) {
     // For demonstration, attaching the entire decoded token and email to the request object
     req.user = decodedToken;
     req.email = userEmail; // Now you have the user's email attached to every request
-    console.log("Token Authenticated");
     next(); // Proceed to the next route handler
   } catch (error) {
-    console.error('Error verifying ID token:', error);
-    res.status(403).send('token not wokring');
+    console.error("Error verifying ID token:", error);
+    res.status(403).send("token not wokring");
   }
-} module.exports = authenticateRequest;
+}
+module.exports = authenticateRequest;
