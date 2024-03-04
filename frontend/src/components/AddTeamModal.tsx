@@ -2,6 +2,7 @@ import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {getAssignees} from "../services/api";
 import {Team} from "../models/Team";
+import {DropdownMenu} from "./DropdownMenu";
 
 type AddTeamModalProps = { isOpen: boolean; onSubmit: (team: Team) => Promise<void>; onCancel: () => void };
 
@@ -11,19 +12,27 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
         id: "",
         description: "",
         name: "",
-        admin: "sam@test.com",
+        admin: "lee@test.com",
         tasks: null,
         users: null
     });
+    const [assignees, setAssignees] = useState<{name: string; value: any;}[]>([]);
 
     useEffect(() => {
-        getAssignees().then(console.log);
+        getAssignees().then((response) => {
+            const newAssignees = response.data.assignees.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
+            setAssignees(newAssignees);
+        });
         setOpen(isOpen);
     }, [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         await onSubmit(team);
+    }
+
+    const handleAssigneeChange = (value: string) => {
+        setTeam({...team, users: [value] } );
     }
 
     return (
@@ -58,7 +67,7 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
                                             <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">Create Team</h2>
 
                                             <section aria-labelledby="options-heading" className="mt-10">
-                                                <form>
+                                                <form className="space-y-4">
                                                     <div className="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                                             Team name
@@ -83,18 +92,15 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
-                                                    {/*<DropdownMenu title={"Add members"} options={*/}
-                                                    {/*    [*/}
-                                                    {/*        {*/}
-                                                    {/*            name: "sam@test.com"*/}
-                                                    {/*        },*/}
-                                                    {/*        {*/}
-                                                    {/*            name: "lee@test.com"*/}
-                                                    {/*        }*/}
-                                                    {/*    ]*/}
-                                                    {/*    onSelect={handleTeamMemberChange}*/}
-                                                    {/*}*/}
-                                                    {/*/>*/}
+                                                    <div className="block">
+                                                        <DropdownMenu title={"Members"} options={
+                                                            [
+                                                                ...assignees
+                                                            ]
+                                                        }
+                                                                      onSelect={handleAssigneeChange}
+                                                        />
+                                                    </div>
                                                     <button
                                                         type="submit"
                                                         className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
