@@ -5,7 +5,6 @@ import {Task, TaskModalMode} from "../models/Task";
 import {AddTaskModal} from "./AddTaskModal";
 import TeamChannelList from "./TeamChannelList";
 
-
 export const TaskPage = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
@@ -26,10 +25,7 @@ export const TaskPage = () => {
         });
         getTeams().then((response) => {
             setTeams(response.data.teams);
-            // setTeams(teams => [...teams, response.data.adminTeams]);
-
-            console.log('teams ', teams);
-
+            setTeams(teams => [...teams, response.data.adminTeams]);
             const filteredTasks = tasks.filter((task: Task) => task.teamID == teams[0].id);
             setFilteredTasks(filteredTasks);
             setActiveTeam(teams[0]);
