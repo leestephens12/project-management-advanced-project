@@ -26,6 +26,7 @@ export const TaskPage = () => {
         });
         getTeams().then((response) => {
             setTeams(response.data.teams);
+            setTeams(teams => [...teams, response.data.adminTeams]);
 
             console.log('teams ', teams);
 
