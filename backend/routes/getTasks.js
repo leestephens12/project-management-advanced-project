@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Firestore = require("../utilities/Firestore");
 
+
 router.use(express.json());
+
 
 /**
  * Get Request from frontend when the dashboard page is loaded
@@ -13,12 +15,13 @@ router.use(express.json());
 router.get("/", async function (req, res) {
   try {
     //call the query docs function and returns a list of tasks based off of the logged in user
-    //const email = await Authentication.getEmail(); /**turn back on when teseting is complete  */
+    const email = req.email;
+    console.log(email);
     const tasks = await Firestore.queryDocs(
       "tasks",
       "assignee",
       "==",
-      "lee@test.com"
+      email
     );
     res
       .status(200)
