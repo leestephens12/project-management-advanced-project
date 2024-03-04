@@ -23,7 +23,7 @@ app.use(cors({
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/getTasks', authenticateRequest, getTasksRouter);
-app.use('/addTask', addTaskRouter);
+app.use('/addTask', authenticateRequest, addTaskRouter);
 app.use('/editTask', editTaskRouter);
 app.use('/getTeams', authenticateRequest, getTeamsRouter);
 app.use('/createTeam', createTeamRouter);
