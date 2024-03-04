@@ -4,7 +4,6 @@ import {TaskCard} from "./TaskCard";
 import {Task, TaskModalMode} from "../models/Task";
 import {AddTaskModal} from "./AddTaskModal";
 import TeamChannelList from "./TeamChannelList";
-import {DropdownMenu} from "./DropdownMenu";
 
 
 export const TaskPage = () => {
@@ -36,6 +35,11 @@ export const TaskPage = () => {
         });
     }, []);
 
+    useEffect(() => {
+        const filteredTasks = tasks.filter((task: Task) => task.teamID == activeTeam.id);
+        setFilteredTasks(filteredTasks);
+    }, [tasks]);
+
     const handleAddTask = (e: any) => {
         e.preventDefault();
 
@@ -54,6 +58,8 @@ export const TaskPage = () => {
                 // write to db
                 await createTask(task);
                 setTasks(tasks => tasks ? [...tasks, task] : [task]);
+                const filteredTasks = tasks.filter((t: Task) => t.teamID == task.teamID);
+                setFilteredTasks(filteredTasks);
             } catch (err: any) {
                 throw new Error(`Could not create task: ${err.response.data.message}`);
             }
@@ -87,23 +93,23 @@ export const TaskPage = () => {
             {/*<NavBar />*/}
             <div className="p-10 w-3/4">
                 <div className="space-x-5">
-                    <DropdownMenu title={"Filter"} options={
-                        [
-                            {
-                                name: "Priority"
-                            },
-                            {
-                                name: "Name"
-                            },
-                            {
-                                name: "Due date"
-                            },
-                            {
-                                name: "Assignee"
-                            },
-                        ]
-                    }
-                    />
+                    {/*<DropdownMenu title={"Filter"} options={*/}
+                    {/*    [*/}
+                    {/*        {*/}
+                    {/*            name: "Priority"*/}
+                    {/*        },*/}
+                    {/*        {*/}
+                    {/*            name: "Name"*/}
+                    {/*        },*/}
+                    {/*        {*/}
+                    {/*            name: "Due date"*/}
+                    {/*        },*/}
+                    {/*        {*/}
+                    {/*            name: "Assignee"*/}
+                    {/*        },*/}
+                    {/*    ]*/}
+                    {/*}*/}
+                    {/*/>*/}
                     {activeTeam &&
                         <h2 className="font-bold text-2xl py-3 inline">
                             {activeTeam.name}'s Tasks

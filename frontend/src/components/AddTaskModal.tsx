@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {Task, TaskModalMode} from "../models/Task";
+import {Priority, Status, Task, TaskModalMode} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 
@@ -20,11 +20,29 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
 
     });
 
+    const [assignees, setAssignees] = useState<{name: string; value: any;}[]>([]);
+
     useEffect(() => {
-        getAssignees().then(console.log);
+        getAssignees().then((response) => {
+            const newAssignees = response.data.assignees.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
+            setAssignees(newAssignees);
+            console.log("ASSIGNEES ", assignees)
+        });
         setOpen(isOpen);
         setTask({...task, teamID: activeTeam.id } );
     }, [isOpen]);
+
+    const handleAssigneeChange = (value: string) => {
+        setTask({...task, assignee: value } );
+    }
+
+    const handlePriorityChange = (value: Priority) => {
+        setTask({...task, priority: value } );
+    }
+
+    const handleStatusChange = (value: Status) => {
+        setTask({...task, status: value } );
+    }
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -91,31 +109,55 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
-                                                    <DropdownMenu title={"Assignee"} options={
-                                                        [
-                                                            {
-                                                                name: "sam@test.com"
-                                                            },
-                                                            {
-                                                                name: "lee@test.com"
+                                                    <div className="block">
+                                                        <DropdownMenu title={"Assignee"} options={
+                                                                [
+                                                                    ...assignees
+                                                                ]
                                                             }
-                                                        ]
-                                                    }
-                                                    />
-                                                    <DropdownMenu title={"Status"} options={
-                                                        [
-                                                            {
-                                                                name: "Not Started"
-                                                            },
-                                                            {
-                                                                name: "In Progress"
-                                                            },
-                                                            {
-                                                                name: "Completed"
+                                                            onSelect={handleAssigneeChange}
+                                                        />
+                                                    </div>
+                                                    <div className="block">
+                                                        <DropdownMenu title={"Priority"} options={
+                                                                [
+                                                                    {
+                                                                        name: "Low",
+                                                                        value: 0,
+                                                                    },
+                                                                    {
+                                                                        name: "Medium",
+                                                                        value: 1,
+                                                                    },
+                                                                    {
+                                                                        name: "High",
+                                                                        value: 2,
+                                                                    }
+                                                                ]
                                                             }
-                                                        ]
-                                                    }
-                                                    />
+                                                            onSelect={handlePriorityChange}
+                                                        />
+                                                    </div>
+                                                    <div className="block">
+                                                        <DropdownMenu title={"Status"} options={
+                                                                [
+                                                                    {
+                                                                        name: "Not Started",
+                                                                        value: 0,
+                                                                    },
+                                                                    {
+                                                                        name: "In Progress",
+                                                                        value: 1,
+                                                                    },
+                                                                    {
+                                                                        name: "Completed",
+                                                                        value: 2,
+                                                                    }
+                                                                ]
+                                                            }
+                                                            onSelect={handleStatusChange}
+                                                        />
+                                                    </div>
                                                     <button
                                                         type="submit"
                                                         className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
