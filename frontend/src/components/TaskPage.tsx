@@ -79,10 +79,10 @@ export const TaskPage = () => {
 
 
     const filterTasksByTeam = (team: any) => {
+        setActiveTeam(team);
         setFilteredTasks(tasks);
         const filteredTasks = tasks.filter((task: Task) => task.teamID == team.id);
         setFilteredTasks(filteredTasks);
-        setActiveTeam(team);
     }
 
     return (

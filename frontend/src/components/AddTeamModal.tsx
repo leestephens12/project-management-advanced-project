@@ -8,7 +8,7 @@ type AddTeamModalProps = { isOpen: boolean; onSubmit: (team: Team) => Promise<vo
 export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [team, setTeam] = useState<Team>({
-        id: "a",
+        id: "",
         description: "",
         name: "",
         admin: "sam@test.com",

@@ -26,6 +26,12 @@ export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelLi
                     alt="Your Company"
                 />
             </div>
+            <button
+                type="button"
+                className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+                New Team
+            </button>
             <nav className="flex flex-1 flex-col">
                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                     <li>
