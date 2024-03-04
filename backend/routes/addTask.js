@@ -13,7 +13,12 @@ router.get("/", async function (req, res) {
   try {
     const email = req.email;
     //Get a list of the team that current logged in user owns, email is hardcoded for now
-    const adminTeams = await Firestore.queryDocs("teams", "admin", "==", email);
+    const adminTeams = await Firestore.queryDocs(
+      "teams",
+      "admin",
+      "==",
+      email
+    );
     //Then returns a list of users of all teams that the user owns
     //Change team1 to be dynamic to all admin teams
     //Set a an array to hold list of assingess
