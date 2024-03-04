@@ -17,7 +17,7 @@ export const TaskCard = ({ task }: TaskCardProps) => {
     ]
 
     return (
-        <div className="border rounded-xl p-3 space-y-2 pr-8 bg-white hover:cursor-pointer">
+        <div className="border rounded-xl p-3 space-y-2 pr-8 bg-white hover:cursor-pointer shadow-md">
             <p className={`${priorityBackgroundColor[task.priority]} text-white text-center rounded-xl w-3/4 text-xs p-1`}>
                 {priorityText[task.priority]} Priority
             </p>

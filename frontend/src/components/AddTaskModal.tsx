@@ -4,9 +4,9 @@ import {Task, TaskModalMode} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 
-type AddTaskModalProps = { mode: TaskModalMode; isOpen: boolean; onSubmit: (mode: TaskModalMode, task: Task) => Promise<void>; onCancel: () => void };
+type AddTaskModalProps = { activeTeam: any; mode: TaskModalMode; isOpen: boolean; onSubmit: (mode: TaskModalMode, task: Task) => Promise<void>; onCancel: () => void };
 
-export function AddTaskModal({ mode, isOpen, onSubmit, onCancel }: AddTaskModalProps) {
+export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: AddTaskModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [task, setTask] = useState<Task>({
         assignee: "lee@test.com",
@@ -23,10 +23,14 @@ export function AddTaskModal({ mode, isOpen, onSubmit, onCancel }: AddTaskModalP
     useEffect(() => {
         getAssignees().then(console.log);
         setOpen(isOpen);
+        setTask({...task, teamID: activeTeam.id } );
     }, [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        setTask({...task, teamID: activeTeam.id } );
+
         await onSubmit(mode, task);
     }
 

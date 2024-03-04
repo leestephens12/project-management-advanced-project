@@ -4,6 +4,7 @@ import {TaskCard} from "./TaskCard";
 import {Task, TaskModalMode} from "../models/Task";
 import {AddTaskModal} from "./AddTaskModal";
 import TeamChannelList from "./TeamChannelList";
+import {DropdownMenu} from "./DropdownMenu";
 
 
 export const TaskPage = () => {
@@ -11,6 +12,14 @@ export const TaskPage = () => {
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
     const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
     const [teams, setTeams] =  useState<any[]>([]);
+    const [activeTeam, setActiveTeam] = useState({
+        id: "",
+        description: "",
+        name: "",
+        admin: "",
+        tasks: null,
+        users: null
+    });
 
     useEffect(() => {
         getDashboard().then((response) => {
@@ -19,9 +28,12 @@ export const TaskPage = () => {
         getTeams().then((response) => {
             setTeams(response.data.teams);
 
+            console.log('teams ', teams);
+
             const filteredTasks = tasks.filter((task: Task) => task.teamID == teams[0].id);
             setFilteredTasks(filteredTasks);
-        })
+            setActiveTeam(teams[0]);
+        });
     }, []);
 
     const handleAddTask = (e: any) => {
@@ -64,6 +76,7 @@ export const TaskPage = () => {
         setFilteredTasks(tasks);
         const filteredTasks = tasks.filter((task: Task) => task.teamID == team.id);
         setFilteredTasks(filteredTasks);
+        setActiveTeam(team);
     }
 
     return (
@@ -72,12 +85,31 @@ export const TaskPage = () => {
                 <TeamChannelList teams={teams} onTeamSelected={filterTasksByTeam}/>
             </div>
             {/*<NavBar />*/}
-            <div className="p-10 w-3/4 bg-slate-50">
+            <div className="p-10 w-3/4">
                 <div className="space-x-5">
-                    <h2 className="font-bold text-2xl py-3 inline">
-
-                    </h2>
-                    <AddTaskModal mode={TaskModalMode.CREATE} isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal} />
+                    <DropdownMenu title={"Filter"} options={
+                        [
+                            {
+                                name: "Priority"
+                            },
+                            {
+                                name: "Name"
+                            },
+                            {
+                                name: "Due date"
+                            },
+                            {
+                                name: "Assignee"
+                            },
+                        ]
+                    }
+                    />
+                    {activeTeam &&
+                        <h2 className="font-bold text-2xl py-3 inline">
+                            {activeTeam.name}'s Tasks
+                        </h2>
+                    }
+                    <AddTaskModal activeTeam={activeTeam} mode={TaskModalMode.CREATE} isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal} />
                     <button
                         type="button"
                         className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
