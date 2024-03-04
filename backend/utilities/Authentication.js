@@ -20,7 +20,11 @@ class Authentication {
    * @param {String} password -> User inputed password from front end
    */
   static async login(email, password) {
-    await signInWithEmailAndPassword(this.auth, email, password);
+      await signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  static async getToken() {
+    return await this.auth.currentUser.getIdToken();
   }
 
   /**
@@ -43,13 +47,13 @@ class Authentication {
   /**
    *
    * @returns current uid of logged in user
-   */
+   
   static async getEmail() {
     if (this.auth.currentUser) {
       return this.auth.currentUser.email;
     } else {
       return "There is no user logged in";
     }
-  }
+  }*/
 }
 module.exports = Authentication;

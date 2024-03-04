@@ -11,18 +11,18 @@ router.use(express.json());
 router.get("/", async function (req, res) {
   try {
     //call the query docs function and returns a list of tasks based off of the logged in user
-    //const email = await Authentication.getEmail(); /**turn back on when teseting is complete  */
+    const email = req.email;
     const teams = await Firestore.queryDocs(
       "teams",
       "users",
       "array-contains",
-      "lee@test.com"
+      email
     );
     const adminTeams = await Firestore.queryDocs(
       "teams",
       "admin",
       "==",
-      "lee@test.com"
+      email
     );
     res
       .status(200)
