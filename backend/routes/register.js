@@ -24,6 +24,7 @@ router.post("/", async function (req, res) {
       "null"
     );
     const dbUser = user.firestoreConverter(); //use the converter method in the user class to get rid of underscores
+    const docRef = await Firestore.getDocRef("users");
     try {
       //attempt to add the user to the firestore db
       await Firestore.addDocCustomID(

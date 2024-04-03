@@ -68,8 +68,8 @@ class Firestore {
   }
 
   static async getCollection(collection) {
-    const cols = await this.db.collection(collection).get();
-    return cols.docs.map(doc => doc.data())
+    const collec = await this.db.collection(collection).get();
+    return collec.docs.map(doc => doc.data())
 
   }
 
@@ -78,8 +78,8 @@ class Firestore {
    * @returns a document reference to use with the add doc function
    */
   static async getDocRef(collection) {
-    const col = this.getCollection(collection);
-    const docRef = col.doc();
+    const colRef = this.db.collection(collection);
+    const docRef = colRef.doc(); // This creates a new document reference
     return docRef;
   }
 
@@ -90,10 +90,9 @@ class Firestore {
    * @param {String or Int} id
    */
   static async addDocCustomID(collection, data, id) {
-    const col = this.getCollection(collection);
-    col.doc(id).set(data);
+    const docRef = this.db.collection(collection).doc(id); // Correct way to get a DocumentReference with a custom ID
+    await docRef.set(data);
   }
-
   /**
    * Call the get document function created above
    * @param {String} collection collection you want to query
