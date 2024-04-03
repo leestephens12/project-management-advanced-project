@@ -1,7 +1,8 @@
 class Project {
-    constructor (name, projectId, startDate, endDate, tasks, members) {
+    constructor (name, projectId, teamId, startDate, endDate, tasks, members) {
         this.name = name;
         this.projectId = projectId;
+        this.teamId = teamId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.tasks = tasks;
@@ -22,6 +23,14 @@ class Project {
 
     set projectId(value) {
         this._projectId = value;
+    } 
+
+    get teamId() {
+        return this._teamId;
+    }
+
+    set teamId(value) {
+        this._teamId = value;
     } 
 
     get startDate() {
@@ -60,6 +69,7 @@ class Project {
         return {
           name: this._name,
           projectId: this._projectId,
+          teamId: this._teamId,
           startDate: this._startDate,
           endDate: this._endDate,
           members: this._members,
