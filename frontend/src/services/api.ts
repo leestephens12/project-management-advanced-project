@@ -2,11 +2,17 @@ import axios from 'axios';
 import {User} from "../models/User";
 import {Task} from "../models/Task";
 import {Team} from "../models/Team";
+import {Project} from "../models/Project";
 
 const baseUrl = "http://localhost:3000";
 
 export async function editTask(task: Task) {
     const url = `${baseUrl}/editTask`;
+    return axios.post(url);
+}
+
+export async function createProject(project: Project) {
+    const url = `${baseUrl}/addProject`;
     return axios.post(url);
 }
 

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {createTask, getDashboard, getProjects, getTeams} from "../services/api";
+import {createProject, createTask, getDashboard, getProjects, getTeams} from "../services/api";
 import {TaskCard} from "./TaskCard";
 import {Task, TaskModalMode} from "../models/Task";
 import {AddTaskModal} from "./AddTaskModal";
@@ -109,7 +109,15 @@ export const TaskPage = () => {
     }
 
     const submitProject = async (project: Project) => {
-
+            try {
+                // write to db
+                await createProject(project);
+                setProjects(projects => projects ? [...projects, project] : [project]);
+                const filteredProjects = projects.filter((project: Project) => project.teamId == activeTeam.id);
+                setFilteredProjects(filteredProjects);
+            } catch (err: any) {
+                throw new Error(`Could not create task: ${err.response.data.message}`);
+            }
     }
 
     return (
@@ -170,8 +178,13 @@ export const TaskPage = () => {
                     // ))
 
                     filteredProjects.map((project: Project, count) => (
-                        <li key={count} className="flex items-center justify-between mb-5">
-                           <p>{project.name}</p>
+                        <li key={count} className="flex items-center justify-between my-5">
+                            <p className="font-bold">
+                                {project.name}
+                            </p>
+                            <p className="text-white bg-indigo-600 rounded-full inline-flex items-center justify-center px-3 py-1">
+                               {project.tasks.length} {project.tasks.length === 1 ? 'Task' : 'Tasks'}
+                            </p>
                         </li>
                     ))
                 }
