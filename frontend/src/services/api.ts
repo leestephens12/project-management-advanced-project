@@ -10,6 +10,11 @@ export async function editTask(task: Task) {
     return axios.post(url);
 }
 
+export async function getProjects() {
+    const url = `${baseUrl}/getProjects`;
+    return axios.get(url);
+}
+
 export async function getAssignees() {
     const url = `${baseUrl}/addTask`;
     return axios.get(url);
