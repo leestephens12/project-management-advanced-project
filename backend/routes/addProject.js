@@ -6,19 +6,13 @@ const Project = require("../models/Project");
 router.use(express.json());
 
 router.post("/", async function (req, res) {
-  //const {name, teamId, startDate, endDate, tasks, members} = req.body;
-  const name = "Test Project";
-  const teamId = "2rzsanNbEoi6ZvLYLWHJ";
-  const startDate = "03/04/2024";
-  const endDate = "05/09/2024";
-  const tasks = "null";
-  const members = ["lee@test.com", "sam@test.com"];
+  const {name, teamId, startDate, endDate, members} = req.body;
 
   try {
     //Get the reference of the document you want to add the data to
     const docRef = await Firestore.getDocRef("projects");
     const projectId = docRef.id; //get the document id
-    const project = new Project(name, projectId, teamId, startDate, endDate, tasks, members);
+    const project = new Project(name, projectId, teamId, startDate, endDate, members);
     const dbProject = project.firestoreConverter(); // Use the converter to ensure there are no underscores
     //uses the add doc function to add it to firestore
     await Firestore.addDoc(docRef, JSON.parse(JSON.stringify(dbProject)));

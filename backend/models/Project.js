@@ -1,11 +1,10 @@
 class Project {
-    constructor (name, projectId, teamId, startDate, endDate, tasks, members) {
+    constructor (name, projectId, teamId, startDate, endDate, members) {
         this.name = name;
         this.projectId = projectId;
         this.teamId = teamId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.tasks = tasks;
         this.members = members;
     }
 
@@ -57,14 +56,6 @@ class Project {
         this._members = value
     }
 
-    get tasks() {
-        return this._tasks;
-    }
-
-    set tasks(value) {
-        this._tasks = value;
-    }
-
     firestoreConverter() {
         return {
           name: this._name,
@@ -73,7 +64,6 @@ class Project {
           startDate: this._startDate,
           endDate: this._endDate,
           members: this._members,
-          tasks: this._tasks
         };
       }
 
