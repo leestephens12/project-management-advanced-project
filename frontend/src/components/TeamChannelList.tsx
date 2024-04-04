@@ -10,7 +10,6 @@ export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelLi
     const [addTeamModalOpen, setAddTeamModalOpen] = useState(false);
     const [userTeams, setUserTeams] = useState<Team[]>([]);
 
-
     useEffect(() => {
         if (teams.length > 0) {
             setUserTeams(teams);
@@ -34,14 +33,12 @@ export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelLi
         try {
             // write to db
             await createTeam(team);
-            setUserTeams(teams => teams ? [...teams, team] : [team]);
 
-            console.log("new teams: ", teams);
+            // null checking teams array first
+            setUserTeams(teams => teams ? [...teams, team] : [team]);
         } catch (err: any) {
             throw new Error(`Could not create team: ${err.response.data.message}`);
         }
-
-        console.log("Teams, ", teams);
     }
 
     const closeAddTeamModal = () => {
