@@ -8,12 +8,10 @@ export function AddProjectModal({ isOpen, onSubmit, onCancel }: AddProjectModalP
     const [open, setOpen] = useState(isOpen);
     const [project, setProject] = useState<Project>({
         endDate: undefined,
+        startDate: undefined,
         id: "",
         members: [],
-        startDate: undefined,
-        tasks: [],
         name: "",
-        description: "",
         teamId: ""
     });
 
@@ -24,6 +22,7 @@ export function AddProjectModal({ isOpen, onSubmit, onCancel }: AddProjectModalP
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         await onSubmit(project);
+        setOpen(false);
     }
 
     return (
@@ -68,18 +67,6 @@ export function AddProjectModal({ isOpen, onSubmit, onCancel }: AddProjectModalP
                                                             name="name"
                                                             id="name"
                                                             onChange={e => setProject({...project, name: e.target.value } )}
-                                                            className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-                                                    <div className="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-                                                        <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                                            Description
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            name="name"
-                                                            id="name"
-                                                            onChange={e => setProject({...project, description: e.target.value } )}
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>

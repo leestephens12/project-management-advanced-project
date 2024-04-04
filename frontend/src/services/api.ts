@@ -11,13 +11,19 @@ export async function editTask(task: Task) {
     return axios.post(url);
 }
 
-export async function createProject(project: Project) {
+export async function createProject(project: {
+    name: string,
+    teamId: string,
+    members: string[],
+    startDate: string,
+    endDate: string,
+}) {
     const url = `${baseUrl}/addProject`;
-    return axios.post(url);
+    return axios.post(url, project);
 }
 
-export async function getProjects() {
-    const url = `${baseUrl}/getProjects`;
+export async function getProjectsByTeamId(teamId: string) {
+    const url = `${baseUrl}/getProjects?teamId=${teamId}`;
     return axios.get(url);
 }
 
@@ -46,8 +52,8 @@ export async function createTask(task: Task) {
     return axios.post(url, task);
 }
 
-export async function getDashboard() {
-    const url = `${baseUrl}/getTasks`;
+export async function getTasksByProjectId(projectId: string) {
+    const url = `${baseUrl}/getTasks?projectId=${projectId}`;
     return axios.get(url);
 }
 

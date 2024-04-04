@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {createProject, createTask, getDashboard, getProjects, getTeams} from "../services/api";
+import {createProject, createTask, getTasksByProjectId, getProjectsByTeamId, getTeams} from "../services/api";
 import {TaskCard} from "./TaskCard";
 import {Task, TaskModalMode} from "../models/Task";
 import {AddTaskModal} from "./AddTaskModal";
@@ -8,9 +8,7 @@ import {AddTeamModal} from "./AddTeamModal";
 import {AddProjectModal} from "./AddProjectModal";
 import {Project} from "../models/Project";
 
-export const TaskPage = () => {
-    const [tasks, setTasks] = useState<Task[]>([]);
-    const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+export const ProjectsPage = () => {
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
     const [projects, setProjects] = useState<Project[]>([]);
@@ -20,34 +18,26 @@ export const TaskPage = () => {
         description: "",
         name: "",
         admin: "",
-        tasks: null,
-        users: null
+        tasks: [],
+        users: []
     });
     const [addProjectModalOpen, setAddProjectModalOpen] = useState(false);
 
     useEffect(() => {
-        getDashboard().then((response) => {
-            // setTasks(response.data.tasks);
-        });
         getTeams().then((response) => {
             setTeams(response.data.teams);
-            setTeams(teams => [...teams, response.data.adminTeams]);
-            const filteredTasks = tasks.filter((task: Task) => task.teamID == teams[0].id);
-            // setFilteredTasks(filteredTasks);
-            setActiveTeam(teams[0]);
+            setTeams(teams => [...teams, response.data.teams]);
+            setActiveTeam(response.data.teams[0]);
+            getProjectsByTeamId(response.data.teams[0].id).then((response) => {
+                setProjects(response.data.projects);
+            });
         });
-        getProjects().then((response) => {
-            setProjects(response.data.projects);
-        })
     }, []);
 
     useEffect(() => {
-        const filteredTasks = tasks.filter((task: Task) => task.teamID == activeTeam.id);
-        setFilteredTasks(filteredTasks);
-
         const filteredProjects = projects.filter((project: Project) => project.teamId == activeTeam.id);
         setFilteredProjects(filteredProjects);
-    }, [tasks, projects]);
+    }, [projects]);
 
     const handleAddTask = (e: any) => {
         e.preventDefault();
@@ -59,32 +49,6 @@ export const TaskPage = () => {
         setAddTaskModalOpen(false);
     }
 
-    const submitTask = async (mode: TaskModalMode, task: Task) => {
-        closeAddTaskModal();
-
-        if (mode === TaskModalMode.CREATE) {
-            try {
-                // write to db
-                await createTask(task);
-                setTasks(tasks => tasks ? [...tasks, task] : [task]);
-                const filteredTasks = tasks.filter((t: Task) => t.teamID == task.teamID);
-                setFilteredTasks(filteredTasks);
-            } catch (err: any) {
-                throw new Error(`Could not create task: ${err.response.data.message}`);
-            }
-        }
-
-        if (mode === TaskModalMode.EDIT) {
-            try {
-                // write to db
-                await createTask(task);
-                setTasks(tasks => tasks ? [...tasks, task] : [task]);
-            } catch (err: any) {
-                throw new Error(`Could not create task: ${err.response.data.message}`);
-            }
-        }
-    }
-
     const handleCreateProject = (e: any) => {
         console.log("clicked")
         e.preventDefault();
@@ -92,38 +56,46 @@ export const TaskPage = () => {
     }
 
     // when a new team is selected
-    const filterTasksByTeam = (team: any) => {
+    const getTeamProjects = (team: any) => {
         setActiveTeam(team);
 
-        setFilteredTasks(tasks);
-        const filteredTasks = tasks.filter((task: Task) => task.teamID == team.id);
-        setFilteredTasks(filteredTasks);
-
-        setFilteredProjects(projects);
-        const filteredProjects = projects.filter((project: Project) => project.teamId == team.id);
-        setFilteredProjects(filteredProjects);
+        getProjectsByTeamId(team.id).then((response) => {
+            setProjects(response.data.projects);
+        });
     }
 
     const closeProjectModal = () => {
         setAddProjectModalOpen(false);
     }
 
+    // create a project under the currently selected team
     const submitProject = async (project: Project) => {
+            const { name } = project;
+            const { users, id } = activeTeam;
+
+            const payload = {
+                name,
+                teamId: id,
+                members: users,
+                startDate: new Date().toUTCString(),
+                endDate: new Date().toUTCString(),
+            }
+
             try {
                 // write to db
-                await createProject(project);
-                setProjects(projects => projects ? [...projects, project] : [project]);
-                const filteredProjects = projects.filter((project: Project) => project.teamId == activeTeam.id);
-                setFilteredProjects(filteredProjects);
+                await createProject(payload);
+                getProjectsByTeamId(activeTeam.id).then((response) => {
+                    setProjects(response.data.projects);
+                });
             } catch (err: any) {
-                throw new Error(`Could not create task: ${err.response.data.message}`);
+                throw new Error(`Could not create project: ${err.response.data.message}`);
             }
     }
 
     return (
         <div className="flex">
             <div className='w-1/4'>
-                <TeamChannelList teams={teams} onTeamSelected={filterTasksByTeam}/>
+                <TeamChannelList teams={teams} onTeamSelected={getTeamProjects}/>
             </div>
             {/*<NavBar />*/}
             <div className="p-10 w-3/4">
@@ -150,9 +122,9 @@ export const TaskPage = () => {
                     {/*        {activeTeam.name}'s Projects*/}
                     {/*    </h2>*/}
                     {/*}*/}
-                    {/*<h2 className="font-bold text-2xl py-3 inline">*/}
-                    {/*    {activeTeam.name}'s Projects*/}
-                    {/*</h2>*/}
+                    <h2 className="font-bold text-2xl py-3 inline">
+                        {activeTeam.name}'s Projects
+                    </h2>
                     <AddProjectModal isOpen={addProjectModalOpen} onSubmit={submitProject} onCancel={closeProjectModal}/>
                     <button
                         onClick={e => handleCreateProject(e)}
@@ -182,9 +154,9 @@ export const TaskPage = () => {
                             <p className="font-bold">
                                 {project.name}
                             </p>
-                            <p className="text-white bg-indigo-600 rounded-full inline-flex items-center justify-center px-3 py-1">
-                               {project.tasks.length} {project.tasks.length === 1 ? 'Task' : 'Tasks'}
-                            </p>
+                            {/*<p className="text-white bg-indigo-600 rounded-full inline-flex items-center justify-center px-3 py-1">*/}
+                            {/*   {project.tasks.length} {project.tasks.length === 1 ? 'Task' : 'Tasks'}*/}
+                            {/*</p>*/}
                         </li>
                     ))
                 }

@@ -1,12 +1,12 @@
 import {NavBar} from "../components/NavBar";
-import {TaskPage} from "../components/TaskPage";
+import {ProjectsPage} from "../components/ProjectsPage";
 import {TeamPage} from "../components/TeamPage";
 
 export const Dashboard = () => {
     return (
         <div>
             <NavBar/>
-            <TaskPage/>
+            <ProjectsPage/>
             <TeamPage />
         </div>
     )
