@@ -17,7 +17,6 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
         status: 0,
         teamID: "",
         priority: 0,
-
     });
 
     const [assignees, setAssignees] = useState<{name: string; value: any;}[]>([]);
@@ -26,22 +25,21 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
         getAssignees().then((response) => {
             const newAssignees = response.data.assignees.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
             setAssignees(newAssignees);
-            console.log("ASSIGNEES ", assignees)
         });
         setOpen(isOpen);
         setTask({...task, teamID: activeTeam.id } );
     }, [isOpen]);
 
-    const handleAssigneeChange = (value: string) => {
-        setTask({...task, assignee: value } );
+    const handleAssigneeChange = (assignee: string) => {
+        setTask({...task, assignee } );
     }
 
-    const handlePriorityChange = (value: Priority) => {
-        setTask({...task, priority: value } );
+    const handlePriorityChange = (priority: Priority) => {
+        setTask({...task, priority } );
     }
 
-    const handleStatusChange = (value: Status) => {
-        setTask({...task, status: value } );
+    const handleStatusChange = (status: Status) => {
+        setTask({...task, status } );
     }
 
     const handleSubmit = async (e: any) => {

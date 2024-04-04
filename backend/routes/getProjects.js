@@ -8,7 +8,7 @@ router.get("/", async function (req, res) {
   try {
     //call the query docs function and returns a list of tasks based off of the logged in user
     //const teamID = req.teamID;
-    const teamId = "2rzsanNbEoi6ZvLYLWHJ";
+    const teamId = "W83IdUWRnCfbgjkBE778";
     const projects = await Firestore.queryDocs(
       "projects",
       "teamId",

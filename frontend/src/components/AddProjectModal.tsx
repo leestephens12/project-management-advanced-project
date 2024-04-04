@@ -1,43 +1,29 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {getAllUsers} from "../services/api";
-import {Team} from "../models/Team";
-import {DropdownMenu} from "./DropdownMenu";
+import {Project} from "../models/Project";
 
-type AddTeamModalProps = { isOpen: boolean; onSubmit: (team: Team) => Promise<void>; onCancel: () => void };
+type AddProjectModalProps = { isOpen: boolean; onSubmit: (project: Project) => Promise<void>; onCancel: () => void };
 
-export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) {
+export function AddProjectModal({ isOpen, onSubmit, onCancel }: AddProjectModalProps) {
     const [open, setOpen] = useState(isOpen);
-    const [team, setTeam] = useState<Team>({
+    const [project, setProject] = useState<Project>({
+        endDate: undefined,
         id: "",
-        description: "",
-        name: "",
-        admin: "lee@test.com",
+        members: [],
+        startDate: undefined,
         tasks: [],
-        users: []
+        name: "",
+        description: "",
+        teamId: ""
     });
 
-    const [assignees, setAssignees] = useState<{name: string; value: any;}[]>([]);
-
     useEffect(() => {
-            getAllUsers().then((response: any) => {
-                const newAssignees = response.data.members.map((assignee: { name: string; value: any; }[]) => ({
-                    name: assignee,
-                    value: assignee
-                }));
-                setAssignees(newAssignees);
-            });
-            setOpen(isOpen);
-        },
-        [isOpen]);
+        setOpen(isOpen);
+        }, [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        await onSubmit(team);
-    }
-
-    const handleAssigneeChange = (value: string) => {
-        setTeam({...team, users: [value] } );
+        await onSubmit(project);
     }
 
     return (
@@ -69,19 +55,19 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
                                 <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                                     <div className="grid w-full grid-cols-1 items-center gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                                         <div className="sm:col-span-8 lg:col-span-7">
-                                            <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">Create Team</h2>
+                                            <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">Create Project</h2>
 
                                             <section aria-labelledby="options-heading" className="mt-10">
                                                 <form className="space-y-4">
                                                     <div className="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                                            Team name
+                                                            Project name
                                                         </label>
                                                         <input
                                                             type="text"
                                                             name="name"
                                                             id="name"
-                                                            onChange={e => setTeam({...team, name: e.target.value } )}
+                                                            onChange={e => setProject({...project, name: e.target.value } )}
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         />
                                                     </div>
@@ -93,17 +79,8 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
                                                             type="text"
                                                             name="name"
                                                             id="name"
-                                                            onChange={e => setTeam({...team, description: e.target.value } )}
+                                                            onChange={e => setProject({...project, description: e.target.value } )}
                                                             className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-                                                    <div className="block">
-                                                        <DropdownMenu title="Members" options={
-                                                            [
-                                                                ...assignees
-                                                            ]
-                                                        }
-                                                                      onSelect={handleAssigneeChange}
                                                         />
                                                     </div>
                                                     <button
