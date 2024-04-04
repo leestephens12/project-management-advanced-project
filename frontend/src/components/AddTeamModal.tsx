@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {getAllUsers, getAssignees} from "../services/api";
+import {getAllUsers} from "../services/api";
 import {Team} from "../models/Team";
 import {DropdownMenu} from "./DropdownMenu";
 
@@ -13,18 +13,23 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
         description: "",
         name: "",
         admin: "lee@test.com",
-        tasks: null,
-        users: null
+        tasks: [],
+        users: []
     });
+
     const [assignees, setAssignees] = useState<{name: string; value: any;}[]>([]);
 
     useEffect(() => {
-        getAllUsers().then((response: any) => {
-            const newAssignees = response.data.members.map((assignee: {name: string; value: any;}[]) => ({ name: assignee, value: assignee }));
-            setAssignees(newAssignees);
-        });
-        setOpen(isOpen);
-    }, [isOpen]);
+            getAllUsers().then((response: any) => {
+                const newAssignees = response.data.members.map((assignee: { name: string; value: any; }[]) => ({
+                    name: assignee,
+                    value: assignee
+                }));
+                setAssignees(newAssignees);
+            });
+            setOpen(isOpen);
+        },
+        [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -93,7 +98,7 @@ export function AddTeamModal({ isOpen, onSubmit, onCancel }: AddTeamModalProps) 
                                                         />
                                                     </div>
                                                     <div className="block">
-                                                        <DropdownMenu title={"Members"} options={
+                                                        <DropdownMenu title="Members" options={
                                                             [
                                                                 ...assignees
                                                             ]
