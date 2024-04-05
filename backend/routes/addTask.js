@@ -51,7 +51,7 @@ router.get("/", async function (req, res) {
  * 500 if not
  */
 router.post("/", async function (req, res) {
-  const creationDate = new Date(); //this gets the current date and time for the task object
+  const creationDate = new Date().toLocaleDateString(); //this gets the current date and time for the task object
   const {
     name,
     assignee,
@@ -64,11 +64,7 @@ router.post("/", async function (req, res) {
     projectId
   } = req.body;
 
-  //changes the team id from the name of the team to the ID
-  /*const teamObj = await Firestore.queryDocs("teams", "name", "==", teamID);
-  teamID = teamObj[0].id;*/
-  console.log(teamID);
-  //create a new task ovject with info received from frontend
+  //create a new task object with info received from frontend
   try {
     //Get the reference of the document you want to add the data to
     const docRef = await Firestore.getDocRef("tasks");
