@@ -49,9 +49,9 @@ export function AddTaskModal({ projectId, teamId, mode, isOpen, onSubmit, onCanc
 
     const handleSubmit = async (e: any) => {
        e.preventDefault();
+
        setTask({...task, teamID: teamId } );
-       console.log('task ', task)
-        await onSubmit(mode, task);
+       await onSubmit(mode, task);
     }
 
     return (
