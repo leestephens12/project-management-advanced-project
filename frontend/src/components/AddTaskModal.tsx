@@ -4,18 +4,19 @@ import {Priority, Status, Task, TaskModalMode} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 
-type AddTaskModalProps = { activeTeam: any; mode: TaskModalMode; isOpen: boolean; onSubmit: (mode: TaskModalMode, task: Task) => Promise<void>; onCancel: () => void };
+type AddTaskModalProps = { projectId: string; teamId: string; mode: TaskModalMode; isOpen: boolean; onSubmit: (mode: TaskModalMode, task: Task) => Promise<void>; onCancel: () => void };
 
-export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: AddTaskModalProps) {
+export function AddTaskModal({ projectId, teamId, mode, isOpen, onSubmit, onCancel }: AddTaskModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [task, setTask] = useState<Task>({
+        projectId,
+        teamID: teamId,
         assignee: "",
         completionDate: "2024-12-12",
         description: "",
         dueDate: "2024-12-12",
         name: "",
         status: 0,
-        teamID: "",
         priority: 0,
     });
 
@@ -27,7 +28,7 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
             setAssignees(newAssignees);
         });
         setOpen(isOpen);
-        setTask({...task, teamID: activeTeam.id } );
+       // setTask({...task, teamID: teamId } );
     }, [isOpen]);
 
     const handleAssigneeChange = (assignee: string) => {
@@ -45,7 +46,7 @@ export function AddTaskModal({ activeTeam, mode, isOpen, onSubmit, onCancel }: A
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        setTask({...task, teamID: activeTeam.id } );
+       // setTask({...task, teamID: activeTeam.id } );
 
         await onSubmit(mode, task);
     }

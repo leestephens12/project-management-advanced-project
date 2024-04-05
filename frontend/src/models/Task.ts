@@ -5,6 +5,7 @@ export type Task = {
     id?: string;
     priority: Priority;
     status: Status;
+    projectId: string;
     teamID: string;
     dueDate: string | Date;
     completionDate: string | Date;

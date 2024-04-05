@@ -13,6 +13,7 @@ export const ProjectsPage = () => {
     const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
     const [projects, setProjects] = useState<Project[]>([]);
     const [teams, setTeams] =  useState<any[]>([]);
+    const [activeProjectId, setActiveProjectId] = useState<string>("");
     const [activeTeam, setActiveTeam] = useState({
         id: "",
         description: "",
@@ -39,9 +40,10 @@ export const ProjectsPage = () => {
         setFilteredProjects(filteredProjects);
     }, [projects]);
 
-    const handleAddTask = (e: any) => {
+    const handleAddTask = (e: any, projectId: string) => {
         e.preventDefault();
 
+        setActiveProjectId(projectId);
         setAddTaskModalOpen(true);
     }
 
@@ -67,6 +69,18 @@ export const ProjectsPage = () => {
     const closeProjectModal = () => {
         setAddProjectModalOpen(false);
     }
+
+    const submitTask = async (mode: TaskModalMode, task: Task) => {
+        closeAddTaskModal();
+
+        try {
+            // write to db
+            await createTask(task);
+        } catch (err: any) {
+            throw new Error(`Could not create task: ${err.response.data.message}`);
+        }
+    }
+
 
     // create a project under the currently selected team
     const submitProject = async (project: Project) => {
@@ -133,15 +147,15 @@ export const ProjectsPage = () => {
                     >
                         New Project
                     </button>
-                    {/*<AddTaskModal activeTeam={activeTeam} mode={TaskModalMode.CREATE} isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal} />*/}
-                    {/*<button*/}
-                    {/*    type="button"*/}
-                    {/*    className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"*/}
-                    {/*    onClick={e => handleAddTask(e)}*/}
-                    {/*>*/}
-                    {/*    New Task*/}
-                    {/*</button>*/}
                 </div>
+                <AddTaskModal
+                    projectId={activeProjectId!}
+                    teamId={activeTeam.id}
+                    mode={TaskModalMode.CREATE}
+                    isOpen={addTaskModalOpen}
+                    onSubmit={submitTask}
+                    onCancel={closeAddTaskModal}
+                />
                 {
                     // filteredTasks.map((task: Task, count) => (
                     //     <li key={count} className="flex items-center justify-between mb-5">
@@ -149,11 +163,20 @@ export const ProjectsPage = () => {
                     //     </li>
                     // ))
 
+
+
                     filteredProjects.map((project: Project, count) => (
                         <li key={count} className="flex items-center justify-between my-5">
-                            <p className="font-bold">
+                            <p className="font-bold text-xl mt-1">
                                 {project.name}
                             </p>
+                            <button
+                                type="button"
+                                className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={e => handleAddTask(e, project.id!)}
+                            >
+                                New Task
+                            </button>
                             {/*<p className="text-white bg-indigo-600 rounded-full inline-flex items-center justify-center px-3 py-1">*/}
                             {/*   {project.tasks.length} {project.tasks.length === 1 ? 'Task' : 'Tasks'}*/}
                             {/*</p>*/}
