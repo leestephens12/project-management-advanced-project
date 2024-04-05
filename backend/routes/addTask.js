@@ -61,6 +61,7 @@ router.post("/", async function (req, res) {
     teamID,
     dueDate,
     completionDate,
+    projectId
   } = req.body;
 
   //changes the team id from the name of the team to the ID
@@ -82,7 +83,8 @@ router.post("/", async function (req, res) {
       teamID,
       dueDate,
       completionDate,
-      creationDate
+      creationDate,
+      projectId
     );
     const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
     //uses the add doc function to add it to firestore

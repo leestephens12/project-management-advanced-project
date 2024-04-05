@@ -13,14 +13,27 @@ router.use(express.json());
 router.get("/", async function (req, res) {
   try {
     //call the query docs function and returns a list of tasks based off of the logged in user
-    const projectId = req.query.projectId;
-    const email = req.email;
+    //const projectId = req.query.projectId;
+    const projectId = "4gIgfhb";
+    const email = "lee@test.com";
     const tasks = await Firestore.queryDocs(
       "tasks",
       "projectId",
       "==",
       projectId
     );
+
+    /*
+      query by assignee too
+    */
+    let filteredTasks = [];
+    tasks.forEach(task => {
+      if(task.assignee == email) {
+        filteredTasks.push(task);
+      }
+    });
+
+    console.log(filteredTasks);
 
     res
       .status(200)

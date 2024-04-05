@@ -9,7 +9,8 @@ class Task {
     teamID,
     dueDate,
     completionDate,
-    creationDate
+    creationDate,
+    projectId
   ) {
     this.name = name;
     this.assignee = assignee;
@@ -21,6 +22,7 @@ class Task {
     this.dueDate = dueDate;
     this.completionDate = completionDate;
     this.creationDate = creationDate;
+    this.projectId = projectId;
   }
 
   get name() {
@@ -107,6 +109,14 @@ class Task {
     this._creationDate = value;
   }
 
+  get projectId() {
+    return this._projectId;
+  }
+
+  set projectId(value) {
+    this._projectId = value;
+  }
+
   /**
    *
    * @returns A task that doesnt not have underscores
@@ -124,6 +134,7 @@ class Task {
       dueDate: this._dueDate,
       completionDate: this._completionDate,
       creationDate: this._creationDate,
+      projectId: this._projectId
     };
   }
 }
