@@ -7,6 +7,7 @@ import {getAssignees} from "../services/api";
 type AddTaskModalProps = { projectId: string; teamId: string; mode: TaskModalMode; isOpen: boolean; onSubmit: (mode: TaskModalMode, task: Task) => Promise<void>; onCancel: () => void };
 
 export function AddTaskModal({ projectId, teamId, mode, isOpen, onSubmit, onCancel }: AddTaskModalProps) {
+    console.log("TEAM ID", teamId)
     const [open, setOpen] = useState(isOpen);
     const [task, setTask] = useState<Task>({
         projectId,
@@ -28,7 +29,10 @@ export function AddTaskModal({ projectId, teamId, mode, isOpen, onSubmit, onCanc
             setAssignees(newAssignees);
         });
         setOpen(isOpen);
-       // setTask({...task, teamID: teamId } );
+
+        setTask({...task, teamID: teamId } );
+        setTask({...task, projectId } );
+
     }, [isOpen]);
 
     const handleAssigneeChange = (assignee: string) => {
@@ -44,10 +48,9 @@ export function AddTaskModal({ projectId, teamId, mode, isOpen, onSubmit, onCanc
     }
 
     const handleSubmit = async (e: any) => {
-        e.preventDefault();
-
-       // setTask({...task, teamID: activeTeam.id } );
-
+       e.preventDefault();
+       setTask({...task, teamID: teamId } );
+       console.log('task ', task)
         await onSubmit(mode, task);
     }
 
