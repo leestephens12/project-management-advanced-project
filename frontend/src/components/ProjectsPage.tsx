@@ -13,6 +13,7 @@ export const ProjectsPage = () => {
     const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
     const [projects, setProjects] = useState<Project[]>([]);
     const [teams, setTeams] =  useState<any[]>([]);
+    const [activeProjectId, setActiveProjectId] = useState<string>("");
     const [activeTeam, setActiveTeam] = useState({
         id: "",
         description: "",
@@ -39,9 +40,10 @@ export const ProjectsPage = () => {
         setFilteredProjects(filteredProjects);
     }, [projects]);
 
-    const handleAddTask = (e: any) => {
+    const handleAddTask = (e: any, projectId: string) => {
         e.preventDefault();
 
+        setActiveProjectId(projectId);
         setAddTaskModalOpen(true);
     }
 
@@ -67,6 +69,18 @@ export const ProjectsPage = () => {
     const closeProjectModal = () => {
         setAddProjectModalOpen(false);
     }
+
+    const submitTask = async (mode: TaskModalMode, task: Task) => {
+        closeAddTaskModal();
+
+        try {
+            // write to db
+            await createTask(task);
+        } catch (err: any) {
+            throw new Error(`Could not create task: ${err.response.data.message}`);
+        }
+    }
+
 
     // create a project under the currently selected team
     const submitProject = async (project: Project) => {
@@ -94,7 +108,7 @@ export const ProjectsPage = () => {
 
     return (
         <div className="flex">
-            <div className='w-1/4'>
+            <div className='shadow-lg rounded-xl w-1/4 h-screen'>
                 <TeamChannelList teams={teams} onTeamSelected={getTeamProjects}/>
             </div>
             {/*<NavBar />*/}
@@ -133,15 +147,15 @@ export const ProjectsPage = () => {
                     >
                         New Project
                     </button>
-                    {/*<AddTaskModal activeTeam={activeTeam} mode={TaskModalMode.CREATE} isOpen={addTaskModalOpen} onSubmit={submitTask} onCancel={closeAddTaskModal} />*/}
-                    {/*<button*/}
-                    {/*    type="button"*/}
-                    {/*    className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"*/}
-                    {/*    onClick={e => handleAddTask(e)}*/}
-                    {/*>*/}
-                    {/*    New Task*/}
-                    {/*</button>*/}
                 </div>
+                <AddTaskModal
+                    projectId={activeProjectId!}
+                    teamId={activeTeam.id}
+                    mode={TaskModalMode.CREATE}
+                    isOpen={addTaskModalOpen}
+                    onSubmit={submitTask}
+                    onCancel={closeAddTaskModal}
+                />
                 {
                     // filteredTasks.map((task: Task, count) => (
                     //     <li key={count} className="flex items-center justify-between mb-5">
@@ -149,11 +163,23 @@ export const ProjectsPage = () => {
                     //     </li>
                     // ))
 
+
+
                     filteredProjects.map((project: Project, count) => (
                         <li key={count} className="flex items-center justify-between my-5">
-                            <p className="font-bold">
+                            <p className="font-bold text-xl mt-1">
                                 {project.name}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="inline w-6 h-6 align-middle ml-2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
                             </p>
+                            <button
+                                type="button"
+                                className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={e => handleAddTask(e, project.id!)}
+                            >
+                                New Task
+                            </button>
                             {/*<p className="text-white bg-indigo-600 rounded-full inline-flex items-center justify-center px-3 py-1">*/}
                             {/*   {project.tasks.length} {project.tasks.length === 1 ? 'Task' : 'Tasks'}*/}
                             {/*</p>*/}
