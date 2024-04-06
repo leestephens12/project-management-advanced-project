@@ -3,9 +3,9 @@ import {AddTeamModal} from "./AddTeamModal";
 import {Team} from "../models/Team";
 import {createTeam} from "../services/api";
 
-type TeamChannelListProps = { teams: any[]; onTeamSelected: any };
+type TeamChannelListProps = { teams: any[]; onTeamSelected: any; onOverviewSelected: any };
 
-export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelListProps) {
+export default function TeamChannelList({ teams, onTeamSelected, onOverviewSelected }: TeamChannelListProps) {
     const [activeTeam, setActiveTeam] = useState();
     const [addTeamModalOpen, setAddTeamModalOpen] = useState(false);
     const [userTeams, setUserTeams] = useState<Team[]>([]);
@@ -45,6 +45,11 @@ export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelLi
         setAddTeamModalOpen(false);
     }
 
+    const handleOverviewSelected = () => {
+        setActiveTeam(undefined);
+        onOverviewSelected();
+    }
+
     return (
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <div className="flex h-16 shrink-0 items-center">
@@ -62,13 +67,13 @@ export default function TeamChannelList({ teams, onTeamSelected }: TeamChannelLi
                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                     <li>
                         <ul role="list" className="-mx-2 space-y-1">
-                            <li className="py-2.5 flex hover:bg-gray-50 rounded hover:cursor-pointer">
+                            <li onClick={handleOverviewSelected} className="py-2.5 flex hover:bg-gray-50 rounded hover:cursor-pointer">
                                 <p className="px-1">Overview
                                 </p>
                             </li>
                             {userTeams.map((team) => (
                                 <li onClick={e => handleActiveTeamChange(team)} className="py-2.5 px-3 flex hover:bg-gray-50 hover:cursor-pointer" key={team.name}>
-                                    <p className={team === activeTeam ? 'pl-4 font-bold' : 'pl-4'}>{team.name}</p>
+                                    <p className={(team === activeTeam && activeTeam !== undefined) ? 'pl-4 font-bold' : 'pl-4'}>{team.name}</p>
                                 </li>
                             ))}
                         </ul>
