@@ -162,9 +162,6 @@ export const ProjectsPage = () => {
                     //         <TaskCard task={task} />
                     //     </li>
                     // ))
-
-
-
                     filteredProjects.map((project: Project, count) => (
                         <li key={count} className="flex items-center justify-between my-5">
                             <p className="font-bold text-xl mt-1">
