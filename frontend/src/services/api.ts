@@ -11,6 +11,11 @@ export async function editTask(task: Task) {
     return axios.post(url);
 }
 
+export async function getOverview() {
+    const url = `${baseUrl}/getOverview`;
+    return axios.get(url);
+}
+
 export async function createProject(project: {
     name: string,
     teamId: string,
