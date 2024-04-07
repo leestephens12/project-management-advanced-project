@@ -18,6 +18,7 @@ router.post("/", async function (req, res) {
     description,
     priority,
     status,
+    id,
     teamID,
     dueDate,
     completionDate,

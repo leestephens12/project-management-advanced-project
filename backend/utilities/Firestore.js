@@ -117,7 +117,7 @@ class Firestore {
 
   static async updateDoc(collection, id, data) {
     const docRef = this.db.collection(collection).doc(id);
-    docRef.update(data);
+    await docRef.update(data);
   }
 
   static async deleteDoc(collection, id) {
