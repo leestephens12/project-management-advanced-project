@@ -35,7 +35,7 @@ router.get("/", async function (req, res) {
         const endDateTasks = [];
         const date = new Date().toLocaleDateString();
         console.log(date);
-        const tasksLength = tasks.length;
+        const totalTasks = tasks.length;
         let inProgressTasks = 0;
         let completedTasks = 0;
         let nsTasks = 0;
@@ -58,16 +58,13 @@ router.get("/", async function (req, res) {
                 endDateTasks.push(task);
             }
         });
-
-        //These three variables are the percentages of each task status 
-        inProgressTasks = Math.round((inProgressTasks /tasksLength) * 100);
-        completedTasks = Math.round((completedTasks / tasksLength) * 100);
-        nsTasks = Math.round((nsTasks / tasksLength) * 100);
+    
 
         res.status(200).json({
             inProgressPercent: inProgressTasks, 
             completedPercent: completedTasks,
             notStartedPercent: nsTasks,
+            totalTasks: totalTasks,
             highPriorityTasks: highPriorityTasks,
             tasksEndDateApproaching: endDateTasks
             });
