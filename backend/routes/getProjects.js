@@ -14,6 +14,7 @@ router.get("/", async function (req, res) {
       "==",
       teamId
     );
+
     res.status(200).json({ projects: projects, message: "Projects retrieved successfully" }); //sends the list of tasks to the front end
   } catch (error) {
     //if there is an error retirieving the data from firestore it will throw an error
