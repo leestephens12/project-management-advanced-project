@@ -17,7 +17,7 @@ export function AddProjectModal({ isOpen, onSubmit, onCancel }: AddProjectModalP
 
     useEffect(() => {
         setOpen(isOpen);
-        }, [isOpen]);
+    }, [isOpen]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

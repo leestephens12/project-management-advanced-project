@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {getOverview} from "../services/api";
 import {Overview} from "../models/Overview";
+import {PieChart} from "react-minimal-pie-chart";
 
 export const OverviewPage = () => {
     const [overview, setOverview] = useState<Overview>({
@@ -20,10 +21,32 @@ export const OverviewPage = () => {
             <h1 className="font-bold text-2xl py-3 inline">
                 Overview
             </h1>
-            <h2 className='flex items-center py-4 text-xl font-bold'>
-                <span className='inline-block bg-indigo-600 rounded-full mr-2' style={{ width: '1em', height: '1em' }}></span>
-                Task Completion Breakdown
-            </h2>
+            <div className='flex-col py-8'>
+                <h2 className='flex items-center py-4 text-xl font-bold'>
+                    <span className='inline-block bg-indigo-600 rounded-full mr-2'
+                          style={{width: '1em', height: '1em'}}></span>
+                    Task Completion Breakdown
+                </h2>
+                <PieChart
+                    style={{
+                        height: '200px', // Control the size here
+                        width: '200px',  // Control the size here
+                    }}
+                    label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
+                    labelStyle={{
+                        fontSize: '5px', // Adjust font size as needed for the labels
+                        fontFamily: 'sans-serif',
+                        fill: '#fff', // Example label color, adjust as needed
+                    }}
+                    labelPosition={60}
+                    animate={true}
+                    data={[
+                        { title: 'Not Started', value: overview.notStartedPercent, color: '#E38627' },
+                        { title: 'In Progress', value: overview.inProgressPercent, color: '#C13C37' },
+                        { title: 'Complete', value: overview.completedPercent, color: '#008000' },
+                    ]}
+                />
+            </div>
             <div className='flex-col py-8'>
                 <h2 className='flex items-center py-4 text-xl font-bold'>
                     <span className='inline-block bg-indigo-600 rounded-full mr-2' style={{ width: '1em', height: '1em' }}></span>
