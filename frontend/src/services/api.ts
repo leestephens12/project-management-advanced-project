@@ -32,6 +32,11 @@ export async function getProjectsByTeamId(teamId: string) {
     return axios.get(url);
 }
 
+export async function getProjectOverview(projectId: string) {
+    const url = `${baseUrl}/projectOverview?projectId=${projectId}`;
+    return axios.get(url);
+}
+
 export async function getAssignees() {
     const url = `${baseUrl}/addTask`;
     return axios.get(url);

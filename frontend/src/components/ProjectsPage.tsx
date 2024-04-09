@@ -8,13 +8,14 @@ import {AddTeamModal} from "./AddTeamModal";
 import {AddProjectModal} from "./AddProjectModal";
 import {Project} from "../models/Project";
 import {OverviewPage} from "./OverviewPage";
+import {ViewProjectModal} from "./ViewProjectModal";
 
 export const ProjectsPage = () => {
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
     const [projects, setProjects] = useState<Project[]>([]);
     const [teams, setTeams] =  useState<any[]>([]);
-    const [activeProjectId, setActiveProjectId] = useState<string>("");
+    const [activeProject, setActiveProject] = useState<Project>();
     const [activeTeam, setActiveTeam] = useState({
         id: "",
         description: "",
@@ -24,7 +25,8 @@ export const ProjectsPage = () => {
         users: []
     });
     const [addProjectModalOpen, setAddProjectModalOpen] = useState(false);
-    const [showOverview, setShowOverview] = useState<boolean>(false);
+    const [showOverview, setShowOverview] = useState(false);
+    const [viewProjectModalOpen, setViewProjectModalOpen] = useState(false);
 
     useEffect(() => {
         getTeams().then((response) => {
@@ -33,6 +35,7 @@ export const ProjectsPage = () => {
             setActiveTeam(response.data.teams[0]);
             getProjectsByTeamId(response.data.teams[0].id).then((response) => {
                 setProjects(response.data.projects);
+                setActiveProject(response.data.projects[0]);
             });
         });
     }, []);
@@ -42,19 +45,22 @@ export const ProjectsPage = () => {
         setFilteredProjects(filteredProjects);
     }, [projects]);
 
-    const handleAddTask = (e: any, projectId: string) => {
-        e.preventDefault();
+    const handleViewProject = (e: any, project: Project) => {
+        //e.preventDefault();
 
-        setActiveProjectId(projectId);
-        setAddTaskModalOpen(true);
+        setActiveProject(project);
+        setViewProjectModalOpen(true);
     }
 
     const closeAddTaskModal = () => {
         setAddTaskModalOpen(false);
     }
 
+    const closeViewProjectModal = () => {
+        setViewProjectModalOpen( false);
+    }
+
     const handleCreateProject = (e: any) => {
-        console.log("clicked")
         e.preventDefault();
         setAddProjectModalOpen(true);
     }
@@ -123,6 +129,7 @@ export const ProjectsPage = () => {
                                 {activeTeam.name}'s Projects
                             </h2>
                             <AddProjectModal isOpen={addProjectModalOpen} onSubmit={submitProject} onCancel={closeProjectModal}/>
+                            { activeProject && <ViewProjectModal isOpen={viewProjectModalOpen} project={activeProject!} onCancel={closeViewProjectModal} /> }
                             <button
                                 onClick={e => handleCreateProject(e)}
                                 type="button"
@@ -131,27 +138,18 @@ export const ProjectsPage = () => {
                                 New Project
                             </button>
                         </div>
-                        <AddTaskModal
-                            projectId={activeProjectId!}
-                            teamId={activeTeam.id}
-                            mode={TaskModalMode.CREATE}
-                            isOpen={addTaskModalOpen}
-                            onSubmit={submitTask}
-                            onCancel={closeAddTaskModal}
-                        />
                         <ul>
                             {filteredProjects.map((project: Project, count) => (
                                 <li key={count} className="flex items-center justify-between my-5">
                                     <p className="font-bold text-xl mt-1">
                                         {project.name}
-                                        {/* SVG icon */}
                                     </p>
                                     <button
                                         type="button"
                                         className="inline rounded-md bg-indigo-600 mb-5 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={e => handleAddTask(e, project.id!)}
+                                        onClick={e => handleViewProject(e, project)}
                                     >
-                                        New Task
+                                        Open
                                     </button>
                                 </li>
                             ))}
@@ -161,5 +159,4 @@ export const ProjectsPage = () => {
             )}
         </div>
     );
-
 }
