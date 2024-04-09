@@ -26,8 +26,8 @@ app.use(cors({
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
-app.use('/getTasks', getTasksRouter);
-app.use('/addTask', authenticateRequest, addTaskRouter);
+app.use('/getTasks',authenticateRequest, getTasksRouter);
+app.use('/addTask', addTaskRouter);
 app.use('/editTask', editTaskRouter);
 app.use('/getTeams', authenticateRequest, getTeamsRouter);
 app.use('/createTeam', createTeamRouter);
@@ -35,7 +35,7 @@ app.use('/deleteTask', deleteTaskRouter);
 app.use('/getUser', getUserRouter);
 app.use('/getProjects', getProjectsRouter);
 app.use('/addProject', addProjectRouter);
-app.use('/getOverview', getOverviewRouter);
+app.use('/getOverview',authenticateRequest, getOverviewRouter);
 app.use('/editProject', editProjectRouter);
 app.use('/projectOverview', projectOverviewRouter);
 

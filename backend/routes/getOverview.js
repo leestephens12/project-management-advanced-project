@@ -28,13 +28,12 @@ router.get("/", async function (req, res) {
         4. get all the tasks with end date approaching
     */
     try {
-        const email = "lee@test.com";
+        const email = req.email;
         const tasks = await Firestore.queryDocs("tasks", "assignee", "==", email);
         //holds the high priority tasks for the user
         const highPriorityTasks = [];
         const endDateTasks = [];
         const date = new Date().toLocaleDateString();
-        console.log(date);
         const tasksLength = tasks.length;
         let inProgressTasks = 0;
         let completedTasks = 0;

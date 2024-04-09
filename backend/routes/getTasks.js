@@ -15,7 +15,7 @@ router.get("/", async function (req, res) {
     //call the query docs function and returns a list of tasks based off of the logged in user
     //const projectId = req.query.projectId;
     const projectId = "4gIgfhb";
-    const email = "lee@test.com";
+    const email = req.email;
     const tasks = await Firestore.queryDocs(
       "tasks",
       "projectId",

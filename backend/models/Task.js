@@ -46,11 +46,7 @@ class Task {
   }
 
   set description(value) {
-    if (this.description == "") {
-      throw "The description cannot be empty";
-    } else {
-      this._description = value;
-    }
+    this._description = value;
   }
 
   get priority() {
