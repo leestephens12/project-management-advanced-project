@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
@@ -19,6 +19,10 @@ export const DropdownMenu = ({ title, options, onSelect }: DropdownMenuProps) =>
         name: '',
         value: null
     });
+
+    useEffect(() => {
+       setActiveOption(options[0]);
+    }, []);
 
     const handleItemSelected = (option: MenuOption) => {
         setActiveOption(option);

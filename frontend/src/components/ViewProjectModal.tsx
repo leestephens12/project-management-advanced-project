@@ -1,10 +1,11 @@
 import {Fragment, useEffect, useState} from 'react'
 import {Dialog, Transition} from '@headlessui/react'
 import {Project} from "../models/Project";
-import {createTask, getProjectOverview, getTasksByProjectId} from "../services/api";
+import {createTask, getProjectOverview, getTasksByProjectId, updateTask} from "../services/api";
 import {PieChart} from "react-minimal-pie-chart";
 import {Task, TaskModalMode} from "../models/Task";
 import {AddTaskModal} from "./AddTaskModal";
+import {DropdownMenu} from "./DropdownMenu";
 
 type ViewProjectModalProps = { isOpen: boolean; project: Project; onCancel: () => void };
 
@@ -18,6 +19,7 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
         notStartedPercent: 0
     });
     const priorities = ["High", "Medium", "Low"];
+    const [addTaskModalMode, setAddTaskModalMode] = useState(TaskModalMode.CREATE);
 
     useEffect(() => {
         setOpen(isOpen);
@@ -43,26 +45,42 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
     const handleSubmitTask = async (mode: TaskModalMode, task: Task) => {
         handleCloseAddTaskModal();
 
-    if (mode === TaskModalMode.CREATE) {
-        try {
-            // write to db
-            await createTask(task);
-            setTasks(tasks => tasks ? [...tasks, task] : [task]);
-        } catch (err: any) {
-            throw new Error(`Could not create task: ${err.response.data.message}`);
+        if (mode === TaskModalMode.CREATE) {
+            try {
+                // write to db
+                await createTask(task);
+                setTasks(tasks => tasks ? [...tasks, task] : [task]);
+            } catch (err: any) {
+                throw new Error(`Could not create task: ${err.response.data.message}`);
+            }
+        }
+
+        if (mode === TaskModalMode.EDIT) {
+            try {
+                // write to db
+                await createTask(task);
+                setTasks(tasks => tasks ? [...tasks, task] : [task]);
+            } catch (err: any) {
+                throw new Error(`Could not create task: ${err.response.data.message}`);
+            }
         }
     }
 
-    if (mode === TaskModalMode.EDIT) {
-        try {
-            // write to db
-            await createTask(task);
-            setTasks(tasks => tasks ? [...tasks, task] : [task]);
-        } catch (err: any) {
-            throw new Error(`Could not create task: ${err.response.data.message}`);
-        }
+    const handleTaskStatusChange = (value: number, task: Task) => {
+        task.status = value;
+        updateTask(task).then((response) => {
+            setTasks((currentTasks) => {
+                const updatedTasks = [...currentTasks];
+                const taskIndex = updatedTasks.findIndex(t => t.id === task.id);
+
+                if (taskIndex !== -1) {
+                    updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], ...response };
+                }
+
+                return updatedTasks;
+            });
+        })
     }
-}
 
 
     return (
@@ -105,14 +123,15 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
                                                 </button>
                                             </div>
                                         </div>
-                                        <AddTaskModal projectId={project.id!} teamId={project.teamId} mode={TaskModalMode.CREATE} isOpen={addTaskModalOpen} onSubmit={handleSubmitTask} onCancel={handleCloseAddTaskModal} />
+                                        <AddTaskModal projectId={project.id!} teamId={project.teamId} mode={addTaskModalMode} isOpen={addTaskModalOpen} onSubmit={handleSubmitTask} onCancel={handleCloseAddTaskModal} />
                                         <div className="py-12">{tasks.length > 0 ? (
                                             <table>
                                                 <thead>
                                                 <tr>
                                                     <th className='text-left pr-32 pb-2'>Task</th>
                                                     <th className='text-center pr-32 pb-2'>Due Date</th>
-                                                    <th className='text-right pb-2'>Priority</th>
+                                                    <th className='text-right pr-32 pb-2'>Priority</th>
+                                                    <th className='text-right pb-2'>Status</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -121,6 +140,28 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
                                                         <td>{task.name}</td>
                                                         <td>{task.dueDate.toLocaleString()}</td>
                                                         <td>{priorities[task.priority]}</td>
+                                                        <td>
+                                                            <div className="block">
+                                                                <DropdownMenu title={"Status"} options={
+                                                                    [
+                                                                        {
+                                                                            name: "Not Started",
+                                                                            value: 0,
+                                                                        },
+                                                                        {
+                                                                            name: "In Progress",
+                                                                            value: 1,
+                                                                        },
+                                                                        {
+                                                                            name: "Completed",
+                                                                            value: 2,
+                                                                        }
+                                                                    ]
+                                                                }
+                                                                  onSelect={value => handleTaskStatusChange(value, task)}
+                                                                />
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 </tbody>

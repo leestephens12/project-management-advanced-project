@@ -1,14 +1,16 @@
 import axios from 'axios';
 import {User} from "../models/User";
-import {Task} from "../models/Task";
+import {Task, TaskStatus} from "../models/Task";
 import {Team} from "../models/Team";
 import {Project} from "../models/Project";
 
 const baseUrl = "http://localhost:3000";
 
-export async function editTask(task: Task) {
+export async function updateTask(task: Task) {
     const url = `${baseUrl}/editTask`;
-    return axios.post(url);
+    return axios.post(url, {
+        ...task
+    });
 }
 
 export async function getOverview() {
