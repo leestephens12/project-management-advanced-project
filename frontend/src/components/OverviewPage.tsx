@@ -11,6 +11,7 @@ export const OverviewPage = () => {
         notStartedPercent: 0,
         tasksEndDateApproaching: []
     });
+    const priorities = ["High", "Medium", "Low"];
 
     useEffect(() => {
         getOverview().then((response) => setOverview(response.data));
@@ -56,14 +57,16 @@ export const OverviewPage = () => {
                         <thead>
                         <tr>
                             <th className='text-left pr-32 pb-2'>Task</th>
-                            <th className='text-right pb-2'>Due Date</th>
+                            <th className='text-right pr-32 pb-2'>Due Date</th>
+                            <th className='text-right pb-2'>Priority</th>
                         </tr>
                         </thead>
                         <tbody>
                         {overview.tasksEndDateApproaching.map(task => (
                             <tr key={task.id}>
                                 <td className='pr-32'>{task.name}</td>
-                                <td>{task.dueDate.toLocaleString()}</td>
+                                <td className='pr-32'>{task.dueDate.toLocaleString()}</td>
+                                <td>{priorities[task.priority]}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -78,14 +81,16 @@ export const OverviewPage = () => {
                         <thead>
                         <tr>
                             <th className='text-left pr-32 pb-2'>Task</th>
-                            <th className='text-right pb-2'>Due Date</th>
+                            <th className='text-right pr-32 pb-2'>Due Date</th>
+                            <th className='text-right pb-2'>Priority</th>
                         </tr>
                         </thead>
                         <tbody>
                         {overview.highPriorityTasks.map(task => (
                             <tr key={task.id}>
                                 <td className='pr-32'>{task.name}</td>
-                                <td>{task.dueDate.toLocaleString()}</td>
+                                <td className='pr-32'>{task.dueDate.toLocaleString()}</td>
+                                <td>{priorities[task.priority]}</td>
                             </tr>
                         ))}
                         </tbody>

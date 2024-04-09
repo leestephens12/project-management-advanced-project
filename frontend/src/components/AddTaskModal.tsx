@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {Priority, Status, Task, TaskModalMode} from "../models/Task";
+import {TaskPriority, TaskStatus, Task, TaskModalMode} from "../models/Task";
 import {DropdownMenu} from "./DropdownMenu";
 import {getAssignees} from "../services/api";
 
@@ -35,11 +35,11 @@ export function AddTaskModal({ projectId, teamId, mode, isOpen, onSubmit, onCanc
         setTask({...task, assignee } );
     }
 
-    const handlePriorityChange = (priority: Priority) => {
+    const handlePriorityChange = (priority: TaskPriority) => {
         setTask({...task, priority } );
     }
 
-    const handleStatusChange = (status: Status) => {
+    const handleStatusChange = (status: TaskStatus) => {
         setTask({...task, status } );
     }
 

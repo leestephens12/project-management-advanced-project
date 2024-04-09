@@ -3,21 +3,21 @@ export type Task = {
     description: string;
     name: string;
     id?: string;
-    priority: Priority;
-    status: Status;
+    priority: TaskPriority;
+    status: TaskStatus;
     projectId: string;
     teamID: string;
     dueDate: string | Date;
     completionDate: string | Date;
 }
 
-export enum Status {
+export enum TaskStatus {
     NOT_STARTED,
     IN_PROGRESS,
     COMPLETED
 }
 
-export enum Priority {
+export enum TaskPriority {
     HIGH,
     MEDIUM,
     LOW

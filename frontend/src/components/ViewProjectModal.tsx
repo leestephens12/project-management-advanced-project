@@ -8,7 +8,6 @@ import {AddTaskModal} from "./AddTaskModal";
 
 type ViewProjectModalProps = { isOpen: boolean; project: Project; onCancel: () => void };
 
-
 export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModalProps) {
     const [open, setOpen] = useState(isOpen);
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -18,6 +17,7 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
         inProgressPercent: 0,
         notStartedPercent: 0
     });
+    const priorities = ["High", "Medium", "Low"];
 
     useEffect(() => {
         setOpen(isOpen);
@@ -90,8 +90,8 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
                             leaveFrom="opacity-100 translate-y-0 md:scale-100"
                             leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                         >
-                            <Dialog.Panel className="mx-auto w-full max-w-md transform text-left text-base transition">
-                                <div className="relative flex w-full items-center overflow-hidden bg-white px-12 py-12 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                            <Dialog.Panel className="mx-auto transform text-left text-base transition overflow-visible">
+                                <div className="relative flex items-center overflow-visible bg-white px-24 py-12">
                                     <div className="flex-col">
                                         <div className="sm:col-span-8 lg:col-span-7">
                                             <div className='flex items-center space-x-4'> {/* Add space between elements */}
@@ -106,13 +106,13 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
                                             </div>
                                         </div>
                                         <AddTaskModal projectId={project.id!} teamId={project.teamId} mode={TaskModalMode.CREATE} isOpen={addTaskModalOpen} onSubmit={handleSubmitTask} onCancel={handleCloseAddTaskModal} />
-                                        <div className="py-8">{tasks.length > 0 ? (
+                                        <div className="py-12">{tasks.length > 0 ? (
                                             <table>
                                                 <thead>
                                                 <tr>
                                                     <th className='text-left pr-32 pb-2'>Task</th>
                                                     <th className='text-center pr-32 pb-2'>Due Date</th>
-                                                    <th className='text-right pb-2'>Project</th>
+                                                    <th className='text-right pb-2'>Priority</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -120,7 +120,7 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
                                                     <tr key={task.id}>
                                                         <td>{task.name}</td>
                                                         <td>{task.dueDate.toLocaleString()}</td>
-                                                        <td>{task.name}</td>
+                                                        <td>{priorities[task.priority]}</td>
                                                     </tr>
                                                 ))}
                                                 </tbody>
