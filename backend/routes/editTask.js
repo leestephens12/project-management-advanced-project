@@ -6,24 +6,24 @@ const Task = require("../models/Task");
 router.use(express.json());
 
 router.post("/", async function (req, res) {
-  const {name, description, priority, status, teamID, id, dueDate, completionDate, projectId} = req.body;
+  const taskReq = req.body;
 
 
   /**
    * Creates a new task object with updated information
    */
   const task = new Task(
-    name,
-    assignee,
-    description,
-    priority,
-    status,
-    id,
-    teamID,
-    dueDate,
-    completionDate,
-    creationDate,
-    projectId
+    taskReq.name,
+    taskReq.assignee,
+    taskReq.description,
+    taskReq.priority,
+    taskReq.status,
+    taskReq.id,
+    taskReq.teamID,
+    taskReq.dueDate,
+    taskReq.completionDate,
+    taskReq.creationDate,
+    taskReq.projectId
   );
   const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
   try {
