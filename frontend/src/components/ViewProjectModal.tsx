@@ -22,9 +22,16 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
     }, [isOpen]);
 
     useEffect(() => {
-        getProjectOverview(project.id!).then((response) => setOverview(response.data));
+        getProjectOverview(project.id!).then((response) => {
+            setOverview(response.data)
+        });
         getTasksByProjectId(project.id!).then((response) => setTasks(response.data));
-    }, []);
+    }, [project.id]);
+
+    // useEffect(() => {
+    //     console.log("hey")
+    //     getTasksByProjectId(project.id!).then((response) => setTasks(response.data));
+    // }, []);
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -65,7 +72,7 @@ export function ViewProjectModal({ isOpen, project, onCancel }: ViewProjectModal
                                             }}
                                             label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
                                             labelStyle={{
-                                                fontSize: '5px',
+                                                fontSize: '12px',
                                                 fontFamily: 'sans-serif',
                                                 fill: '#fff',
                                             }}
