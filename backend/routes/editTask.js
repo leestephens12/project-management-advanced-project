@@ -28,7 +28,7 @@ router.post("/", async function (req, res) {
   const dbTask = task.firestoreConverter(); // Use the converter to ensure there are no underscores
   try {
     //uses the update doc function to add it to firestore
-    await Firestore.updateDoc("tasks", id, JSON.parse(JSON.stringify(dbTask)));
+    await Firestore.updateDoc("tasks", task.taskId, JSON.parse(JSON.stringify(dbTask)));
     res.status(200).json({ message: "Task Updated Successfully" });
   } catch (error) {
     res.status(400).json({ error: error });
