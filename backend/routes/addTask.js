@@ -6,10 +6,7 @@ const Task = require("../models/Task");
 
 router.use(express.json());
 
-router.get("/", async function (req, res) {
-  /**
-   * Query the teams collection and return a list of teams that the logged in user is in
-   */
+/*router.get("/", async function (req, res) {
   try {
     const email = req.email;
     //Get a list of the team that current logged in user owns, email is hardcoded for now
@@ -43,7 +40,7 @@ router.get("/", async function (req, res) {
     //return error
     res.status(401).json({ error: error.message });
   }
-});
+});*/
 
 /**
  * Frontend sends post data from a form to the backend that holds all the values for a task object
