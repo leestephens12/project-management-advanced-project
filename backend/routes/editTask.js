@@ -18,7 +18,7 @@ router.post("/", async function (req, res) {
     taskReq.description,
     taskReq.priority,
     taskReq.status,
-    taskReq.id,
+    taskReq.taskId,
     taskReq.teamID,
     taskReq.dueDate,
     taskReq.completionDate,
