@@ -34,7 +34,7 @@ export const OverviewPage = () => {
                     }}
                     label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
                     labelStyle={{
-                        fontSize: '5px', // Adjust font size as needed for the labels
+                        fontSize: '12px', // Adjust font size as needed for the labels
                         fontFamily: 'sans-serif',
                         fill: '#fff', // Example label color, adjust as needed
                     }}
@@ -56,15 +56,14 @@ export const OverviewPage = () => {
                         <thead>
                         <tr>
                             <th className='text-left pr-32 pb-2'>Task</th>
-                            <th className='text-right pr-32 pb-2'>Due Date</th>
-                            <th className='text-right pb-2'>Project</th>
+                            <th className='text-right pb-2'>Due Date</th>
                         </tr>
                         </thead>
                         <tbody>
                         {overview.tasksEndDateApproaching.map(task => (
                             <tr key={task.id}>
-                                <td>{task.name}</td>
-                                <td className='text-right'>{task.dueDate.toLocaleString()}</td>
+                                <td className='pr-32'>{task.name}</td>
+                                <td>{task.dueDate.toLocaleString()}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -79,16 +78,14 @@ export const OverviewPage = () => {
                         <thead>
                         <tr>
                             <th className='text-left pr-32 pb-2'>Task</th>
-                            <th className='text-right pr-32 pb-2'>Due Date</th>
-                            <th className='text-right pb-2'>Project</th>
+                            <th className='text-right pb-2'>Due Date</th>
                         </tr>
                         </thead>
                         <tbody>
                         {overview.highPriorityTasks.map(task => (
                             <tr key={task.id}>
-                                <td>{task.name}</td>
-                                <td className='text-right'>{task.dueDate.toLocaleString()}</td>
-                                <td>xx</td>
+                                <td className='pr-32'>{task.name}</td>
+                                <td>{task.dueDate.toLocaleString()}</td>
                             </tr>
                         ))}
                         </tbody>
